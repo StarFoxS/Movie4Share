@@ -30,6 +30,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="star.fei@android.com" />
+        android:text="starfei@cmbchina.com" />
 
 </LinearLayout>
