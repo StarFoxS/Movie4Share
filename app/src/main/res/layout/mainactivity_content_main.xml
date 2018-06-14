@@ -9,6 +9,11 @@
     tools:context="com.example.star.movie4share.activity.MainActivity"
     tools:showIn="@layout/mainactivity_app_bar_main">
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/head_layout">
+    </RelativeLayout>
 
     <!-- 下面的线性布局是5个tab放置的区域 -->
     <LinearLayout
@@ -32,7 +37,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/tab_love_coin"
+            android:id="@+id/tab_find_new"
             layout="@layout/mainactivity_tab_home"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -40,7 +45,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/tab_submit"
+            android:id="@+id/tab_classify"
             layout="@layout/mainactivity_tab_home"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -48,7 +53,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/tab_deal"
+            android:id="@+id/tab_shop_cart"
             layout="@layout/mainactivity_tab_home"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -56,12 +61,55 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/tab_userinfo"
+            android:id="@+id/tab_profile"
             layout="@layout/mainactivity_tab_home"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/head_layout"
+        android:layout_above="@id/tabs_layout">
+        <fragment
+            android:id="@+id/fragment_homepage"
+            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10" />
+
+        <fragment
+            android:id="@+id/fragment_findnew"
+            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10" />
+
+        <fragment
+            android:id="@+id/fragment_classify"
+            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10" />
+
+        <fragment
+            android:id="@+id/fragment_shopcart"
+            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10" />
+
+        <fragment
+            android:id="@+id/fragment_profile"
+            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
