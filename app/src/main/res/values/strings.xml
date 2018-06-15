@@ -29,4 +29,9 @@
     <string name="nav_bought_list_str">我的订单</string>
     <string name="nav_profile_str">修改资料</string>
     <string name="nav_logoff_str">注销</string>
+    <string name="movie_search">电影搜索</string>
+    <string name="movie_type_action">动作片</string>
+    <string name="more">更多 ＞</string>
+    <string name="movie_type_love">爱情片</string>
+    <string name="movie_type_fun">喜剧片</string>
 </resources>

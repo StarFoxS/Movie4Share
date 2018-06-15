@@ -22,11 +22,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.star.movie4share.R;
+import com.example.star.movie4share.fragment.FindNew;
 import com.example.star.movie4share.fragment.HomePage;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HomePage.OnFragmentInteractionListener {
+        HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener{
 
     private View tab_home,tab_find_new,tab_classify,tab_shop_cart,tab_profile;
     private Fragment[] mFragments;
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_bought_list) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -193,9 +194,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logoff) {
 
         }
 

@@ -84,7 +84,7 @@
 
         <fragment
             android:id="@+id/fragment_findnew"
-            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:name="com.example.star.movie4share.fragment.FindNew"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10" />
