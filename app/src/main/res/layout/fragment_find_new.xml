@@ -9,9 +9,9 @@
         android:layout_gravity="center_vertical"
         android:drawableLeft="@drawable/main_bottom_tab_search_normal"
         android:drawableStart="@drawable/main_bottom_tab_search_normal"
-        android:drawablePadding="20dp"
+        android:drawablePadding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:background="@drawable/search_edittext"
         android:textSize="14sp"
         android:textColor="#b4b5b5"
@@ -23,7 +23,7 @@
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="55dp"
         android:text="@string/movie_search"/>
 
     <ScrollView

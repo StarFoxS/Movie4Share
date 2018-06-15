@@ -15,7 +15,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_main">首页</string>
+    <string name="title_activity_main">影片分享小站</string>
 
     <string name="home">Home</string>
 

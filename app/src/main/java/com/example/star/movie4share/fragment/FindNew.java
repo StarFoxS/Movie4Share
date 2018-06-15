@@ -32,7 +32,7 @@ public class FindNew extends Fragment {
     public FindNew() {
         // Required empty public constructor
     }
-    
+
     // TODO: Try if onCreated() is also okay!
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
