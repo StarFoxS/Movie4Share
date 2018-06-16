@@ -101,7 +101,7 @@ public class FindNew extends Fragment {
             typeAction = dao.loadAll();
 
             typeLove =  new ArrayList<>();
-            typeLove =  new ArrayList<>();
+            typeFun =  new ArrayList<>();
 
             Message msg = new Message();
             msg.what=1321;

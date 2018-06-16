@@ -21,7 +21,6 @@ import java.util.List;
 public class ProductAdapter extends ArrayAdapter<Product> {
     private int resourceId;
     public Product product;
-    public Bitmap bitmap;
 
     public ProductAdapter (Context context, int textViewResourceId,
                            List<Product> objects) {
