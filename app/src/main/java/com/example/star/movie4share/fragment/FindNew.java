@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.activity.MovieTypeAction;
-import com.example.star.movie4share.bean.Product;
+import com.example.star.movie4share.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;

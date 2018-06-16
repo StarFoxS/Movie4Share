@@ -32,5 +32,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
     compile 'org.greenrobot:greendao:3.2.2'
-    compile 'org.greenrobot:greendao-generator:3.2.2'
+}
+
+greendao {
+    schemaVersion 2
+    daoPackage 'com.example.star.movie4share.dao'
+    targetGenDir 'src/main/java'
 }

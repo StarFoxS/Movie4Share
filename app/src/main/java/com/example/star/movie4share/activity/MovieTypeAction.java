@@ -1,13 +1,12 @@
 package com.example.star.movie4share.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.widget.TextView;
 
 import com.example.star.movie4share.R;
-import com.example.star.movie4share.bean.Product;
+import com.example.star.movie4share.entity.Product;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 

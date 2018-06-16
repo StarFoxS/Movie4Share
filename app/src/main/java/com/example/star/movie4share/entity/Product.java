@@ -1,24 +1,35 @@
-package com.example.star.movie4share.bean;
+package com.example.star.movie4share.entity;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by Star on 2018/6/14.
  */
 
+@Entity
 public class Product implements Serializable {
+
+    @Id (autoincrement = true)
+    private Long id;
 
     private String productName;
     private double price;
     //private double pastPrice;
     private String description;
     private String shortDescription;
+    @Unique
     private String url;
     private String urlDescription;
-    private int id;
     private int stockNum;
     private int limitNum;
     private int boughtNum;
+
+    static final long serialVersionUID = 42L;
 
     public String getProductName() {
         return productName;
@@ -68,11 +79,11 @@ public class Product implements Serializable {
         this.urlDescription = urlDescription;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -100,7 +111,7 @@ public class Product implements Serializable {
         this.boughtNum = boughtNum;
     }
 
-    public Product(int ID, String name, double price, int stock, String url, String description,
+    public Product(Long ID, String name, double price, int stock, String url, String description,
                    String shortDescription, String urlDescription) {
         this.id = ID;
         this.productName = name;
@@ -112,7 +123,7 @@ public class Product implements Serializable {
         this.urlDescription = urlDescription;
     }
 
-    public Product(int ID, String name, double price, int stock, String url, String description,
+    public Product(Long ID, String name, double price, int stock, String url, String description,
                    String shortDescription, String urlDescription, int limit, int alreadyBought){
         this.id = ID;
         this.productName = name;
@@ -124,5 +135,25 @@ public class Product implements Serializable {
         this.urlDescription = urlDescription;
         this.limitNum = limit;
         this.boughtNum = alreadyBought;
+    }
+
+    @Generated(hash = 1855550246)
+    public Product(Long id, String productName, double price, String description,
+            String shortDescription, String url, String urlDescription, int stockNum, int limitNum,
+            int boughtNum) {
+        this.id = id;
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.shortDescription = shortDescription;
+        this.url = url;
+        this.urlDescription = urlDescription;
+        this.stockNum = stockNum;
+        this.limitNum = limitNum;
+        this.boughtNum = boughtNum;
+    }
+
+    @Generated(hash = 1890278724)
+    public Product() {
     }
 }
