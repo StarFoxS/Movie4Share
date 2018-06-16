@@ -73,6 +73,7 @@
         android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="50dp"
         android:layout_below="@id/head_layout"
         android:layout_above="@id/tabs_layout">
         <fragment
