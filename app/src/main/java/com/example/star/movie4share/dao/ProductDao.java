@@ -24,7 +24,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, long.class, "id", true, "_id");
         public final static Property ProductName = new Property(1, String.class, "productName", false, "PRODUCT_NAME");
         public final static Property Price = new Property(2, double.class, "price", false, "PRICE");
         public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
@@ -49,7 +49,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PRODUCT\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
                 "\"PRODUCT_NAME\" TEXT," + // 1: productName
                 "\"PRICE\" REAL NOT NULL ," + // 2: price
                 "\"DESCRIPTION\" TEXT," + // 3: description
@@ -70,11 +70,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, Product entity) {
         stmt.clearBindings();
- 
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
+        stmt.bindLong(1, entity.getId());
  
         String productName = entity.getProductName();
         if (productName != null) {
@@ -109,11 +105,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, Product entity) {
         stmt.clearBindings();
- 
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
+        stmt.bindLong(1, entity.getId());
  
         String productName = entity.getProductName();
         if (productName != null) {
@@ -147,13 +139,13 @@ public class ProductDao extends AbstractDao<Product, Long> {
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+        return cursor.getLong(offset + 0);
     }    
 
     @Override
     public Product readEntity(Cursor cursor, int offset) {
         Product entity = new Product( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // productName
             cursor.getDouble(offset + 2), // price
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
@@ -169,7 +161,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
      
     @Override
     public void readEntity(Cursor cursor, Product entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setId(cursor.getLong(offset + 0));
         entity.setProductName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPrice(cursor.getDouble(offset + 2));
         entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
@@ -198,7 +190,7 @@ public class ProductDao extends AbstractDao<Product, Long> {
 
     @Override
     public boolean hasKey(Product entity) {
-        return entity.getId() != null;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

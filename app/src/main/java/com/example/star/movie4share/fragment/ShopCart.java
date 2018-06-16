@@ -1,7 +1,6 @@
 package com.example.star.movie4share.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,78 +10,52 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
-import com.example.star.movie4share.activity.MovieTypeAction;
+import com.example.star.movie4share.dao.DaoSession;
+import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.entity.Product;
 
-import org.json.JSONObject;
-
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FindNew extends Fragment {
-
-    // TODO: Rename and change types of parameters
-    private List<Product> typeAction = new ArrayList<>();
-    private List<Product> typeLove = new ArrayList<>();
-    private List<Product> typeFun = new ArrayList<>();
+public class ShopCart extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FindNew() {
+    public ShopCart() {
         // Required empty public constructor
     }
 
-    // TODO: Try if onCreated() is also okay!
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Log.d("cc", "onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_new, null);
+        //Log.d("cc","onCreateView");
+        return inflater.inflate(R.layout.fragment_shop_cart, container, false);
     }
 
     @Override
     public void onStart(){
-        Log.d("cc", "FindNewFragmentStart *star");
-        TextView actionList = (TextView) getActivity().findViewById(R.id.movie_type_action_more);
-        actionList.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getActivity(), MovieTypeAction.class);
-                intent.putExtra("type", "action");
-                getActivity().startActivity(intent);
-            }
-        });
-
-        TextView loveList = (TextView) getActivity().findViewById(R.id.movie_type_love_more);
-        loveList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MovieTypeAction.class);
-                intent.putExtra("type", "love");
-                getActivity().startActivity(intent);
-            }
-        });
-
-        TextView funList = (TextView) getActivity().findViewById(R.id.movie_type_fun_more);
-        funList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MovieTypeAction.class);
-                intent.putExtra("type", "fun");
-                getActivity().startActivity(intent);
-            }
-        });
+        Log.d("cc", "ShopCartFragmentStart *star");
+        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+        List<Product> mProduct = dao.loadAll();
+        String show = "";
+        for (int i=0; i<mProduct.size(); i++){
+            show = mProduct.get(i).getProductName();
+            Log.d("cc", "id:" + i + " show: " + show);
+        }
+        TextView textView = (TextView) getActivity().findViewById(R.id.db_showtest);
+        textView.setText(show);
 
         super.onStart();
     }
-    
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

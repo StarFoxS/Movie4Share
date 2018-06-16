@@ -25,10 +25,11 @@ import android.widget.TextView;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.fragment.FindNew;
 import com.example.star.movie4share.fragment.HomePage;
+import com.example.star.movie4share.fragment.ShopCart;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener{
+        HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener, ShopCart.OnFragmentInteractionListener{
 
     private View tab_home,tab_find_new,tab_classify,tab_shop_cart,tab_profile;
     private Fragment[] mFragments;

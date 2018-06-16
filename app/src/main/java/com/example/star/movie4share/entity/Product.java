@@ -14,16 +14,18 @@ import org.greenrobot.greendao.annotation.Unique;
 @Entity
 public class Product implements Serializable {
 
-    @Id (autoincrement = true)
-    private Long id;
+    @Id
+    private long id;
 
     private String productName;
     private double price;
     //private double pastPrice;
     private String description;
     private String shortDescription;
+
     @Unique
     private String url;
+
     private String urlDescription;
     private int stockNum;
     private int limitNum;
@@ -79,11 +81,11 @@ public class Product implements Serializable {
         this.urlDescription = urlDescription;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -111,7 +113,7 @@ public class Product implements Serializable {
         this.boughtNum = boughtNum;
     }
 
-    public Product(Long ID, String name, double price, int stock, String url, String description,
+    public Product(long ID, String name, double price, int stock, String url, String description,
                    String shortDescription, String urlDescription) {
         this.id = ID;
         this.productName = name;
@@ -123,7 +125,7 @@ public class Product implements Serializable {
         this.urlDescription = urlDescription;
     }
 
-    public Product(Long ID, String name, double price, int stock, String url, String description,
+    public Product(long ID, String name, double price, int stock, String url, String description,
                    String shortDescription, String urlDescription, int limit, int alreadyBought){
         this.id = ID;
         this.productName = name;
@@ -137,8 +139,8 @@ public class Product implements Serializable {
         this.boughtNum = alreadyBought;
     }
 
-    @Generated(hash = 1855550246)
-    public Product(Long id, String productName, double price, String description,
+    @Generated(hash = 865965907)
+    public Product(long id, String productName, double price, String description,
             String shortDescription, String url, String urlDescription, int stockNum, int limitNum,
             int boughtNum) {
         this.id = id;
@@ -156,4 +158,5 @@ public class Product implements Serializable {
     @Generated(hash = 1890278724)
     public Product() {
     }
+
 }
