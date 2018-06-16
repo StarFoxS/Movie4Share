@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.activity.MovieTypeAction;
+import com.example.star.movie4share.activity.ProductDetailActivity;
 import com.example.star.movie4share.adapter.ProductAdapter;
 import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.entity.Product;
@@ -98,9 +99,8 @@ public class FindNew extends Fragment {
 
             ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
             typeAction = dao.loadAll();
-
-            typeLove =  new ArrayList<>();
-            typeFun =  new ArrayList<>();
+            typeLove = dao.loadAll();   //TODO: change the classify s
+            typeFun =  dao.loadAll();
 
             Message msg = new Message();
             msg.what=1321;
@@ -137,11 +137,11 @@ public class FindNew extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Product product = typeAction.get(i);
-//                            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("productId", product.getId());
-//                            intent.putExtras(bundle);
-//                            getActivity().startActivity(intent);
+                            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("productId", product.getId());
+                            intent.putExtras(bundle);
+                            getActivity().startActivity(intent);
                         }
                     });
                     GridView gridView2 = (GridView) getActivity().findViewById(R.id.grid2);

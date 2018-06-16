@@ -41,6 +41,14 @@
             android:name=".activity.MovieTypeAction"
             android:label="@string/app_name">
         </activity>
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".activity.ShopCartActivity"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

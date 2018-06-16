@@ -41,6 +41,16 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static int login_status = 0;
+
+    public static int getLogin_status() {
+        return login_status;
+    }
+
+    public static void setLogin_status(int login_status) {
+        LoginActivity.login_status = login_status;
+    }
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
