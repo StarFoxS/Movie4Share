@@ -28,8 +28,12 @@ public class Movie4ShareApplication extends Application {
         super.onCreate();
         instances = this;
         setDatabase();
-    //    dbAddInit();
-    //    deleteDb();
+
+        // Delete all files in database
+        deleteDb();
+
+        //Initialize the products in database
+        dbAddInit();
     }
 
     public static Movie4ShareApplication getInstances(){
@@ -57,14 +61,20 @@ public class Movie4ShareApplication extends Application {
 
         //List<Product> nProductList = new ArrayList<>();
         Product nProduct0 = new Product(0, "警察故事", 10.0, "jingchagushi", "jcgs",
-                "0", "0", 3, 3, 1);
+                "http://img31.mtime.cn/pi/2013/12/09/031418.40663979_1000X1000.jpg", "0", 3, 3, 1);
         //nProductList.add(nProduct);
         getDaoSession().insert(nProduct0);
 
         Product nProduct1 = new Product(1, "盗梦空间", 5.0, "daomengkongjian", "dmkj",
-                "1", "1", 1, 1, 0);
+                "https://img3.doubanio.com/view/photo/l/public/p513344864.webp", "1", 1, 1, 0);
         //nProductList.add(nProduct);
         getDaoSession().insert(nProduct1);
+
+
+        Product nProduct2 = new Product(2, "战狼2", 12.0, "zhanlang2", "zl2",
+                "https://img3.doubanio.com/view/photo/l/public/p2494701965.webp", "1", 1, 1, 0);
+        //nProductList.add(nProduct);
+        getDaoSession().insert(nProduct2);
     }
 
     public void deleteDb(){

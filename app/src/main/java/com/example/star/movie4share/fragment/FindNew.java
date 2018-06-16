@@ -30,7 +30,6 @@ import java.util.List;
 
 public class FindNew extends Fragment {
 
-    // TODO: Rename and change types of parameters
     private List<Product> typeAction = new ArrayList<>();
     private List<Product> typeLove = new ArrayList<>();
     private List<Product> typeFun = new ArrayList<>();

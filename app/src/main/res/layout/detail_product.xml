@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal = "true"
         android:layout_below="@id/product_image"
+        android:text = "DefaultName"
+        android:textColor="#000000"
         />
 
     <RelativeLayout
@@ -29,7 +31,7 @@
         android:layout_below="@id/product_name">
 
         <TextView
-            android:id="@+id/product_money"
+            android:id="@+id/product_money_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text = "价格："
@@ -40,8 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_toRightOf="@id/product_money"
-            android:layout_toEndOf="@id/product_money"
+            android:layout_toRightOf="@id/product_money_tag"
+            android:layout_toEndOf="@id/product_money_tag"
             android:textColor="#ea5404"
             />
     </RelativeLayout>

@@ -32,6 +32,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
     compile 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 greendao {
