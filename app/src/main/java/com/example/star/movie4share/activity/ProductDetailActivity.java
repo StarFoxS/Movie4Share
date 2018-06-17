@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,11 +23,19 @@ import android.widget.Toast;
 
 import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
+import com.example.star.movie4share.dao.DaoSession;
 import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Star on 2018/6/16.
@@ -75,25 +87,6 @@ public class ProductDetailActivity extends Activity {
 
     private int number = 1;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int what = msg.what;
-            switch (what) {
-                case QUERY_YES:
-                    int number = (int) msg.obj;
-                    updateDatabase(number);
-                    break;
-                case QUERY_NO:
-                    insert2Sqlite();
-                    break;
-                case 5566:
-//                    initData();
-                    break;
-            }
-        }
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceData){
         super.onCreate(savedInstanceData);
@@ -108,9 +101,9 @@ public class ProductDetailActivity extends Activity {
             @Override
             public void run() {
                 if (LoginActivity.getLogin_status() == 1){
-                    //mProduct = getProductLogin();
+                    mProduct = getProductLogin();
                 } else {
-                    //mProduct = getProductLogoff();
+                    mProduct = getProductLogoff();
                 }
                 Message msg = new Message();
                 msg.what = 5566;
@@ -118,7 +111,7 @@ public class ProductDetailActivity extends Activity {
             }
         }).start();
 
-        //initViews
+        initViews();
 
         pastPriceText = (TextView) findViewById(R.id.tv_activity_product_details_past_price);
         limitTextView = (TextView) findViewById(R.id.product_limit);
@@ -134,6 +127,40 @@ public class ProductDetailActivity extends Activity {
             }
         });
     }
+
+    private Product getProductLogin() {
+
+        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+        mProduct = dao.load(productId);
+        return mProduct;
+
+    }
+
+    private Product getProductLogoff() {
+
+        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+        mProduct = dao.load(productId);
+        return mProduct;
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            switch (what) {
+                case QUERY_YES:
+                    int number = (int) msg.obj;
+                    updateDatabase(number);
+                    break;
+                case QUERY_NO:
+                    insert2Sqlite();
+                    break;
+                case 5566:
+                    initData();
+                    break;
+            }
+        }
+    };
 
     public void initData(){
         String category = "";
@@ -159,12 +186,75 @@ public class ProductDetailActivity extends Activity {
         mWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setBuiltInZoomControls(false);
-       mTVDetails.loadUrl(mProduct.getUrlDescription());
+        mTVDetails.loadUrl(mProduct.getUrlDescription());
         mTVTopPrice.setText("价格: " + mProduct.getPrice());
         mTVPrice.setText("价格: " + mProduct.getPrice());
         mTVPopDetails.setText(mProduct.getShortDescription());
         StockNum.setText("库存: " + mProduct.getStockNum());
         mTVPopCategory.setText(category);
+    }
+
+    private void initViews() {
+        mTVDetails = (WebView) findViewById(R.id.tv_activity_product_details_details);
+        mBtnAddToCart = (Button) findViewById(R.id.btn_activity_product_details_add_to_cart);
+        mImgDetails = (ImageView) findViewById(R.id.img_activity_product);
+        mTVTopPrice = (TextView) findViewById(R.id.tv_activity_product_details_price);
+        mProductCaption = (TextView) findViewById(R.id.detail_product_name);
+        mPop = LayoutInflater.from(this).inflate(R.layout.add_to_cart, null);
+        mImgIcon = (ImageView) mPop.findViewById(R.id.img_pop_icon);
+        mBtnOK = (Button) mPop.findViewById(R.id.btn_pop_ok);
+        mBtnMinute = (Button) mPop.findViewById(R.id.btn_pop_minute);
+        mBtnPlus = (Button) mPop.findViewById(R.id.btn_pop_plus);
+        mImgClose = (ImageView) mPop.findViewById(R.id.img_pop_close);
+        mTVNumber = (EditText) mPop.findViewById(R.id.tv_pop_number);
+        mTVPopDetails = (TextView) mPop.findViewById(R.id.tv_pop_details);
+        mTVPrice = (TextView) mPop.findViewById(R.id.tv_pop_price);
+        mTVPopCategory = (TextView) mPop.findViewById(R.id.tv_pop_category);
+
+        mTVNumber.setText("0");
+
+        mTVNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String num = mTVNumber.getText().toString();
+                if (!num.equals("")){
+                    int numberTmp = Integer.valueOf(num);
+                    if (numberTmp > mProduct.getStockNum()){
+                        Toast.makeText(ProductDetailActivity.this,"库存只有"+mProduct.getStockNum(),Toast.LENGTH_SHORT).show();
+                        number = mProduct.getStockNum();
+                        mTVNumber.setText(number+"");
+                    }else{
+                        if (numberTmp > numOfCouldBuy){
+                            Toast.makeText(ProductDetailActivity.this,"限购只剩"+numOfCouldBuy+"件可以购买",Toast.LENGTH_SHORT).show();
+                            number = numOfCouldBuy;
+                            mTVNumber.setText(number+"");
+                        }
+                        else
+                            number = numberTmp;
+                    }
+                }else
+                    number = 1;
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        mPop.setFocusable(true);
+        int PopHeight = getWindow().getAttributes().height;
+
+        mPopupWindow = new PopupWindow(mPop, getWindow().getAttributes().width, PopHeight*2);
+        mPopupWindow.setFocusable(true);
+        StockNum = (TextView) findViewById(R.id.tv_activity_product_details_stock);
+        pastPriceText = (TextView) findViewById(R.id.tv_activity_product_details_past_price);
     }
 
     /*
