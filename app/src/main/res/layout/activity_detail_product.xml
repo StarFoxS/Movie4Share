@@ -8,7 +8,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="480dp">
+        android:layout_height="450dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -53,10 +53,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="34dp">
+                    android:layout_marginTop="30dp">
 
                     <TextView
-                        android:id="@+id/tv_activity_product_details_past_price"
+                        android:id="@+id/activity_product_details_past_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -69,8 +69,8 @@
                         android:foreground="@drawable/product_delete_line"/>
 
                     <TextView
-                        android:id="@+id/tv_activity_product_details_price"
-                        android:layout_below="@id/tv_activity_product_details_past_price"
+                        android:id="@+id/activity_product_details_price"
+                        android:layout_below="@id/activity_product_details_past_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -78,7 +78,7 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="价格：0"
-                        android:textColor="#ea5404"/>
+                        android:textColor="@color/Naranja"/>
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -88,25 +88,24 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp">
 
                 <TextView
-                    android:id="@+id/product_limit"
+                    android:id="@+id/activity_product_details_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="限购："
-                    android:textColor="#ea5404"/>
+                    android:textColor="@color/Naranja"/>
 
                 <TextView
-                    android:id="@+id/tv_activity_product_details_stock"
+                    android:id="@+id/activity_product_details_stocknum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/product_limit"
+                    android:layout_below="@id/activity_product_details_limit"
                     android:layout_marginTop="10dp"
                     android:text="库存："
-                    android:textColor="#ea5404"/>
+                    android:textColor="@color/Naranja"/>
 
             </RelativeLayout>
 
@@ -132,7 +131,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"/>
             <WebView
-                android:id="@+id/tv_activity_product_details_details"
+                android:id="@+id/activity_product_details_more_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/product_detail_line"
@@ -152,21 +151,33 @@
         android:background="#eeefef"
         android:gravity="center"
         android:text="加入购物车"
-        android:textColor="#ea5404"
-        android:layout_margin="10dp"
+        android:textColor="@color/Naranja"
+        android:layout_margin="5dp"
         style="?android:attr/borderlessButtonStyle"/>
 
 
     <Button
-        android:id="@+id/btn_activity_product_details_buy_now"
+        android:id="@+id/btn_activity_product_details_peek_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="#eeefef"
         android:gravity="center"
         android:text="查看购物车"
-        android:layout_margin="10dp"
-        android:textColor="#ea5404"
+        android:layout_margin="5dp"
+        android:textColor="@color/Naranja"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:id="@+id/btn_activity_product_details_one_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#eeefef"
+        android:gravity="center"
+        android:text="一键购买"
+        android:layout_margin="5dp"
+        android:textColor="@color/Naranja"
         style="?android:attr/borderlessButtonStyle"/>
 
 

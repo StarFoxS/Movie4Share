@@ -26,14 +26,15 @@ public class ProductDao extends AbstractDao<Product, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, long.class, "id", true, "_id");
         public final static Property ProductName = new Property(1, String.class, "productName", false, "PRODUCT_NAME");
-        public final static Property Price = new Property(2, double.class, "price", false, "PRICE");
-        public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
-        public final static Property ShortDescription = new Property(4, String.class, "shortDescription", false, "SHORT_DESCRIPTION");
-        public final static Property Url = new Property(5, String.class, "url", false, "URL");
-        public final static Property UrlDescription = new Property(6, String.class, "urlDescription", false, "URL_DESCRIPTION");
-        public final static Property StockNum = new Property(7, int.class, "stockNum", false, "STOCK_NUM");
-        public final static Property LimitNum = new Property(8, int.class, "limitNum", false, "LIMIT_NUM");
-        public final static Property BoughtNum = new Property(9, int.class, "boughtNum", false, "BOUGHT_NUM");
+        public final static Property Category = new Property(2, String.class, "category", false, "CATEGORY");
+        public final static Property Price = new Property(3, double.class, "price", false, "PRICE");
+        public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
+        public final static Property ShortDescription = new Property(5, String.class, "shortDescription", false, "SHORT_DESCRIPTION");
+        public final static Property Url = new Property(6, String.class, "url", false, "URL");
+        public final static Property UrlDescription = new Property(7, String.class, "urlDescription", false, "URL_DESCRIPTION");
+        public final static Property StockNum = new Property(8, int.class, "stockNum", false, "STOCK_NUM");
+        public final static Property LimitNum = new Property(9, int.class, "limitNum", false, "LIMIT_NUM");
+        public final static Property BoughtNum = new Property(10, int.class, "boughtNum", false, "BOUGHT_NUM");
     }
 
 
@@ -51,14 +52,15 @@ public class ProductDao extends AbstractDao<Product, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"PRODUCT\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
                 "\"PRODUCT_NAME\" TEXT," + // 1: productName
-                "\"PRICE\" REAL NOT NULL ," + // 2: price
-                "\"DESCRIPTION\" TEXT," + // 3: description
-                "\"SHORT_DESCRIPTION\" TEXT," + // 4: shortDescription
-                "\"URL\" TEXT UNIQUE ," + // 5: url
-                "\"URL_DESCRIPTION\" TEXT," + // 6: urlDescription
-                "\"STOCK_NUM\" INTEGER NOT NULL ," + // 7: stockNum
-                "\"LIMIT_NUM\" INTEGER NOT NULL ," + // 8: limitNum
-                "\"BOUGHT_NUM\" INTEGER NOT NULL );"); // 9: boughtNum
+                "\"CATEGORY\" TEXT," + // 2: category
+                "\"PRICE\" REAL NOT NULL ," + // 3: price
+                "\"DESCRIPTION\" TEXT," + // 4: description
+                "\"SHORT_DESCRIPTION\" TEXT," + // 5: shortDescription
+                "\"URL\" TEXT UNIQUE ," + // 6: url
+                "\"URL_DESCRIPTION\" TEXT," + // 7: urlDescription
+                "\"STOCK_NUM\" INTEGER NOT NULL ," + // 8: stockNum
+                "\"LIMIT_NUM\" INTEGER NOT NULL ," + // 9: limitNum
+                "\"BOUGHT_NUM\" INTEGER NOT NULL );"); // 10: boughtNum
     }
 
     /** Drops the underlying database table. */
@@ -76,30 +78,35 @@ public class ProductDao extends AbstractDao<Product, Long> {
         if (productName != null) {
             stmt.bindString(2, productName);
         }
-        stmt.bindDouble(3, entity.getPrice());
+ 
+        String category = entity.getCategory();
+        if (category != null) {
+            stmt.bindString(3, category);
+        }
+        stmt.bindDouble(4, entity.getPrice());
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(5, description);
         }
  
         String shortDescription = entity.getShortDescription();
         if (shortDescription != null) {
-            stmt.bindString(5, shortDescription);
+            stmt.bindString(6, shortDescription);
         }
  
         String url = entity.getUrl();
         if (url != null) {
-            stmt.bindString(6, url);
+            stmt.bindString(7, url);
         }
  
         String urlDescription = entity.getUrlDescription();
         if (urlDescription != null) {
-            stmt.bindString(7, urlDescription);
+            stmt.bindString(8, urlDescription);
         }
-        stmt.bindLong(8, entity.getStockNum());
-        stmt.bindLong(9, entity.getLimitNum());
-        stmt.bindLong(10, entity.getBoughtNum());
+        stmt.bindLong(9, entity.getStockNum());
+        stmt.bindLong(10, entity.getLimitNum());
+        stmt.bindLong(11, entity.getBoughtNum());
     }
 
     @Override
@@ -111,30 +118,35 @@ public class ProductDao extends AbstractDao<Product, Long> {
         if (productName != null) {
             stmt.bindString(2, productName);
         }
-        stmt.bindDouble(3, entity.getPrice());
+ 
+        String category = entity.getCategory();
+        if (category != null) {
+            stmt.bindString(3, category);
+        }
+        stmt.bindDouble(4, entity.getPrice());
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(5, description);
         }
  
         String shortDescription = entity.getShortDescription();
         if (shortDescription != null) {
-            stmt.bindString(5, shortDescription);
+            stmt.bindString(6, shortDescription);
         }
  
         String url = entity.getUrl();
         if (url != null) {
-            stmt.bindString(6, url);
+            stmt.bindString(7, url);
         }
  
         String urlDescription = entity.getUrlDescription();
         if (urlDescription != null) {
-            stmt.bindString(7, urlDescription);
+            stmt.bindString(8, urlDescription);
         }
-        stmt.bindLong(8, entity.getStockNum());
-        stmt.bindLong(9, entity.getLimitNum());
-        stmt.bindLong(10, entity.getBoughtNum());
+        stmt.bindLong(9, entity.getStockNum());
+        stmt.bindLong(10, entity.getLimitNum());
+        stmt.bindLong(11, entity.getBoughtNum());
     }
 
     @Override
@@ -147,14 +159,15 @@ public class ProductDao extends AbstractDao<Product, Long> {
         Product entity = new Product( //
             cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // productName
-            cursor.getDouble(offset + 2), // price
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // shortDescription
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // url
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // urlDescription
-            cursor.getInt(offset + 7), // stockNum
-            cursor.getInt(offset + 8), // limitNum
-            cursor.getInt(offset + 9) // boughtNum
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // category
+            cursor.getDouble(offset + 3), // price
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // shortDescription
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // url
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // urlDescription
+            cursor.getInt(offset + 8), // stockNum
+            cursor.getInt(offset + 9), // limitNum
+            cursor.getInt(offset + 10) // boughtNum
         );
         return entity;
     }
@@ -163,14 +176,15 @@ public class ProductDao extends AbstractDao<Product, Long> {
     public void readEntity(Cursor cursor, Product entity, int offset) {
         entity.setId(cursor.getLong(offset + 0));
         entity.setProductName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setPrice(cursor.getDouble(offset + 2));
-        entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setShortDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setUrl(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setUrlDescription(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setStockNum(cursor.getInt(offset + 7));
-        entity.setLimitNum(cursor.getInt(offset + 8));
-        entity.setBoughtNum(cursor.getInt(offset + 9));
+        entity.setCategory(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setPrice(cursor.getDouble(offset + 3));
+        entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setShortDescription(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setUrl(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setUrlDescription(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setStockNum(cursor.getInt(offset + 8));
+        entity.setLimitNum(cursor.getInt(offset + 9));
+        entity.setBoughtNum(cursor.getInt(offset + 10));
      }
     
     @Override

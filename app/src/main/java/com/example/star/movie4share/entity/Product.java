@@ -18,6 +18,7 @@ public class Product implements Serializable {
     private long id;
 
     private String productName;
+    private String category;
     private double price;
     //private double pastPrice;
     private String description;
@@ -32,6 +33,15 @@ public class Product implements Serializable {
     private int boughtNum;
 
     static final long serialVersionUID = 42L;
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getProductName() {
         return productName;
@@ -139,12 +149,13 @@ public class Product implements Serializable {
         this.boughtNum = alreadyBought;
     }
 
-    @Generated(hash = 865965907)
-    public Product(long id, String productName, double price, String description,
+    @Generated(hash = 420405524)
+    public Product(long id, String productName, String category, double price, String description,
             String shortDescription, String url, String urlDescription, int stockNum, int limitNum,
             int boughtNum) {
         this.id = id;
         this.productName = productName;
+        this.category = category;
         this.price = price;
         this.description = description;
         this.shortDescription = shortDescription;
@@ -158,5 +169,6 @@ public class Product implements Serializable {
     @Generated(hash = 1890278724)
     public Product() {
     }
+
 
 }

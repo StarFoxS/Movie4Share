@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_pop_price"
+                    android:id="@+id/shopcart_pop_up_price"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_gravity="left|top"
@@ -45,7 +45,7 @@
                     android:textColor="#ffea0c23"/>
 
                 <TextView
-                    android:id="@+id/tv_pop_category"
+                    android:id="@+id/shopcart_pop_up_stock_num"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_gravity="left|top"
@@ -53,8 +53,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:gravity="top"
-                    android:text="Movie"
-                    android:textColor="#ff30e8ea"/>
+                    android:text="库存：100"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -91,7 +91,7 @@
 
 
             <Button
-                android:id="@+id/btn_pop_minute"
+                android:id="@+id/btn_pop_minus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_below="@id/tv_pop_details"
