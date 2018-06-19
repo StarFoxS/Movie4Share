@@ -9,8 +9,10 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -30,12 +32,6 @@ import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.List;
 
 /**
  * Created by Star on 2018/6/16.
@@ -64,6 +60,8 @@ public class ProductDetailActivity extends Activity {
     private TextView StockNum;
     private TextView pastPriceText;
     private TextView limitTextView;
+
+    // “加入购物车”按钮
     private Button mBtnAddToCart;
     private Button mBtnMinute;
     private Button mBtnPlus;
@@ -76,9 +74,10 @@ public class ProductDetailActivity extends Activity {
     private ImageView mImgClose;
     private ImageView mImgIcon;
 
+    //购物车里“确定”按钮
     private Button mBtnOK;
 
-    private int numOfCouldBuy = 0;
+    private int numOfCouldBuy = 10000;
     private int originalLimit = 0;
 
     private Button cartBtn;
@@ -116,7 +115,10 @@ public class ProductDetailActivity extends Activity {
         pastPriceText = (TextView) findViewById(R.id.tv_activity_product_details_past_price);
         limitTextView = (TextView) findViewById(R.id.product_limit);
 
-        //addListeners
+        cartPopUpListener();
+        cartAddDaoListener();
+        cartCloseListener();
+        cartNumChangeListener();
 
         cartBtn = (Button) findViewById(R.id.btn_activity_product_details_buy_now);
         cartBtn.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +213,7 @@ public class ProductDetailActivity extends Activity {
         mTVPrice = (TextView) mPop.findViewById(R.id.tv_pop_price);
         mTVPopCategory = (TextView) mPop.findViewById(R.id.tv_pop_category);
 
-        mTVNumber.setText("0");
+        mTVNumber.setText("1");
 
         mTVNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -250,11 +252,140 @@ public class ProductDetailActivity extends Activity {
 
         mPop.setFocusable(true);
         int PopHeight = getWindow().getAttributes().height;
-
         mPopupWindow = new PopupWindow(mPop, getWindow().getAttributes().width, PopHeight*2);
         mPopupWindow.setFocusable(true);
         StockNum = (TextView) findViewById(R.id.tv_activity_product_details_stock);
         pastPriceText = (TextView) findViewById(R.id.tv_activity_product_details_past_price);
+    }
+
+    private void cartPopUpListener() {
+
+        /*
+         *  加入购物车窗口的弹出
+         *  TODO: setAnimationStyle中写一个style名为PopUpWindowStyle使其缓慢上浮弹出
+         */
+        mBtnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPopOpened == false) {
+                    final WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                    layoutParams.alpha = 0.3f;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().setAttributes(layoutParams);
+                        }
+                    }, 500);
+
+//                    mPopupWindow.setAnimationStyle(R.style.PopUpWindowStyle);
+                    mPopupWindow.showAtLocation(mImgDetails, Gravity.BOTTOM, 0, 0);
+                    isPopOpened = true;
+                }
+            }
+        });
+    }
+
+        /*
+         * 商品添加到购物车，更新购物车库ShopCartProduct
+         */
+    private void cartAddDaoListener() {
+        mBtnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 保存产品信息到数据库
+                String num = mTVNumber.getText().toString();
+                if (Movie4ShareApplication.loginStatus == "user") {
+                    if (num.length() == 0) {
+                        Toast.makeText(getApplication(), "商品数量不能为0！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        int num2 = Integer.valueOf(num);
+                        if (num2 == 0) {
+                            Toast.makeText(getApplication(), "商品数量不能为0！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // TODO: 增加购物车库物品数量
+                            // addToCart();
+
+                            if (isPopOpened == true) {
+                                final WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                                layoutParams.alpha = 1.0f;
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        getWindow().setAttributes(layoutParams);
+                                    }
+                                }, 500);
+                                mPopupWindow.dismiss();
+                                isPopOpened = false;
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(getApplication(), "请先登录", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    /*
+     * 关闭购物车弹窗的监听
+     */
+    private void cartCloseListener(){
+        mImgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPopOpened == true){
+                    final WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                    layoutParams.alpha = 1.0f;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getWindow().setAttributes(layoutParams);
+                        }
+                    }, 500);
+                    mPopupWindow.dismiss();
+                    isPopOpened = false;
+                }
+            }
+        });
+    }
+
+    /*
+     * 购物车数量调整的监听，增加/减少两个按键
+     */
+    private void cartNumChangeListener() {
+        mBtnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Movie4ShareApplication.loginStatus == "user"){
+                    String changeNum = mTVNumber.getText().toString();
+                    number = Integer.valueOf(changeNum);
+                    if (number < mProduct.getStockNum()) {
+                        number ++;
+                    }
+                    mTVNumber.setText(number + "");
+                } else {
+                    Toast.makeText(ProductDetailActivity.this,"您没有购买的权限！",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mBtnMinute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Movie4ShareApplication.loginStatus != "user"){
+                    Toast.makeText(ProductDetailActivity.this,"您没有购买的权限！",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String num = mTVNumber.getText().toString();
+                    number = Integer.valueOf(num);
+                    if (number > 0) {
+                        number --;
+                        mTVNumber.setText(number + "");
+                    }
+                }
+            }
+        });
     }
 
     /*

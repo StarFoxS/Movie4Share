@@ -21,6 +21,17 @@ public class Movie4ShareApplication extends Application {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
 
+    // 记录用户状态与信息，默认为空，可选user/seller/admin
+    public static String loginStatus = "user";
+
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
+    }
+
     public static Movie4ShareApplication instances;
 
     @Override
