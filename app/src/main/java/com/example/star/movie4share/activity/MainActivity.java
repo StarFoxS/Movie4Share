@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity
         try {
             getStringExtra = getIntent().getStringExtra("casefragment");
             if (getStringExtra.equals("shopcart")) {
-                Log.d("cc", "the if is true");
                 transaction = fragmentManager.beginTransaction()
                         .hide(mFragments[0])
                         .hide(mFragments[1])
@@ -115,6 +114,14 @@ public class MainActivity extends AppCompatActivity
                         .hide(mFragments[3])
                         .hide(mFragments[4]);
                 transaction.show(mFragments[3]).commit();
+            } else if (getStringExtra.equals("refreshshopcart")){
+                transaction = fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_shopcart, mFragments[3])
+                        .hide(mFragments[0])
+                        .hide(mFragments[1])
+                        .hide(mFragments[2])
+                        .hide(mFragments[4]).show(mFragments[3]);
+                transaction.commit();
             }
         } catch (Exception e) {
 

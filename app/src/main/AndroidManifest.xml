@@ -49,6 +49,10 @@
             android:name=".activity.ShopCartActivity"
             android:label="@string/app_name">
         </activity>
+        <activity
+            android:name=".activity.ComfirmOrder"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

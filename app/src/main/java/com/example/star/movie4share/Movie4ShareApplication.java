@@ -62,6 +62,8 @@ public class Movie4ShareApplication extends Application {
         return mDaoSession;
     }
 
+    public DaoMaster getDaoMaster() { return mDaoMaster; }
+
     public SQLiteDatabase getDb(){
         return db;
     }

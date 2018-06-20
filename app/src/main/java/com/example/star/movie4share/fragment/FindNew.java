@@ -106,7 +106,6 @@ public class FindNew extends Fragment {
             msg.what=1321;
             nHandler.sendMessage(msg);
         }
-
     };
 
     public Handler nHandler = new Handler(){
