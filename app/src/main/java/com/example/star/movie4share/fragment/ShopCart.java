@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.star.movie4share.Movie4ShareApplication;
@@ -21,6 +22,12 @@ import java.util.List;
 public class ShopCart extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private ListView mListView;
+
+//    public static ShoppingCartActivity shoppingCartActivity = null;
+
+
 
     public ShopCart() {
         // Required empty public constructor
@@ -50,8 +57,6 @@ public class ShopCart extends Fragment {
             show = mProduct.get(i).getProductName();
             Log.d("cc", "id:" + i + " show: " + show);
         }
-        TextView textView = (TextView) getActivity().findViewById(R.id.db_showtest);
-        textView.setText(show);
 
         super.onStart();
     }

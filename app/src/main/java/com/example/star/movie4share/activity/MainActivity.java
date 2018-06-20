@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,6 +98,27 @@ public class MainActivity extends AppCompatActivity
         transaction.show(mFragments[0]).commit();
 
         //redDot = findViewById(R.id.redDot);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        String getStringExtra = "";
+        try {
+            getStringExtra = getIntent().getStringExtra("casefragment");
+            if (getStringExtra.equals("shopcart")) {
+                Log.d("cc", "the if is true");
+                transaction = fragmentManager.beginTransaction()
+                        .hide(mFragments[0])
+                        .hide(mFragments[1])
+                        .hide(mFragments[2])
+                        .hide(mFragments[3])
+                        .hide(mFragments[4]);
+                transaction.show(mFragments[3]).commit();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     public class tabOnClickListener implements View.OnClickListener{

@@ -341,7 +341,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
             switch (mIdentity) {
                 case "user":
-
                     break;
                 case "seller":
                     break;

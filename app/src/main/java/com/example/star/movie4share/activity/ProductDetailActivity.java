@@ -125,7 +125,8 @@ public class ProductDetailActivity extends Activity {
         peekCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductDetailActivity.this, ShopCartActivity.class);
+                Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
+                intent.putExtra("casefragment","shopcart");
                 startActivity(intent);
             }
         });
