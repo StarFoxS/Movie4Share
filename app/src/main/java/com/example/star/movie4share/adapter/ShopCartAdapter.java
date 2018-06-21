@@ -11,43 +11,59 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
+import com.example.star.movie4share.activity.MainActivity;
+import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.example.star.movie4share.fragment.ShopCart;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Star on 2018/6/20.
  */
 
-public class ShopCartAdapter extends BaseAdapter {
+public class ShopCartAdapter extends BaseAdapter{
+
+    class Holder {
+        CheckBox mCB;
+        ImageView mImg;
+        TextView mName, mCategory, mPrice, mNumber, mStock;
+        Button mAddBtn, mMinusBtn;
+    }
 
     private LayoutInflater mInflater;
-    private ArrayList<ShopCartProduct> mData = new ArrayList<>();
-//    private ViewHolder holder;
-    private CheckBox mCB;
-    private ImageView mImg;
-    private TextView mName, mCategory, mPrice, mNumber, mStock;
-    private Button mAddBtn, mMinusBtn;
+    private List<ShopCartProduct> mShopCartItem = new ArrayList<>();
+    private Holder holder;
+    private Context mContext;
+    ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
+//    private CheckBox mCB;
+//    private ImageView mImg;
+//    private TextView mName, mCategory, mPrice, mNumber, mStock;
+//    private Button mAddBtn, mMinusBtn;
 
-    public ShopCartAdapter(Context context, ArrayList<ShopCartProduct> mDatas) {
+    public ShopCartAdapter(Context context, List<ShopCartProduct> mSCI) {
+        mContext = context;
         mInflater = LayoutInflater.from(context);
-        this.mData = mData;
+        this.mShopCartItem = mSCI;
     }
 
     @Override
     public int getCount() {
-        return mData.size();
+        return mShopCartItem.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mData.get(position);
+        return mShopCartItem.get(position);
     }
 
     @Override
@@ -58,151 +74,104 @@ public class ShopCartAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-//        holder = null;
+        holder = null;
         if (convertView == null) {
-//            holder = new ViewHolder();
+            holder = new Holder();
             convertView = mInflater.inflate(R.layout.shop_cart_item, parent, false);
-            mCB = (CheckBox) convertView.findViewById(R.id.shopcart_item_checkbox);
-            mName = (TextView) convertView.findViewById(R.id.shopcart_item_name);
-            mCategory = (TextView) convertView.findViewById(R.id
-                    .shopcart_item_category);
-            mPrice = (TextView) convertView.findViewById(R.id
-                    .shopcart_item_price_textview);
-            mNumber = (TextView) convertView.findViewById(R.id
-                    .shopcart_item_number);
-            mImg = (ImageView) convertView.findViewById(R.id
-                    .shopcart_item_imageview);
-            mAddBtn = (Button) convertView.findViewById(R.id.shopcart_add);
-            mMinusBtn = (Button) convertView.findViewById(R.id.shopcart_minus);
-            mStock = (TextView) convertView.findViewById(R.id.shopcart_stock);
+            holder.mCB = (CheckBox) convertView.findViewById(R.id.shopcart_item_checkbox);
+            holder.mName = (TextView) convertView.findViewById(R.id.shopcart_item_name);
+            holder.mCategory = (TextView) convertView.findViewById(R.id.shopcart_item_category);
+            holder.mPrice = (TextView) convertView.findViewById(R.id.shopcart_item_price);
+            holder.mNumber = (TextView) convertView.findViewById(R.id.shopcart_item_number);
+            holder.mImg = (ImageView) convertView.findViewById(R.id.shopcart_item_imageview);
+            holder.mAddBtn = (Button) convertView.findViewById(R.id.shopcart_add);
+            holder.mMinusBtn = (Button) convertView.findViewById(R.id.shopcart_minus);
+            holder.mStock = (TextView) convertView.findViewById(R.id.shopcart_stock);
 
-//            convertView.setTag(holder);
+            convertView.setTag(holder);
         } else {
-//            holder = (ViewHolder) convertView.getTag();
+            holder = (Holder) convertView.getTag();
         }
 
-        final ShopCartProduct mProduct = (ShopCartProduct) getItem(position);
-        mCategory.setText(mProduct.getCategory());
-        mName.setText(mProduct.getName());
-        mPrice.setText(mProduct.getPrice() + "");
-        mNumber.setText(mProduct.getNumber() + "");
-        mStock.setText(mProduct.getStock() + "");
-        Picasso.get().load(mProduct.getImgUrl()).into(mImg);
-
-        //============================================================
-//        holder.add_amount.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        new Thread() {
-//                            @Override
-//                            public void run(){
-//                                ProductReadDbHelper mDbHelper = new ProductReadDbHelper(getApplicationContext());
-//                                SQLiteDatabase db = mDbHelper.getWritableDatabase();
-//                                ContentValues cv = new ContentValues();
-//                                int amount = entity.getNumber();
-//                                if(amount < entity.getStock()) {
-//                                    amount++;
-//
-//                                    cv.put(ProductReaderContract.ProductEntry.COLUMN_NAME_NUMBER, amount);
-//                                    db.update(ProductReaderContract.ProductEntry.TABLE_NAME, cv,
-//                                            ProductReaderContract.ProductEntry.COLUMN_NAME_ENTRY_ID + "=?",
-//                                            new String[]{entity.getId()});
-//                                    Message msg = new Message();
-//                                    msg.what = MSG_NUM;
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putString("id", entity.getId());
-//                                    bundle.putInt("op", 1);
-//                                    msg.setData(bundle);
-//                                    mHandler.sendMessage(msg);
-//                                    totalThread.run();
-//                                }
-//                            }
-//                        }.start();
-//                    }
-//                }
-//        );
-//
-//        holder.reduce_amount.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        new Thread() {
-//                            @Override
-//                            public void run(){
-//                                ProductReadDbHelper mDbHelper = new ProductReadDbHelper(getApplicationContext());
-//                                SQLiteDatabase db = mDbHelper.getWritableDatabase();
-//                                ContentValues cv = new ContentValues();
-//                                int amount = entity.getNumber();
-//                                Log.i("Amount", amount + "");
-//                                if (amount > 1) {
-//                                    amount--;
-//
-//                                    Log.i("Amount", amount + "");
-//                                    cv.put(ProductReaderContract.ProductEntry.COLUMN_NAME_NUMBER, amount);
-//                                    db.update(ProductReaderContract.ProductEntry.TABLE_NAME, cv,
-//                                            ProductReaderContract.ProductEntry.COLUMN_NAME_ENTRY_ID + "=?",
-//                                            new String[]{entity.getId()});
-//                                    Message msg = new Message();
-//                                    msg.what = MSG_NUM;
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putString("id", entity.getId());
-//                                    bundle.putInt("op", 2);
-//                                    msg.setData(bundle);
-//                                    mHandler.sendMessage(msg);
-//                                    totalThread.run();
-//                                }
-//                            }
-//                        }.start();
-//                    }
-//                }
-//        );
-        //============================================================
+        final ShopCartProduct mProduct = mShopCartItem.get(position);
+        holder.mCategory.setText(mProduct.getCategory());
+        holder.mName.setText(mProduct.getName());
+        holder.mPrice.setText(mProduct.getPrice() + "");
+        holder.mNumber.setText(mProduct.getNumber() + "");
+        holder.mStock.setText(mProduct.getStock() + "");
+        Picasso.get().load(mProduct.getImgUrl()).into(holder.mImg);
 
 
-//        holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                int itemid = Integer.parseInt(entity.getId());
-//
-//                if (isChecked) {
-//                    if (!CheckedProductId.contains(itemid)) {
-//                        CheckedProductId.add(itemid);
-//                        orderedDatas.add(mDatas.get(position));
-//                        //mTotalMoney += entity.getNumber() * entity.getPrice();
-//                        //mTotalChecked++;
-//                        Log.i("Checked3:", CheckedProductId.toString());
-//                    }
-//                } else {
-//                    if (CheckedProductId.contains(itemid)) {
-//                        //mTotalMoney -= entity.getNumber() * entity.getPrice();
-//                        //mTotalChecked--;
-//                        CheckedProductId.remove(CheckedProductId.indexOf(itemid));
-//                        orderedDatas.remove(orderedDatas.indexOf(mDatas.get(position)));
-//                        Log.i("Checked4:", CheckedProductId.toString());
-//                    }
-//
-//                }
-//                //mBtnChecking.setText("去结算(" + mTotalChecked + ")");
-//                //mTVTotal.setText("合计：" + mTotalMoney + " 爱心币");
-//                totalThread.run();
-//            }
-//        });
+        holder.mAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long itemId = mProduct.getId();
+                int num = mShopCartItem.get(position).getNumber();
+
+                if (mProduct.getStock() >= num+1) {
+                    ShopCartProduct nShopCartProduct = new ShopCartProduct(mShopCartItem.get(position).getId(),
+                            mShopCartItem.get(position).getName(), mShopCartItem.get(position).getCategory(), mShopCartItem.get(position).getPrice(),
+                            num+1, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
+                    cartDao.update(nShopCartProduct);
+                    holder.mNumber.setText(num+1 + "");
+                    ShopCart.updateTotal();
+                    mShopCartItem.get(position).setNumber(num+1);
+                } else {
+                    Toast.makeText(mContext, "库存没有更多啦！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        holder.mMinusBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        long itemId = mProduct.getId();
+                        int num = mShopCartItem.get(position).getNumber();
+
+                        if (mProduct.getNumber()-1 != 0) {
+                            ShopCartProduct nShopCartProduct = new ShopCartProduct(mShopCartItem.get(position).getId(),
+                                    mShopCartItem.get(position).getName(), mShopCartItem.get(position).getCategory(), mShopCartItem.get(position).getPrice(),
+                                    num-1, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
+                            cartDao.update(nShopCartProduct);
+                            holder.mNumber.setText(num-1 + "");
+                            ShopCart.updateTotal();
+                            mShopCartItem.get(position).setNumber(num-1);
+                        } else {
+                            Toast.makeText(mContext, "还是至少买一个吧！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+
+
+        holder.mCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                long itemId = mProduct.getId();
+
+                if (isChecked) {
+                    if (!ShopCart.checkProduct.contains(itemId)) {
+                        ShopCart.checkProduct.add(itemId);
+                        ShopCart.orderItem.add(mShopCartItem.get(position));
+                    }
+                } else {
+                    if (ShopCart.checkProduct.contains(itemId)) {
+                        ShopCart.checkProduct.remove(ShopCart.checkProduct.indexOf(itemId));
+                        ShopCart.orderItem.remove(ShopCart.orderItem.indexOf(mShopCartItem.get(position)));
+                    }
+
+                }
+                ShopCart.updateTotal();
+            }
+        });
 
         if (ShopCart.checkProduct.contains(mProduct.getId())){
-            mCB.setChecked(true);
+            holder.mCB.setChecked(true);
         }
         else{
-            mCB.setChecked(false);
+            holder.mCB.setChecked(false);
         }
 
         return convertView;
     }
-
-//    class ViewHolder {
-//        CheckBox cb;
-//        ImageView img;
-//        TextView name, category, price, number, stock;
-//        Button add_amount, reduce_amount;
-//    }
 }

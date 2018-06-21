@@ -41,22 +41,22 @@ import java.util.List;
 public class ShopCart extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
+    static ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
 
     private ListView mListView;
 
     public static ArrayList<Long> checkProduct = new ArrayList<>();
-    public ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
+    public static ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
 
     private Button DelCheckedBtn;
     private Button DelAllBtn;
-    private Button GotoPayBtn;
+    private static Button GotoPayBtn;
 
-    private TextView mTextView;
+    private static TextView mTextView;
     private CheckBox mCheckBox;
 
-    private double mTotalPrice = 0.0;
-    private int mCheckNum = 0;
+    private static double mTotalPrice = 0.0;
+    private static int mCheckNum = 0;
 
     private List<ShopCartProduct> mShopCartItem = new ArrayList<>();
     private ShopCartAdapter mAdapter;
@@ -86,7 +86,7 @@ public class ShopCart extends Fragment {
         DelCheckedBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_checked_product);
         DelAllBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_all_product);
         mTextView = (TextView) getActivity().findViewById(R.id.fragment_shopcart_total_price);
-        mCheckBox = (CheckBox) getActivity().findViewById(R.id.shopcart_item_checkbox);
+        mCheckBox = (CheckBox) getActivity().findViewById(R.id.shopcart_item_checkbox_all);
 
         gotoPayListener();
         deleteCheckedListener();
@@ -189,11 +189,12 @@ public class ShopCart extends Fragment {
     }
 
     private void initShopCart(){
-
+        mAdapter = new ShopCartAdapter(getContext(), mShopCartItem);
+        mListView.setAdapter(mAdapter);
     }
 
     // 获取Item数量与价格并计算总价
-    private void updateTotal() {
+    public static void updateTotal() {
         double totalprice = 0;
         int totalnum = 0;
         for (int i = 0; i < checkProduct.size(); ++i){
@@ -206,6 +207,7 @@ public class ShopCart extends Fragment {
         }
 //        mCheckNum = checkProduct.size();
         mTotalPrice = totalprice;
+        mCheckNum = totalnum;
         GotoPayBtn.setText("结算(" + mCheckNum + ")");
         mTextView.setText("合计：￥" + mTotalPrice);
         Log.i("cc Total Price", "mTotalPrice:" + mTotalPrice + " mCheckNum:" + mCheckNum);

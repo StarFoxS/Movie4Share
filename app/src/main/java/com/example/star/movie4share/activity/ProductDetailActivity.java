@@ -179,8 +179,10 @@ public class ProductDetailActivity extends Activity {
 
     public void initData(){
         String category = mProduct.getCategory();
-        Picasso.get().load(mProduct.getUrl()).into(mImgDetails);
-        Picasso.get().load(mProduct.getUrl()).into(mImgIcon);
+        Picasso.get().load(mProduct.getUrl()).placeholder(R.drawable.product_loading)
+                .error(R.drawable.me).into(mImgDetails);
+        Picasso.get().load(mProduct.getUrl()).placeholder(R.drawable.product_loading)
+                .error(R.drawable.me).into(mImgIcon);
         pastPriceText.setText("价格: " + pastPrice);
         if (originalLimit != 0){
             limitTextView.setText("限量: " + originalLimit);
@@ -320,7 +322,7 @@ public class ProductDetailActivity extends Activity {
                 int num = Integer.valueOf(mSelectNumber.getText().toString());
                 if (Movie4ShareApplication.loginStatus.equals("user")) {
                     if (num != 0) {
-                            // TODO: 增加购物车库物品数量
+
                             List<ShopCartProduct> nShopCartList = cartDao.loadAll();
                             boolean flag = false;
                             ShopCartProduct nShopCartProduct = new ShopCartProduct(mProduct.getId(),

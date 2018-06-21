@@ -73,17 +73,17 @@
                     android:id="@+id/shopcart_item_price_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="价格: "
+                    android:text="单价: ￥"
                     android:textSize="14sp"
-                    android:textColor="#ea5404"/>
+                    android:textColor="@color/Naranja"/>
                 <TextView
                     android:layout_toEndOf="@id/shopcart_item_price_textview"
                     android:id="@+id/shopcart_item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥0"
-                    android:textSize="12sp"
-                    android:textColor="#ea5404"/>
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:textColor="@color/Naranja"/>
 
 
             </RelativeLayout>
@@ -100,45 +100,43 @@
                     android:layout_centerVertical="true"
                     android:text="数量: "
                     android:textSize="14sp"
-                    android:textColor="#3e3a39"/>
+                    android:textColor="@color/darkgray"/>
                 <Button
                     android:id="@+id/shopcart_minus"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/count"
                     android:layout_toEndOf="@id/count"
                     android:layout_alignTop="@id/count"
                     android:layout_alignBottom="@id/count"
                     android:layout_margin="2dp"
                     android:background="@drawable/plus_minus_background"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:text="－"
-                    android:textColor="#000000"/>
+                    android:textColor="@color/darkgray"/>
                 <TextView
                     android:id="@+id/shopcart_item_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="1"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:layout_toEndOf="@id/shopcart_minus"
-                    android:layout_toRightOf="@id/shopcart_minus"
-                    android:textColor="#3e3a39"
+                    android:textColor="@color/darkgray"
                     android:typeface="serif"/>
                 <Button
                     android:id="@+id/shopcart_add"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/shopcart_item_number"
                     android:layout_alignTop="@id/count"
                     android:layout_alignBottom="@id/count"
                     android:layout_margin="2dp"
                     android:background="@drawable/plus_minus_background"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:text="＋"
-                    android:textColor="#000000"/>
+                    android:textColor="@color/darkgray"/>
 
                 <TextView
                     android:id="@+id/shopcart_stock_text1"
@@ -147,6 +145,7 @@
                     android:layout_toRightOf="@id/shopcart_add"
                     android:text="（库存"
                     android:textSize="14sp"
+                    android:textColor="@color/lightGray"
                     />
                 <TextView
                     android:id="@+id/shopcart_stock"
@@ -154,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/shopcart_stock_text1"
                     android:textSize="14sp"
+                    android:textColor="@color/lightGray"
                     />
                 <TextView
                     android:id="@+id/shopcart_stock_text2"
@@ -162,6 +162,7 @@
                     android:layout_toRightOf="@id/shopcart_stock"
                     android:text="件)"
                     android:textSize="14sp"
+                    android:textColor="@color/lightGray"
                     />
             </RelativeLayout>
         </RelativeLayout>
