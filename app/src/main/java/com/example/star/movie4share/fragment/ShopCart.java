@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,7 +46,7 @@ public class ShopCart extends Fragment {
     private ListView mListView;
 
     public static ArrayList<Long> checkProduct = new ArrayList<>();
-    public ArrayList<ShopCartProduct> orderProduct = new ArrayList<>();
+    public ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
 
     private Button DelCheckedBtn;
     private Button DelAllBtn;
@@ -85,6 +86,7 @@ public class ShopCart extends Fragment {
         DelCheckedBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_checked_product);
         DelAllBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_all_product);
         mTextView = (TextView) getActivity().findViewById(R.id.fragment_shopcart_total_price);
+        mCheckBox = (CheckBox) getActivity().findViewById(R.id.shopcart_item_checkbox);
 
         gotoPayListener();
         deleteCheckedListener();
@@ -92,8 +94,19 @@ public class ShopCart extends Fragment {
 
         mShopCartItem = cartDao.loadAll();
 
+        CheckBoxListener();
+        initShopCart();
+
         super.onStart();
     }
+
+    private Thread totalThread = new Thread() {
+        @Override
+        public void run() {
+            super.run();
+            updateTotal();
+        }
+    };
 
     /*
      * 结算按钮
@@ -103,13 +116,13 @@ public class ShopCart extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Movie4ShareApplication.loginStatus == "user" ) {
-                    if (orderProduct.size() > 0){
+                    if (orderItem.size() > 0){
                         Intent intent = new Intent(getActivity().getApplicationContext(), ComfirmOrder.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("productSize", Integer.valueOf(orderProduct.size()));
+                        bundle.putSerializable("productSize", Integer.valueOf(orderItem.size()));
                         bundle.putSerializable("totalPrice", mTotalPrice);
-                        for (int i = 0; i < orderProduct.size(); ++i) {
-                            bundle.putSerializable("OrderedProduct" + i, orderProduct.get(i));
+                        for (int i = 0; i < orderItem.size(); ++i) {
+                            bundle.putSerializable("OrderedProduct" + i, orderItem.get(i));
                             bundle.putSerializable("CheckedProductsId" + i, checkProduct.get(i));
                         }
                         intent.putExtras(bundle);
@@ -153,12 +166,49 @@ public class ShopCart extends Fragment {
         });
     }
 
+    /*
+     * 全选按钮监听与操作
+     */
+    private void CheckBoxListener(){
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkProduct.clear();
+                orderItem.clear();
+                if (isChecked) {
+                    mTotalPrice = 0;
+                    mCheckNum = 0;
+                    for (int i = 0; i < mShopCartItem.size(); ++i) {
+                        checkProduct.add(mShopCartItem.get(i).getId());
+                        orderItem.add(mShopCartItem.get(i));
+                    }
+                }
+//                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void initShopCart(){
+
+    }
+
+    // 获取Item数量与价格并计算总价
+    private void updateTotal() {
+        double totalprice = 0;
+        int totalnum = 0;
+        for (int i = 0; i < checkProduct.size(); ++i){
+//            long checkId = checkProduct.get(i);
+            ShopCartProduct nShopCartProduct = cartDao.load(checkProduct.get(i));
+            if (nShopCartProduct != null) {
+                totalprice += nShopCartProduct.getNumber() * nShopCartProduct.getPrice();
+                totalnum += nShopCartProduct.getNumber();
+            }
         }
+//        mCheckNum = checkProduct.size();
+        mTotalPrice = totalprice;
+        GotoPayBtn.setText("结算(" + mCheckNum + ")");
+        mTextView.setText("合计：￥" + mTotalPrice);
+        Log.i("cc Total Price", "mTotalPrice:" + mTotalPrice + " mCheckNum:" + mCheckNum);
     }
 
     @Override

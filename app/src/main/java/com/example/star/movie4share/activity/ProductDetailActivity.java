@@ -32,6 +32,8 @@ import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 
 /**
  * Created by Star on 2018/6/16.
@@ -87,6 +89,8 @@ public class ProductDetailActivity extends Activity {
 
     private int number = 1;
 
+    ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+
     @Override
     public void onCreate(Bundle savedInstanceData){
         super.onCreate(savedInstanceData);
@@ -97,24 +101,31 @@ public class ProductDetailActivity extends Activity {
         Intent intent = this.getIntent();
         productId = (long) intent.getSerializableExtra("productId");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (LoginActivity.getLogin_status() == 1){
-                    mProduct = getProductLogin();
-                } else {
-                    mProduct = getProductLogoff();
-                }
-                Message msg = new Message();
-                msg.what = 5566;
-                handler.sendMessage(msg);
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (LoginActivity.getLogin_status() == 1){
+//                    mProduct = getProductLogin();
+//                } else {
+//                    mProduct = getProductLogoff();
+//                }
+//                Message msg = new Message();
+//                msg.what = 5566;
+//                handler.sendMessage(msg);
+//            }
+//        }).start();
+
+        //TODO: 登录与未登录的区别
+        if (Movie4ShareApplication.loginStatus.equals("user")){
+            mProduct = dao.load(productId);
+            Log.d("cc", "loadIn: " + productId + " " +mProduct.getProductName());
+        } else {
+            mProduct = dao.load(productId);
+            Log.d("cc", "loadIn: " + productId + " " +mProduct.getProductName());
+        }
 
         initViews();
-
-        pastPriceText = (TextView) findViewById(R.id.activity_product_details_past_price);
-        limitTextView = (TextView) findViewById(R.id.activity_product_details_limit);
+        initData();
 
         cartPopUpListener();
         cartAddDaoListener();
@@ -132,38 +143,38 @@ public class ProductDetailActivity extends Activity {
         });
     }
 
-    private Product getProductLogin() {
-
-        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-        mProduct = dao.load(productId);
-        return mProduct;
-
-    }
-
-    private Product getProductLogoff() {
-
-        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-        mProduct = dao.load(productId);
-        return mProduct;
-    }
+//    private Product getProductLogin() {
+//
+//        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+//        mProduct = dao.load(productId);
+//        return mProduct;
+//
+//    }
+//
+//    private Product getProductLogoff() {
+//
+//        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+//        mProduct = dao.load(productId);
+//        return mProduct;
+//    }
 
     private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int what = msg.what;
-            switch (what) {
-                case 0x100:
-                    int number = (int) msg.obj;
-                    updateDatabase(number);
-                    break;
-                case 0x101:
-                    insert2Sqlite();
-                    break;
-                case 5566:
-                    initData();
-                    break;
-            }
-        }
+//        @Override
+//        public void handleMessage(Message msg) {
+//            int what = msg.what;
+//            switch (what) {
+//                case 0x100:
+//                    int number = (int) msg.obj;
+//                    updateDatabase(number);
+//                    break;
+//                case 0x101:
+//                    insertDao();
+//                    break;
+//                case 5566:
+//                    initData();
+//                    break;
+//            }
+//        }
     };
 
     public void initData(){
@@ -219,6 +230,9 @@ public class ProductDetailActivity extends Activity {
         mPopDetails = (TextView) mPop.findViewById(R.id.tv_pop_details);
         mPrice = (TextView) mPop.findViewById(R.id.shopcart_pop_up_price);
         mPopStockNum = (TextView) mPop.findViewById(R.id.shopcart_pop_up_stock_num);
+
+        pastPriceText = (TextView) findViewById(R.id.activity_product_details_past_price);
+        limitTextView = (TextView) findViewById(R.id.activity_product_details_limit);
 
         mSelectNumber.setText("1");
 
@@ -292,40 +306,53 @@ public class ProductDetailActivity extends Activity {
         });
     }
 
-        /*
-         * 商品添加到购物车，更新购物车库ShopCartProduct
-         */
+    /*
+     * 商品添加到购物车，更新购物车库ShopCartProduct
+     */
+    ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
+
     private void cartAddDaoListener() {
         mBtnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // 保存产品信息到数据库
-                String num = mSelectNumber.getText().toString();
-                if (Movie4ShareApplication.loginStatus == "user") {
-                    if (num.length() == 0) {
-                        Toast.makeText(getApplication(), "商品数量不能为0！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        int num2 = Integer.valueOf(num);
-                        if (num2 == 0) {
-                            Toast.makeText(getApplication(), "商品数量不能为0！", Toast.LENGTH_SHORT).show();
-                        } else {
+                int num = Integer.valueOf(mSelectNumber.getText().toString());
+                if (Movie4ShareApplication.loginStatus.equals("user")) {
+                    if (num != 0) {
                             // TODO: 增加购物车库物品数量
-                            // addToCart();
-
-                            if (isPopOpened == true) {
-                                final WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-                                layoutParams.alpha = 1.0f;
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        getWindow().setAttributes(layoutParams);
-                                    }
-                                }, 500);
-                                mPopupWindow.dismiss();
-                                isPopOpened = false;
+                            List<ShopCartProduct> nShopCartList = cartDao.loadAll();
+                            boolean flag = false;
+                            ShopCartProduct nShopCartProduct = new ShopCartProduct(mProduct.getId(),
+                                mProduct.getProductName(), mProduct.getCategory(), mProduct.getPrice(),
+                                num, mProduct.getUrl(), mProduct.getStockNum());
+                            for (int i=0; i<nShopCartList.size(); i++){
+                                if (mProduct.getId() == nShopCartList.get(i).getId()){
+                                    flag = true;
+                                    cartDao.update(nShopCartProduct);
+                                    Log.d("cc","Insert:" + mProduct.getId() + " Num:" + num);
+                                    break;
+                                }
                             }
+                            if (!flag) {
+                                cartDao.insert(nShopCartProduct);
+                                Log.d("cc","Insert:" + mProduct.getId() + " Num:" + num);
+                            }
+
+                        if (isPopOpened) {
+                            final WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                            layoutParams.alpha = 1.0f;
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getWindow().setAttributes(layoutParams);
+                                }
+                            }, 500);
+                            mPopupWindow.dismiss();
+                            isPopOpened = false;
                         }
+                    } else {
+                        Toast.makeText(getApplication(), "商品数量不能为0！", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(getApplication(), "请先登录", Toast.LENGTH_LONG).show();
@@ -405,9 +432,9 @@ public class ProductDetailActivity extends Activity {
     }
 
     /*
-     *  Insert into database
+     *  插入数据库
      */
-    public void insert2Sqlite(){
+    public void insertDao(){
         //long id, String name, String category, double price,
         //int number, String imgUrl, int stock
         ShopCartProduct nShopCartProduct = new ShopCartProduct(0, mProduct.getProductName(), "anyCategory",
@@ -416,7 +443,7 @@ public class ProductDetailActivity extends Activity {
     }
 
     /*
-     *  Update the database
+     *  更新数据库
      */
     private void updateDatabase(int cartNumber){
         if (cartNumber + number <= numOfCouldBuy){
