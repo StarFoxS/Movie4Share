@@ -11,13 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,20 +22,13 @@ import android.widget.Toast;
 
 import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
-import com.example.star.movie4share.activity.ComfirmOrder;
+import com.example.star.movie4share.activity.ConfirmOrderActivity;
 import com.example.star.movie4share.activity.MainActivity;
-import com.example.star.movie4share.activity.ProductDetailActivity;
-import com.example.star.movie4share.adapter.ProductAdapter;
-import com.example.star.movie4share.dao.DaoMaster;
-import com.example.star.movie4share.dao.DaoSession;
-import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
-import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShopCart extends Fragment {
 
@@ -140,6 +130,10 @@ public class ShopCart extends Fragment {
 //                        Log.d("cc","notifyDataSetChanged not done");
 //                    }
                     break;
+                case 333:
+                    GotoPayBtn.setText("结算(" + mCheckNum + ")");
+                    mTextView.setText("合计：￥" + mTotalPrice);
+                    break;
                 default:
                     break;
             }
@@ -155,7 +149,7 @@ public class ShopCart extends Fragment {
             public void onClick(View view) {
                 if (Movie4ShareApplication.loginStatus == "user" ) {
                     if (orderItem.size() > 0){
-                        Intent intent = new Intent(getActivity().getApplicationContext(), ComfirmOrder.class);
+                        Intent intent = new Intent(getActivity().getApplicationContext(), ConfirmOrderActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("productSize", Integer.valueOf(orderItem.size()));
                         bundle.putSerializable("totalPrice", mTotalPrice);
@@ -254,8 +248,18 @@ public class ShopCart extends Fragment {
 //        mCheckNum = checkProduct.size();
         mTotalPrice = totalprice;
         mCheckNum = totalnum;
-        GotoPayBtn.setText("结算(" + mCheckNum + ")");
-        mTextView.setText("合计：￥" + mTotalPrice);
+//        GotoPayBtn.setText("结算(" + mCheckNum + ")");
+//        mTextView.setText("合计：￥" + mTotalPrice);
+
+        /*
+         * 这里用msg传回主线程更新UI，否则会报错
+         * Error: android.view.ViewRootImpl$CalledFromWrongThreadException:
+         *      Only the original thread that created a view hierarchy can touch its views.
+         */
+        Message msg = new Message();
+        msg.what=333;
+        mHandler.sendMessage(msg);
+
         Log.i("cc Total Price", "mTotalPrice:" + mTotalPrice + " mCheckNum:" + mCheckNum);
     }
 

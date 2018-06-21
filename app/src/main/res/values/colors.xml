@@ -9,4 +9,5 @@
     <color name="Naranja">#ea5404</color>
     <color name="darkgray">#333130</color>
     <color name="lightGray">#eeefef</color>
+    <color name="edittextGray">#595757</color>
 </resources>
