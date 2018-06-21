@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,13 +29,13 @@ import com.example.star.movie4share.activity.ComfirmOrder;
 import com.example.star.movie4share.activity.MainActivity;
 import com.example.star.movie4share.activity.ProductDetailActivity;
 import com.example.star.movie4share.adapter.ProductAdapter;
-import com.example.star.movie4share.adapter.ShopCartAdapter;
 import com.example.star.movie4share.dao.DaoMaster;
 import com.example.star.movie4share.dao.DaoSession;
 import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,21 +46,22 @@ public class ShopCart extends Fragment {
     static ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
 
     private ListView mListView;
+    public ShopCart shopCart = null;
 
-    public static ArrayList<Long> checkProduct = new ArrayList<>();
-    public static ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
+    public ArrayList<Long> checkProduct = new ArrayList<>();
+    public ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
 
     private Button DelCheckedBtn;
     private Button DelAllBtn;
-    private static Button GotoPayBtn;
+    private Button GotoPayBtn;
 
-    private static TextView mTextView;
+    private TextView mTextView;
     private CheckBox mCheckBox;
 
-    private static double mTotalPrice = 0.0;
-    private static int mCheckNum = 0;
+    private double mTotalPrice = 0.0;
+    private int mCheckNum = 0;
 
-    private List<ShopCartProduct> mShopCartItem = new ArrayList<>();
+    private ArrayList<ShopCartProduct> mShopCartItem = new ArrayList<>();
     private ShopCartAdapter mAdapter;
 
 
@@ -69,6 +72,7 @@ public class ShopCart extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -92,7 +96,7 @@ public class ShopCart extends Fragment {
         deleteCheckedListener();
         deleteAllListener();
 
-        mShopCartItem = cartDao.loadAll();
+        mShopCartItem = (ArrayList<ShopCartProduct>) cartDao.loadAll();
 
         CheckBoxListener();
         initShopCart();
@@ -105,6 +109,40 @@ public class ShopCart extends Fragment {
         public void run() {
             super.run();
             updateTotal();
+        }
+    };
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            switch (what) {
+                case 111:
+                    mAdapter = new ShopCartAdapter(getContext(), mShopCartItem);
+                    mListView.setAdapter(mAdapter);
+                    CheckBoxListener();
+                    break;
+                case 222:
+                    for(int i = 0; i < mShopCartItem.size(); i++){
+                        ShopCartProduct shopCartProduct = mShopCartItem.get(i);
+                        if(shopCartProduct.getId() == msg.getData().getLong("id")) {
+                            if (msg.getData().getString("operation") == "plus")
+                                shopCartProduct.setNumber(shopCartProduct.getNumber() + 1);
+                            else if (msg.getData().getString("operation") == "minus")
+                                shopCartProduct.setNumber(shopCartProduct.getNumber() - 1);
+                            mShopCartItem.set(i, shopCartProduct);
+                            break;
+                        }
+                    }
+//                    try {
+                        mAdapter.notifyDataSetChanged();
+//                    } catch (Exception e){
+//                        Log.d("cc","notifyDataSetChanged not done");
+//                    }
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
@@ -189,12 +227,20 @@ public class ShopCart extends Fragment {
     }
 
     private void initShopCart(){
-        mAdapter = new ShopCartAdapter(getContext(), mShopCartItem);
-        mListView.setAdapter(mAdapter);
+        new Thread(){
+            @Override
+            public void run(){
+                Message message = Message.obtain();
+                message.what = 111;
+                mHandler.sendMessage(message);
+            }
+        }.start();
+        GotoPayBtn.setText("结算(0)");
+        mTextView.setText("合计：￥0.0");
     }
 
     // 获取Item数量与价格并计算总价
-    public static void updateTotal() {
+    private void updateTotal() {
         double totalprice = 0;
         int totalnum = 0;
         for (int i = 0; i < checkProduct.size(); ++i){
@@ -243,5 +289,194 @@ public class ShopCart extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    /*
+     * ShopCartAdapter Class
+     * 因为要用到ShopCart Fragment里的变量，但已经继承了BaseAdapter，不知道怎么再继承ShopCart
+     * 于是强行放在ShopCart Fragment里了
+     * 之前的错误是position这个参数永远只读取到最后一个进入的position，改动时前面产生的不能改
+     */
+
+    public class ShopCartAdapter extends BaseAdapter {
+
+        class Holder {
+            CheckBox mCB;
+            ImageView mImg;
+            TextView mName, mCategory, mPrice, mNumber, mStock;
+            Button mAddBtn, mMinusBtn;
+        }
+
+        private LayoutInflater mInflater;
+        // mSCI = mShopCartItem
+        private ArrayList<ShopCartProduct> mSCI = new ArrayList<>();
+        private Holder holder;
+        private Context mContext;
+        ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
+//    private CheckBox mCB;
+//    private ImageView mImg;
+//    private TextView mName, mCategory, mPrice, mNumber, mStock;
+//    private Button mAddBtn, mMinusBtn;
+
+        public ShopCartAdapter(Context context, ArrayList<ShopCartProduct> mSCI) {
+            mContext = context;
+            mInflater = LayoutInflater.from(context);
+            this.mSCI = mSCI;
+        }
+
+        @Override
+        public int getCount() {
+            return mShopCartItem.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mShopCartItem.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            Log.d("cc", "Position:" + position);
+            holder = null;
+            if (convertView == null) {
+                holder = new Holder();
+                convertView = mInflater.inflate(R.layout.shop_cart_item, parent, false);
+                holder.mCB = (CheckBox) convertView.findViewById(R.id.shopcart_item_checkbox);
+                holder.mName = (TextView) convertView.findViewById(R.id.shopcart_item_name);
+                holder.mCategory = (TextView) convertView.findViewById(R.id.shopcart_item_category);
+                holder.mPrice = (TextView) convertView.findViewById(R.id.shopcart_item_price);
+                holder.mNumber = (TextView) convertView.findViewById(R.id.shopcart_item_number);
+                holder.mImg = (ImageView) convertView.findViewById(R.id.shopcart_item_imageview);
+                holder.mAddBtn = (Button) convertView.findViewById(R.id.shopcart_add);
+                holder.mMinusBtn = (Button) convertView.findViewById(R.id.shopcart_minus);
+                holder.mStock = (TextView) convertView.findViewById(R.id.shopcart_stock);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+
+            final ShopCartProduct mProductAdapter = (ShopCartProduct) getItem(position);
+            holder.mCategory.setText(mProductAdapter.getCategory());
+            holder.mName.setText(mProductAdapter.getName());
+            holder.mPrice.setText(mProductAdapter.getPrice() + "");
+            holder.mNumber.setText(mProductAdapter.getNumber() + "");
+            holder.mStock.setText(mProductAdapter.getStock() + "");
+            Picasso.get().load(mProductAdapter.getImgUrl()).into(holder.mImg);
+
+
+            holder.mAddBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mProductAdapter.getNumber() >= mProductAdapter.getStock()){
+                        Toast.makeText(getContext(), "库存没有更多啦！", Toast.LENGTH_SHORT).show();
+                    }
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            int num = mProductAdapter.getNumber();
+
+                            if (mProductAdapter.getStock() > num) {
+
+                                num++;
+
+                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProductAdapter.getId(),
+                                        mProductAdapter.getName(), mProductAdapter.getCategory(), mProductAdapter.getPrice(),
+                                        num, mProductAdapter.getImgUrl(), mProductAdapter.getStock());
+                                cartDao.update(nShopCartProduct);
+
+                                Message message = Message.obtain();
+                                message.what = 222;
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("id", mProductAdapter.getId());
+                                bundle.putString("operation", "plus");
+                                message.setData(bundle);
+                                mHandler.sendMessage(message);
+
+                                totalThread.run();
+                            }
+//                            else {
+//                                Toast.makeText(getContext(), "库存没有更多啦！", Toast.LENGTH_SHORT).show();
+//                            }
+                        }
+                    }.start();
+                }
+            });
+
+            holder.mMinusBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mProductAdapter.getNumber() <= 1){
+                        Toast.makeText(getContext(), "至少也要买一个吧！", Toast.LENGTH_SHORT).show();
+                    }
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            int num = mProductAdapter.getNumber();
+
+                            if (num > 1) {
+
+                                num--;
+
+                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProductAdapter.getId(),
+                                        mProductAdapter.getName(), mProductAdapter.getCategory(), mProductAdapter.getPrice(),
+                                        num, mProductAdapter.getImgUrl(), mProductAdapter.getStock());
+                                cartDao.update(nShopCartProduct);
+
+                                Message message = Message.obtain();
+                                message.what = 222;
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("id", mProductAdapter.getId());
+                                bundle.putString("operation", "minus");
+                                message.setData(bundle);
+                                mHandler.sendMessage(message);
+
+                                totalThread.run();
+                            }
+//                            else {
+//                                Toast.makeText(getContext(), "至少也要买一个吧！", Toast.LENGTH_SHORT).show();
+//                            }
+                        }
+                    }.start();
+                }
+            });
+
+
+            holder.mCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    long itemId = mProductAdapter.getId();
+
+                    if (isChecked) {
+                        if (!checkProduct.contains(itemId)) {
+                            checkProduct.add(itemId);
+                            orderItem.add(mSCI.get(position));
+                        }
+                    } else {
+                        if (checkProduct.contains(itemId)) {
+                            checkProduct.remove(checkProduct.indexOf(itemId));
+                            orderItem.remove(orderItem.indexOf(mSCI.get(position)));
+                        }
+
+                    }
+                    totalThread.run();
+                }
+            });
+
+            if (checkProduct.contains(mProductAdapter.getId())){
+                holder.mCB.setChecked(true);
+            } else{
+                holder.mCB.setChecked(false);
+            }
+
+            return convertView;
+        }
     }
 }

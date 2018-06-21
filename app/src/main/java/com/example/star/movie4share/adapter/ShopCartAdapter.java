@@ -31,7 +31,7 @@ import java.util.List;
  * Created by Star on 2018/6/20.
  */
 
-public class ShopCartAdapter extends BaseAdapter{
+public class ShopCartAdapter extends BaseAdapter {
 
     class Holder {
         CheckBox mCB;
@@ -41,7 +41,7 @@ public class ShopCartAdapter extends BaseAdapter{
     }
 
     private LayoutInflater mInflater;
-    private List<ShopCartProduct> mShopCartItem = new ArrayList<>();
+    private ArrayList<ShopCartProduct> mShopCartItem = new ArrayList<>();
     private Holder holder;
     private Context mContext;
     ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
@@ -50,7 +50,7 @@ public class ShopCartAdapter extends BaseAdapter{
 //    private TextView mName, mCategory, mPrice, mNumber, mStock;
 //    private Button mAddBtn, mMinusBtn;
 
-    public ShopCartAdapter(Context context, List<ShopCartProduct> mSCI) {
+    public ShopCartAdapter(Context context, ArrayList<ShopCartProduct> mSCI) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         this.mShopCartItem = mSCI;
@@ -74,6 +74,7 @@ public class ShopCartAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        Log.d("cc", "Position:" + position);
         holder = null;
         if (convertView == null) {
             holder = new Holder();
@@ -93,7 +94,7 @@ public class ShopCartAdapter extends BaseAdapter{
             holder = (Holder) convertView.getTag();
         }
 
-        final ShopCartProduct mProduct = mShopCartItem.get(position);
+        final ShopCartProduct mProduct = (ShopCartProduct) getItem(position);
         holder.mCategory.setText(mProduct.getCategory());
         holder.mName.setText(mProduct.getName());
         holder.mPrice.setText(mProduct.getPrice() + "");
@@ -105,72 +106,100 @@ public class ShopCartAdapter extends BaseAdapter{
         holder.mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long itemId = mProduct.getId();
-                int num = mShopCartItem.get(position).getNumber();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        int num = mProduct.getNumber();
 
-                if (mProduct.getStock() >= num+1) {
-                    ShopCartProduct nShopCartProduct = new ShopCartProduct(mShopCartItem.get(position).getId(),
-                            mShopCartItem.get(position).getName(), mShopCartItem.get(position).getCategory(), mShopCartItem.get(position).getPrice(),
-                            num+1, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
-                    cartDao.update(nShopCartProduct);
-                    holder.mNumber.setText(num+1 + "");
-                    ShopCart.updateTotal();
-                    mShopCartItem.get(position).setNumber(num+1);
-                } else {
-                    Toast.makeText(mContext, "库存没有更多啦！", Toast.LENGTH_SHORT).show();
-                }
+                        if (mProduct.getStock() > num) {
+
+                            num++;
+
+                            ShopCartProduct nShopCartProduct = new ShopCartProduct(mShopCartItem.get(position).getId(),
+                                    mShopCartItem.get(position).getName(), mShopCartItem.get(position).getCategory(), mShopCartItem.get(position).getPrice(),
+                                    num, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
+                            cartDao.update(nShopCartProduct);
+
+                            Message message = Message.obtain();
+                            message.what = 222;
+                            Bundle bundle = new Bundle();
+                            bundle.putLong("id", mShopCartItem.get(position).getId());
+                            bundle.putString("operation", "plus");
+                            message.setData(bundle);
+//                            ShopCart.shopCart.mHandler.sendMessage(message);
+
+//                            ShopCart.shopCart.totalThread.run();
+                        } else {
+                            Toast.makeText(mContext, "库存没有更多啦！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }.start();
             }
         });
 
         holder.mMinusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread() {
                     @Override
-                    public void onClick(View view) {
-                        long itemId = mProduct.getId();
-                        int num = mShopCartItem.get(position).getNumber();
+                    public void run() {
+                        int num = mProduct.getNumber();
 
-                        if (mProduct.getNumber()-1 != 0) {
+                        if (num > 1) {
+
+                            num--;
+
                             ShopCartProduct nShopCartProduct = new ShopCartProduct(mShopCartItem.get(position).getId(),
                                     mShopCartItem.get(position).getName(), mShopCartItem.get(position).getCategory(), mShopCartItem.get(position).getPrice(),
-                                    num-1, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
+                                    num, mShopCartItem.get(position).getImgUrl(), mShopCartItem.get(position).getStock());
                             cartDao.update(nShopCartProduct);
-                            holder.mNumber.setText(num-1 + "");
-                            ShopCart.updateTotal();
-                            mShopCartItem.get(position).setNumber(num-1);
+
+                            Message message = Message.obtain();
+                            message.what = 222;
+                            Bundle bundle = new Bundle();
+                            bundle.putLong("id", mShopCartItem.get(position).getId());
+                            bundle.putString("operation", "minus");
+                            message.setData(bundle);
+ //                           ShopCart.shopCart.mHandler.sendMessage(message);
+
+  //                          ShopCart.shopCart.totalThread.run();
                         } else {
-                            Toast.makeText(mContext, "还是至少买一个吧！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "至少也要买一个吧！", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
-        );
+                }.start();
+
+            }
+        });
 
 
         holder.mCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 long itemId = mProduct.getId();
-
-                if (isChecked) {
-                    if (!ShopCart.checkProduct.contains(itemId)) {
-                        ShopCart.checkProduct.add(itemId);
-                        ShopCart.orderItem.add(mShopCartItem.get(position));
-                    }
-                } else {
-                    if (ShopCart.checkProduct.contains(itemId)) {
-                        ShopCart.checkProduct.remove(ShopCart.checkProduct.indexOf(itemId));
-                        ShopCart.orderItem.remove(ShopCart.orderItem.indexOf(mShopCartItem.get(position)));
-                    }
-
-                }
-                ShopCart.updateTotal();
+//
+//                if (isChecked) {
+//                    if (!checkProduct.contains(itemId)) {
+//                        ShopCart.shopCart.checkProduct.add(itemId);
+//                        ShopCart.shopCart.orderItem.add(mShopCartItem.get(position));
+//                    }
+//                } else {
+//                    if (ShopCart.shopCart.checkProduct.contains(itemId)) {
+//                        ShopCart.shopCart.checkProduct.remove(ShopCart.shopCart.checkProduct.indexOf(itemId));
+//                        ShopCart.shopCart.orderItem.remove(ShopCart.shopCart.orderItem.indexOf(mShopCartItem.get(position)));
+//                    }
+//
+//                }
+//                ShopCart.shopCart.totalThread.run();
             }
         });
-
-        if (ShopCart.checkProduct.contains(mProduct.getId())){
-            holder.mCB.setChecked(true);
-        }
-        else{
-            holder.mCB.setChecked(false);
-        }
+//
+//        if (ShopCart.shopCart.checkProduct.contains(mProduct.getId())){
+//            holder.mCB.setChecked(true);
+//        }
+//        else{
+//            holder.mCB.setChecked(false);
+//        }
 
         return convertView;
     }

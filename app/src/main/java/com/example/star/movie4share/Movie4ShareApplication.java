@@ -87,7 +87,7 @@ public class Movie4ShareApplication extends Application {
 
         Product nProduct2 = new Product(2, "战狼2", "action", 12.0, "zhanlang2", "2017年吴京主演动作电影",
                 "https://img3.doubanio.com/view/photo/l/public/p2494701965.webp", "https://movie.douban.com/subject/26363254/",
-                1, 1, 0);
+                5, 1, 0);
         //nProductList.add(nProduct);
         getDaoSession().insert(nProduct2);
     }
