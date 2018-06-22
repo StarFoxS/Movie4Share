@@ -36,7 +36,7 @@ public class ShopCart extends Fragment {
     static ShopCartProductDao cartDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
 
     private ListView mListView;
-    public ShopCart shopCart = null;
+    public static ShopCart shopCart = null;
 
     public ArrayList<Long> checkProduct = new ArrayList<>();
     public ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
@@ -215,7 +215,7 @@ public class ShopCart extends Fragment {
                         orderItem.add(mShopCartItem.get(i));
                     }
                 }
-//                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

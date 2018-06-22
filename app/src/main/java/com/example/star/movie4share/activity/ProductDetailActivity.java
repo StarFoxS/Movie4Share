@@ -429,6 +429,8 @@ public class ProductDetailActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //TODO: 一键购买，购物车库可以不变，直接进入购买activity然后更改product库的内容
+                //可能要添加到购物车库？
+
                 Intent intent = new Intent(ProductDetailActivity.this, ConfirmOrderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("productSize", 1);

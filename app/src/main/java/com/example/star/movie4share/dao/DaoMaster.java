@@ -21,14 +21,20 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        OrderDao.createTable(db, ifNotExists);
+        OrderProductDao.createTable(db, ifNotExists);
         ProductDao.createTable(db, ifNotExists);
+        ReceiverDao.createTable(db, ifNotExists);
         ShopCartProductDao.createTable(db, ifNotExists);
         UserDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        OrderDao.dropTable(db, ifExists);
+        OrderProductDao.dropTable(db, ifExists);
         ProductDao.dropTable(db, ifExists);
+        ReceiverDao.dropTable(db, ifExists);
         ShopCartProductDao.dropTable(db, ifExists);
         UserDao.dropTable(db, ifExists);
     }
@@ -49,7 +55,10 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(OrderDao.class);
+        registerDaoClass(OrderProductDao.class);
         registerDaoClass(ProductDao.class);
+        registerDaoClass(ReceiverDao.class);
         registerDaoClass(ShopCartProductDao.class);
         registerDaoClass(UserDao.class);
     }

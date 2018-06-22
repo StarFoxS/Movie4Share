@@ -8,11 +8,17 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import com.example.star.movie4share.entity.Order;
+import com.example.star.movie4share.entity.OrderProduct;
 import com.example.star.movie4share.entity.Product;
+import com.example.star.movie4share.entity.Receiver;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.example.star.movie4share.entity.User;
 
+import com.example.star.movie4share.dao.OrderDao;
+import com.example.star.movie4share.dao.OrderProductDao;
 import com.example.star.movie4share.dao.ProductDao;
+import com.example.star.movie4share.dao.ReceiverDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.dao.UserDao;
 
@@ -25,11 +31,17 @@ import com.example.star.movie4share.dao.UserDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig orderDaoConfig;
+    private final DaoConfig orderProductDaoConfig;
     private final DaoConfig productDaoConfig;
+    private final DaoConfig receiverDaoConfig;
     private final DaoConfig shopCartProductDaoConfig;
     private final DaoConfig userDaoConfig;
 
+    private final OrderDao orderDao;
+    private final OrderProductDao orderProductDao;
     private final ProductDao productDao;
+    private final ReceiverDao receiverDao;
     private final ShopCartProductDao shopCartProductDao;
     private final UserDao userDao;
 
@@ -37,8 +49,17 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
+        orderDaoConfig = daoConfigMap.get(OrderDao.class).clone();
+        orderDaoConfig.initIdentityScope(type);
+
+        orderProductDaoConfig = daoConfigMap.get(OrderProductDao.class).clone();
+        orderProductDaoConfig.initIdentityScope(type);
+
         productDaoConfig = daoConfigMap.get(ProductDao.class).clone();
         productDaoConfig.initIdentityScope(type);
+
+        receiverDaoConfig = daoConfigMap.get(ReceiverDao.class).clone();
+        receiverDaoConfig.initIdentityScope(type);
 
         shopCartProductDaoConfig = daoConfigMap.get(ShopCartProductDao.class).clone();
         shopCartProductDaoConfig.initIdentityScope(type);
@@ -46,23 +67,44 @@ public class DaoSession extends AbstractDaoSession {
         userDaoConfig = daoConfigMap.get(UserDao.class).clone();
         userDaoConfig.initIdentityScope(type);
 
+        orderDao = new OrderDao(orderDaoConfig, this);
+        orderProductDao = new OrderProductDao(orderProductDaoConfig, this);
         productDao = new ProductDao(productDaoConfig, this);
+        receiverDao = new ReceiverDao(receiverDaoConfig, this);
         shopCartProductDao = new ShopCartProductDao(shopCartProductDaoConfig, this);
         userDao = new UserDao(userDaoConfig, this);
 
+        registerDao(Order.class, orderDao);
+        registerDao(OrderProduct.class, orderProductDao);
         registerDao(Product.class, productDao);
+        registerDao(Receiver.class, receiverDao);
         registerDao(ShopCartProduct.class, shopCartProductDao);
         registerDao(User.class, userDao);
     }
     
     public void clear() {
+        orderDaoConfig.clearIdentityScope();
+        orderProductDaoConfig.clearIdentityScope();
         productDaoConfig.clearIdentityScope();
+        receiverDaoConfig.clearIdentityScope();
         shopCartProductDaoConfig.clearIdentityScope();
         userDaoConfig.clearIdentityScope();
     }
 
+    public OrderDao getOrderDao() {
+        return orderDao;
+    }
+
+    public OrderProductDao getOrderProductDao() {
+        return orderProductDao;
+    }
+
     public ProductDao getProductDao() {
         return productDao;
+    }
+
+    public ReceiverDao getReceiverDao() {
+        return receiverDao;
     }
 
     public ShopCartProductDao getShopCartProductDao() {
