@@ -45,7 +45,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/tab_classify"
+            android:id="@+id/tab_view_order"
             layout="@layout/mainactivity_tab_home"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -91,8 +91,8 @@
             android:layout_weight="10" />
 
         <fragment
-            android:id="@+id/fragment_classify"
-            android:name="com.example.star.movie4share.fragment.HomePage"
+            android:id="@+id/fragment_view_order"
+            android:name="com.example.star.movie4share.fragment.ViewOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10" />

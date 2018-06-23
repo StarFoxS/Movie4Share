@@ -52,9 +52,7 @@
                     android:text="@string/movie_type_action"
                     android:textSize="18dp"
                     android:textColor="#3e3a39"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"/>
 
                 <TextView
@@ -64,10 +62,8 @@
                     android:text="@string/more"
                     android:textSize="13dp"
                     android:textColor="#888889"
-                    android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     />
 
@@ -78,8 +74,8 @@
                 android:layout_height="176dp"
                 android:scrollbars="none">
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <GridView android:id="@+id/grid1"
                         android:layout_width="1500dp"

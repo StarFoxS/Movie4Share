@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.star.movie4share.dao.DaoMaster;
 import com.example.star.movie4share.dao.DaoSession;
+import com.example.star.movie4share.entity.Order;
 import com.example.star.movie4share.entity.Product;
+import com.example.star.movie4share.entity.ShopCartProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +92,18 @@ public class Movie4ShareApplication extends Application {
                 5, 1, 0);
         //nProductList.add(nProduct);
         getDaoSession().insert(nProduct2);
+
+        ShopCartProduct nShopCartProduct0 = new ShopCartProduct(0, "战狼2", "action", 12.0, 1,
+                "https://img3.doubanio.com/view/photo/l/public/p2494701965.webp", 5);
+        getDaoSession().insert(nShopCartProduct0);
+
+        Order nOrder0 = new Order(50, 1, "2018.06.11", "已发货", "20180611010105", 1024, 2,
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        getDaoSession().insert(nOrder0);
+
+        Order nOrder1 = new Order(51, 1, "2018.06.12", "已签收", "20180612020206", 99999, 35,
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        getDaoSession().insert(nOrder1);
     }
 
     public void deleteDb(){

@@ -27,12 +27,14 @@ import com.example.star.movie4share.R;
 import com.example.star.movie4share.fragment.FindNew;
 import com.example.star.movie4share.fragment.HomePage;
 import com.example.star.movie4share.fragment.ShopCart;
+import com.example.star.movie4share.fragment.ViewOrder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener, ShopCart.OnFragmentInteractionListener{
+        HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener,
+        ViewOrder.OnFragmentInteractionListener, ShopCart.OnFragmentInteractionListener{
 
-    private View tab_home,tab_find_new,tab_classify,tab_shop_cart,tab_profile;
+    private View tab_home,tab_find_new,tab_view_order,tab_shop_cart,tab_profile;
     private Fragment[] mFragments;
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
@@ -69,13 +71,13 @@ public class MainActivity extends AppCompatActivity
     public void init(){
         tab_home = findViewById(R.id.tab_home);
         tab_find_new = findViewById(R.id.tab_find_new);
-        tab_classify = findViewById(R.id.tab_classify);
+        tab_view_order = findViewById(R.id.tab_view_order);
         tab_shop_cart = findViewById(R.id.tab_shop_cart);
         tab_profile = findViewById(R.id.tab_profile);
 
         tab_home.setOnClickListener(new tabOnClickListener(0));
         tab_find_new.setOnClickListener(new tabOnClickListener(1));
-        tab_classify.setOnClickListener(new tabOnClickListener(2));
+        tab_view_order.setOnClickListener(new tabOnClickListener(2));
         tab_shop_cart.setOnClickListener(new tabOnClickListener(3));
         tab_profile.setOnClickListener(new tabOnClickListener(4));
 
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         mFragments[0] = fragmentManager.findFragmentById(R.id.fragment_homepage);
         mFragments[1] = fragmentManager.findFragmentById(R.id.fragment_findnew);
-        mFragments[2] = fragmentManager.findFragmentById(R.id.fragment_classify);
+        mFragments[2] = fragmentManager.findFragmentById(R.id.fragment_view_order);
         mFragments[3] = fragmentManager.findFragmentById(R.id.fragment_shopcart);
         mFragments[4] = fragmentManager.findFragmentById(R.id.fragment_profile);
 
@@ -137,13 +139,13 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v){
             ((TextView) tab_home.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
             ((TextView) tab_find_new.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
-            ((TextView) tab_classify.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
+            ((TextView) tab_view_order.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
             ((TextView) tab_shop_cart.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
             ((TextView) tab_profile.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
 
             ((ImageView) tab_home.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
             ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_classify.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
+            ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
             ((ImageView) tab_shop_cart.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
             ((ImageView) tab_profile.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.user_1);
 
@@ -164,8 +166,8 @@ public class MainActivity extends AppCompatActivity
                     ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
                     break;
                 case 2:
-                    ((TextView) tab_classify.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
-                    ((ImageView) tab_classify.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
+                    ((TextView) tab_view_order.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
+                    ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
                     break;
                 case 3:
                     ((TextView) tab_shop_cart.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
@@ -219,7 +221,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_bought_list) {
-
+            // TODO: step into fragment[2] classify (= order)
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_profile) {
-
+            //TODO: step into fragment[4] profile
         } else if (id == R.id.nav_logoff) {
 
         }

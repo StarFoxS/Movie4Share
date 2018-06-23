@@ -367,39 +367,39 @@ public class ShopCart extends Fragment {
                 holder = (Holder) convertView.getTag();
             }
 
-            final ShopCartProduct mProductAdapter = (ShopCartProduct) getItem(position);
-            holder.mCategory.setText(mProductAdapter.getCategory());
-            holder.mName.setText(mProductAdapter.getName());
-            holder.mPrice.setText(mProductAdapter.getPrice() + "");
-            holder.mNumber.setText(mProductAdapter.getNumber() + "");
-            holder.mStock.setText(mProductAdapter.getStock() + "");
-            Picasso.get().load(mProductAdapter.getImgUrl()).into(holder.mImg);
+            final ShopCartProduct mProduct = (ShopCartProduct) getItem(position);
+            holder.mCategory.setText(mProduct.getCategory());
+            holder.mName.setText(mProduct.getName());
+            holder.mPrice.setText(mProduct.getPrice() + "");
+            holder.mNumber.setText(mProduct.getNumber() + "");
+            holder.mStock.setText(mProduct.getStock() + "");
+            Picasso.get().load(mProduct.getImgUrl()).into(holder.mImg);
 
 
             holder.mAddBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mProductAdapter.getNumber() >= mProductAdapter.getStock()){
+                    if (mProduct.getNumber() >= mProduct.getStock()){
                         Toast.makeText(getContext(), "库存没有更多啦！", Toast.LENGTH_SHORT).show();
                     }
                     new Thread() {
                         @Override
                         public void run() {
-                            int num = mProductAdapter.getNumber();
+                            int num = mProduct.getNumber();
 
-                            if (mProductAdapter.getStock() > num) {
+                            if (mProduct.getStock() > num) {
 
                                 num++;
 
-                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProductAdapter.getId(),
-                                        mProductAdapter.getName(), mProductAdapter.getCategory(), mProductAdapter.getPrice(),
-                                        num, mProductAdapter.getImgUrl(), mProductAdapter.getStock());
+                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProduct.getId(),
+                                        mProduct.getName(), mProduct.getCategory(), mProduct.getPrice(),
+                                        num, mProduct.getImgUrl(), mProduct.getStock());
                                 cartDao.update(nShopCartProduct);
 
                                 Message message = Message.obtain();
                                 message.what = 222;
                                 Bundle bundle = new Bundle();
-                                bundle.putLong("id", mProductAdapter.getId());
+                                bundle.putLong("id", mProduct.getId());
                                 bundle.putString("operation", "plus");
                                 message.setData(bundle);
                                 mHandler.sendMessage(message);
@@ -417,27 +417,27 @@ public class ShopCart extends Fragment {
             holder.mMinusBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mProductAdapter.getNumber() <= 1){
+                    if (mProduct.getNumber() <= 1){
                         Toast.makeText(getContext(), "至少也要买一个吧！", Toast.LENGTH_SHORT).show();
                     }
                     new Thread() {
                         @Override
                         public void run() {
-                            int num = mProductAdapter.getNumber();
+                            int num = mProduct.getNumber();
 
                             if (num > 1) {
 
                                 num--;
 
-                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProductAdapter.getId(),
-                                        mProductAdapter.getName(), mProductAdapter.getCategory(), mProductAdapter.getPrice(),
-                                        num, mProductAdapter.getImgUrl(), mProductAdapter.getStock());
+                                ShopCartProduct nShopCartProduct = new ShopCartProduct(mProduct.getId(),
+                                        mProduct.getName(), mProduct.getCategory(), mProduct.getPrice(),
+                                        num, mProduct.getImgUrl(), mProduct.getStock());
                                 cartDao.update(nShopCartProduct);
 
                                 Message message = Message.obtain();
                                 message.what = 222;
                                 Bundle bundle = new Bundle();
-                                bundle.putLong("id", mProductAdapter.getId());
+                                bundle.putLong("id", mProduct.getId());
                                 bundle.putString("operation", "minus");
                                 message.setData(bundle);
                                 mHandler.sendMessage(message);
@@ -456,7 +456,7 @@ public class ShopCart extends Fragment {
             holder.mCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    long itemId = mProductAdapter.getId();
+                    long itemId = mProduct.getId();
 
                     if (isChecked) {
                         if (!checkProduct.contains(itemId)) {
@@ -474,7 +474,7 @@ public class ShopCart extends Fragment {
                 }
             });
 
-            if (checkProduct.contains(mProductAdapter.getId())){
+            if (checkProduct.contains(mProduct.getId())){
                 holder.mCB.setChecked(true);
             } else{
                 holder.mCB.setChecked(false);

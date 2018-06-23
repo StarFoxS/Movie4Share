@@ -195,10 +195,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private void insertOrder(){
         Time time = new Time();
         //long id, long userId, String time, String status, String serialNum, double price, int productNum, String imgUrl
-        //TODO: 这个id应该是autoincrement的，回头研究下
+        //TODO: 这个id应该是autoincrement的，回头研究下,img改一改
         Order nOrder = new Order(0, 1, time.year + "." + time.month+1 + "." + time.monthDay,
                 "未确认", time.year + time.month + time.monthDay + time.second + time.minute + time.yearDay + "",
-                totalPrice, productNum, "");
+                totalPrice, productNum, "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
         orderDao.insert(nOrder);
     }
 
@@ -219,7 +219,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String inputPassword = editText.getText().toString();
                         if (inputPassword.equals("1")) { //default pw = 1; TODO: 应该等于user的密码
-                            Toast.makeText(ConfirmOrderActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ConfirmOrderActivity.this, "验证成功", Toast.LENGTH_SHORT).show();
 
                             //TODO: 验证成功后的支付页面
 
@@ -246,6 +246,24 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(ConfirmOrderActivity.this, "验证失败", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(ConfirmOrderActivity.this);
+                        builder2.setTitle("").setMessage("支付未完成，是否继续付款？");
+                        builder2.setPositiveButton("再次支付", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // 此处为空
+                            }
+                        });
+                        builder2.setNegativeButton("下次再付", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //TODO: 去我的订单
+                            }
+                        });
+                        builder2.setCancelable(false);
+                        AlertDialog dialog2 = builder2.create();
+                        dialog2.setCanceledOnTouchOutside(true);
+                        dialog2.show();
                     }
                 });
                 builder.setCancelable(true);
@@ -283,14 +301,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                             @Override
                             public void run(){
                                 super.run();
-
-                                if (ShopCart.shopCart.getActivity() != null){
-                                    ShopCart.shopCart.getActivity().finish();
-                                }
-                                if (ProductDetailActivity.mProductDetailActivity != null){
-                                    ProductDetailActivity.mProductDetailActivity.finish();
-                                }
-
                                 //TODO: 去我的订单页
                             }
                         }.start();
