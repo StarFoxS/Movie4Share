@@ -10,4 +10,5 @@
     <color name="darkgray">#333130</color>
     <color name="lightGray">#eeefef</color>
     <color name="edittextGray">#595757</color>
+    <color name="midGray">#6f6f6f</color>
 </resources>

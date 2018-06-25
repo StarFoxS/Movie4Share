@@ -7,7 +7,6 @@
     <EditText
         android:id="@+id/movie_search"
         android:layout_gravity="center_vertical"
-        android:drawableLeft="@drawable/main_bottom_tab_search_normal"
         android:drawableStart="@drawable/main_bottom_tab_search_normal"
         android:drawablePadding="10dp"
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="13dp"
         android:text="@string/movie_search"/>
 
     <ScrollView
@@ -39,19 +38,21 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/fragment_find_new_action_relative"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp">
 
                 <TextView
+                    android:id="@+id/fragment_find_new_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/movie_type_action"
                     android:textSize="18dp"
-                    android:textColor="#3e3a39"
+                    android:textColor="@color/darkgray"
                     android:layout_marginStart="10dp"
                     android:layout_alignParentStart="true"/>
 
@@ -63,18 +64,18 @@
                     android:textSize="13dp"
                     android:textColor="#888889"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_alignBottom="@+id/fragment_find_new_action"
                     android:layout_alignParentEnd="true"
                     />
 
             </RelativeLayout>
 
             <HorizontalScrollView
-                android:layout_width="fill_parent"
-                android:layout_height="176dp"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
                 android:scrollbars="none">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <GridView android:id="@+id/grid1"
@@ -88,21 +89,20 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp">
 
                 <TextView
+                    android:id="@+id/fragment_find_new_love"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/movie_type_love"
                     android:textSize="18dp"
-                    android:textColor="#3e3a39"
-                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/darkgray"
                     android:layout_marginStart="10dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"/>
 
                 <TextView
@@ -112,11 +112,9 @@
                     android:text="@string/more"
                     android:textSize="13dp"
                     android:textColor="#888889"
-                    android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/fragment_find_new_love"
                     />
 
             </RelativeLayout>
@@ -124,7 +122,7 @@
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="176dp"
+                android:layout_height="170dp"
                 android:scrollbars="none">
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -140,21 +138,20 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp">
 
                 <TextView
+                    android:id="@+id/fragment_find_new_fun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/movie_type_fun"
                     android:textSize="18dp"
-                    android:textColor="#3e3a39"
-                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/darkgray"
                     android:layout_marginStart="10dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"/>
 
                 <TextView
@@ -164,10 +161,8 @@
                     android:text="@string/more"
                     android:textSize="13dp"
                     android:textColor="#888889"
-                    android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@+id/fragment_find_new_fun"
                     android:layout_alignParentEnd="true"
                     />
 
@@ -175,7 +170,7 @@
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
+                android:layout_height="170dp"
                 android:scrollbars="none">
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -191,7 +186,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="50dp"/>
         </LinearLayout>
 
     </ScrollView>

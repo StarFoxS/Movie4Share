@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/admin_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/lightGray">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/admin_item_imgview"
+            android:layout_marginStart="20dp"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp">
+
+            <RelativeLayout
+                android:id="@+id/admin_item_user_pw_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/admin_item_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="用户名："
+                    android:textColor="@color/darkgray"/>
+
+                <TextView
+                    android:id="@+id/admin_item_user_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/admin_item_user"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkgray"/>
+
+                <TextView
+                    android:id="@+id/admin_item_pw"
+                    android:layout_toEndOf="@+id/admin_item_user_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginStart="10dp"
+                    android:text="密码："
+                    android:textColor="@color/Naranja"/>
+
+                <TextView
+                    android:id="@+id/admin_item_pw_textview"
+                    android:layout_toEndOf="@+id/admin_item_pw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="end"
+                    android:textColor="@color/Naranja"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/admin_item_email_relative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/admin_item_user_pw_layout"
+                >
+
+                <TextView
+                    android:id="@+id/admin_item_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邮箱: "
+                    android:textSize="12sp"
+                    android:textColor="@color/midGray"/>
+
+                <TextView
+                    android:layout_toEndOf="@id/admin_item_email"
+                    android:id="@+id/admin_item_email_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/midGray"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/admin_item_name_relative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/admin_item_email_relative">
+
+                <TextView
+                    android:id="@+id/admin_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="真实姓名: "
+                    android:textSize="12sp"
+                    android:textColor="@color/midGray"/>
+
+                <TextView
+                    android:id="@+id/admin_item_name_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_toEndOf="@id/admin_item_name"
+                    android:textColor="@color/midGray"
+                    android:typeface="serif"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/admin_item_phone_relative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/admin_item_name_relative">
+
+                <TextView
+                    android:id="@+id/admin_item_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系电话: "
+                    android:textSize="12sp"
+                    android:textColor="@color/midGray"/>
+
+                <TextView
+                    android:id="@+id/admin_item_phone_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_toEndOf="@id/admin_item_phone"
+                    android:textColor="@color/midGray"
+                    android:typeface="serif"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

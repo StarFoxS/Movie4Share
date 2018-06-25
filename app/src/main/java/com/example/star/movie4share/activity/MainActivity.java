@@ -1,5 +1,6 @@
 package com.example.star.movie4share.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,26 +45,32 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_btn);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO:显示drawer
+                if (drawer.isDrawerOpen(navigationView)){
+                    drawer.closeDrawer(navigationView);
+                } else {
+                    drawer.openDrawer(navigationView);
+                }
+            }
+        });
+
+
 
         init();
     }
@@ -108,23 +115,36 @@ public class MainActivity extends AppCompatActivity
         String getStringExtra = "";
         try {
             getStringExtra = getIntent().getStringExtra("casefragment");
-            if (getStringExtra.equals("shopcart")) {
-                transaction = fragmentManager.beginTransaction()
-                        .hide(mFragments[0])
-                        .hide(mFragments[1])
-                        .hide(mFragments[2])
-                        .hide(mFragments[3])
-                        .hide(mFragments[4]);
-                transaction.show(mFragments[3]).commit();
-            } else if (getStringExtra.equals("refreshshopcart")){
-                transaction = fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_shopcart, mFragments[3])
-                        .hide(mFragments[0])
-                        .hide(mFragments[1])
-                        .hide(mFragments[2])
-                        .hide(mFragments[4]).show(mFragments[3]);
-                transaction.commit();
+            switch (getStringExtra){
+                case "shopcart":
+                    transaction = fragmentManager.beginTransaction()
+                            .hide(mFragments[0])
+                            .hide(mFragments[1])
+                            .hide(mFragments[2])
+                            .hide(mFragments[3])
+                            .hide(mFragments[4]);
+                    transaction.show(mFragments[3]).commit();
+                    break;
+                case "refreshshopcart":
+                    transaction = fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_shopcart, mFragments[3])
+                            .hide(mFragments[0])
+                            .hide(mFragments[1])
+                            .hide(mFragments[2])
+                            .hide(mFragments[4]).show(mFragments[3]);
+                    transaction.commit();
+                    break;
+                case "orderlist":
+                    transaction = fragmentManager.beginTransaction()
+                            .hide(mFragments[0])
+                            .hide(mFragments[1])
+                            .hide(mFragments[2])
+                            .hide(mFragments[3])
+                            .hide(mFragments[4]);
+                    transaction.show(mFragments[2]).commit();
+                    break;
             }
+
         } catch (Exception e) {
 
         }
@@ -220,14 +240,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_bought_list) {
-            // TODO: step into fragment[2] classify (= order)
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_order_list) {
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            intent.putExtra("casefragment","orderlist");
+            startActivity(intent);
+        } else if (id == R.id.nav_coupon) {
+            //TODO: step into coupon
         } else if (id == R.id.nav_profile) {
             //TODO: step into fragment[4] profile
         } else if (id == R.id.nav_logoff) {

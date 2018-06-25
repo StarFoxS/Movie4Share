@@ -25,11 +25,13 @@ public class UserDao extends AbstractDao<User, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, long.class, "id", true, "_id");
-        public final static Property CustomId = new Property(1, int.class, "customId", false, "CUSTOM_ID");
+        public final static Property CustomId = new Property(1, String.class, "customId", false, "CUSTOM_ID");
         public final static Property Password = new Property(2, String.class, "password", false, "PASSWORD");
-        public final static Property Email = new Property(3, String.class, "email", false, "EMAIL");
-        public final static Property Name = new Property(4, String.class, "name", false, "NAME");
-        public final static Property PhoneNum = new Property(5, String.class, "phoneNum", false, "PHONE_NUM");
+        public final static Property Showpw = new Property(3, int.class, "showpw", false, "SHOWPW");
+        public final static Property Email = new Property(4, String.class, "email", false, "EMAIL");
+        public final static Property Name = new Property(5, String.class, "name", false, "NAME");
+        public final static Property PhoneNum = new Property(6, String.class, "phoneNum", false, "PHONE_NUM");
+        public final static Property ImgUrl = new Property(7, String.class, "imgUrl", false, "IMG_URL");
     }
 
 
@@ -46,11 +48,13 @@ public class UserDao extends AbstractDao<User, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
-                "\"CUSTOM_ID\" INTEGER NOT NULL ," + // 1: customId
+                "\"CUSTOM_ID\" TEXT UNIQUE ," + // 1: customId
                 "\"PASSWORD\" TEXT," + // 2: password
-                "\"EMAIL\" TEXT," + // 3: email
-                "\"NAME\" TEXT," + // 4: name
-                "\"PHONE_NUM\" TEXT);"); // 5: phoneNum
+                "\"SHOWPW\" INTEGER NOT NULL ," + // 3: showpw
+                "\"EMAIL\" TEXT," + // 4: email
+                "\"NAME\" TEXT," + // 5: name
+                "\"PHONE_NUM\" TEXT," + // 6: phoneNum
+                "\"IMG_URL\" TEXT);"); // 7: imgUrl
     }
 
     /** Drops the underlying database table. */
@@ -63,26 +67,36 @@ public class UserDao extends AbstractDao<User, Long> {
     protected final void bindValues(DatabaseStatement stmt, User entity) {
         stmt.clearBindings();
         stmt.bindLong(1, entity.getId());
-        stmt.bindLong(2, entity.getCustomId());
+ 
+        String customId = entity.getCustomId();
+        if (customId != null) {
+            stmt.bindString(2, customId);
+        }
  
         String password = entity.getPassword();
         if (password != null) {
             stmt.bindString(3, password);
         }
+        stmt.bindLong(4, entity.getShowpw());
  
         String email = entity.getEmail();
         if (email != null) {
-            stmt.bindString(4, email);
+            stmt.bindString(5, email);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(5, name);
+            stmt.bindString(6, name);
         }
  
         String phoneNum = entity.getPhoneNum();
         if (phoneNum != null) {
-            stmt.bindString(6, phoneNum);
+            stmt.bindString(7, phoneNum);
+        }
+ 
+        String imgUrl = entity.getImgUrl();
+        if (imgUrl != null) {
+            stmt.bindString(8, imgUrl);
         }
     }
 
@@ -90,26 +104,36 @@ public class UserDao extends AbstractDao<User, Long> {
     protected final void bindValues(SQLiteStatement stmt, User entity) {
         stmt.clearBindings();
         stmt.bindLong(1, entity.getId());
-        stmt.bindLong(2, entity.getCustomId());
+ 
+        String customId = entity.getCustomId();
+        if (customId != null) {
+            stmt.bindString(2, customId);
+        }
  
         String password = entity.getPassword();
         if (password != null) {
             stmt.bindString(3, password);
         }
+        stmt.bindLong(4, entity.getShowpw());
  
         String email = entity.getEmail();
         if (email != null) {
-            stmt.bindString(4, email);
+            stmt.bindString(5, email);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(5, name);
+            stmt.bindString(6, name);
         }
  
         String phoneNum = entity.getPhoneNum();
         if (phoneNum != null) {
-            stmt.bindString(6, phoneNum);
+            stmt.bindString(7, phoneNum);
+        }
+ 
+        String imgUrl = entity.getImgUrl();
+        if (imgUrl != null) {
+            stmt.bindString(8, imgUrl);
         }
     }
 
@@ -122,11 +146,13 @@ public class UserDao extends AbstractDao<User, Long> {
     public User readEntity(Cursor cursor, int offset) {
         User entity = new User( //
             cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // customId
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // customId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // password
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // email
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // phoneNum
+            cursor.getInt(offset + 3), // showpw
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // email
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // name
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // phoneNum
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // imgUrl
         );
         return entity;
     }
@@ -134,11 +160,13 @@ public class UserDao extends AbstractDao<User, Long> {
     @Override
     public void readEntity(Cursor cursor, User entity, int offset) {
         entity.setId(cursor.getLong(offset + 0));
-        entity.setCustomId(cursor.getInt(offset + 1));
+        entity.setCustomId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPassword(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setEmail(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setPhoneNum(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setShowpw(cursor.getInt(offset + 3));
+        entity.setEmail(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setPhoneNum(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setImgUrl(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }
     
     @Override

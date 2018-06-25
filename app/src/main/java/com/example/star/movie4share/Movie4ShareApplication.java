@@ -8,6 +8,7 @@ import com.example.star.movie4share.dao.DaoSession;
 import com.example.star.movie4share.entity.Order;
 import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
+import com.example.star.movie4share.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,15 @@ public class Movie4ShareApplication extends Application {
         Order nOrder1 = new Order(51, 1, "2018.06.12", "已签收", "20180612020206", 99999, 35,
                 "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
         getDaoSession().insert(nOrder1);
+
+        User nUser0 = new User(0, "starfei@cmbchina.com", "1", 0, "starfei@cmbchina.com", "star", "",
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        getDaoSession().insert(nUser0);
+
+        User nUser1 = new User(1, "test@test.com", "2", 0, "test@test.com", "test", "",
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        getDaoSession().insert(nUser1);
+
     }
 
     public void deleteDb(){

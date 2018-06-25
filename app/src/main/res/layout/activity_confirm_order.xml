@@ -256,7 +256,7 @@
         android:layout_above="@id/activity_confirm_line2"
         android:dividerHeight="0dp"
         android:divider="#00000000">
-
     </ListView>
+
 
 </RelativeLayout>

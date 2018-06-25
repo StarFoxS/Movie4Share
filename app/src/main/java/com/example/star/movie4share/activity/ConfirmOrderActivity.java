@@ -195,7 +195,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private void insertOrder(){
         Time time = new Time();
         //long id, long userId, String time, String status, String serialNum, double price, int productNum, String imgUrl
-        //TODO: 这个id应该是autoincrement的，回头研究下,img改一改
+        //TODO: 这个id应该是autoincrement的，回头研究下,img改一改，serialNum好像有问题
         Order nOrder = new Order(0, 1, time.year + "." + time.month+1 + "." + time.monthDay,
                 "未确认", time.year + time.month + time.monthDay + time.second + time.minute + time.yearDay + "",
                 totalPrice, productNum, "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");

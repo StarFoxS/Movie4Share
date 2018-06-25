@@ -485,6 +485,7 @@ public class ProductDetailActivity extends Activity {
             mPopupWindow.dismiss();
             isPopOpened = false;
         } else {
+
             super.onBackPressed();
         }
     }

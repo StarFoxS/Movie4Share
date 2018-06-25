@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_bought_list"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_order_list"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/nav_bought_list_str" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_coupon"
+            android:icon="@drawable/coupon"
+            android:title="我的卡券" />
     </group>
 
     <item android:title="Settings">
         <menu>
             <item
                 android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_manage"
                 android:title="@string/nav_profile_str" />
             <item
                 android:id="@+id/nav_logoff"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/logoff"
                 android:title="@string/nav_logoff_str" />
         </menu>
     </item>

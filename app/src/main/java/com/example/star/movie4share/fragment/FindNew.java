@@ -149,11 +149,11 @@ public class FindNew extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Product product = typeLove.get(i);
-//                            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("productId", product.getId());
-//                            intent.putExtras(bundle);
-//                            getActivity().startActivity(intent);
+                            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("productId", product.getId());
+                            intent.putExtras(bundle);
+                            getActivity().startActivity(intent);
                         }
                     });
                     GridView gridView3 = (GridView) getActivity().findViewById(R.id.grid3);
@@ -162,11 +162,11 @@ public class FindNew extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Product product = typeFun.get(i);
-//                            Intent intent = new Intent(getActivity(), VolunteerApply.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("volActivityId", product);
-//                            intent.putExtras(bundle);
-//                            getActivity().startActivity(intent);
+                            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("volActivityId", product);
+                            intent.putExtras(bundle);
+                            getActivity().startActivity(intent);
                         }
                     });
             }
