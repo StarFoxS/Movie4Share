@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerString">
+        <item>动作片</item>
+        <item>爱情片</item>
+        <item>喜剧片</item>
+    </string-array>
+</resources>

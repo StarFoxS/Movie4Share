@@ -14,19 +14,17 @@
         android:gravity="center"
         android:textSize="20sp"
         android:text="购物车"
-        android:textColor="#3e3a39"
-        android:background="#eeefef"/>
+        android:textColor="@color/darkgray"
+        android:background="@color/lightGray"/>
 
     <View
         android:id="@+id/fragment_shopcart_line"
-        android:layout_below="@+id/fragment_shopcart_title"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/darkgray"/>
 
     <View
         android:id="@+id/fragment_shopcart_line2"
-        android:layout_below="@+id/fragment_shopcart_line"
         android:layout_width="match_parent"
         android:layout_marginTop="1dp"
         android:layout_height="1dp"

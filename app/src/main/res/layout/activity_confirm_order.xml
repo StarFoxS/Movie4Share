@@ -132,7 +132,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/edittext_bg"
             android:hint="请输入联系电话"
-            android:inputType="phone"
+            android:inputType="numberDecimal"
             android:text=""
             android:textSize="14sp"
             android:textColor="#595757"

@@ -48,8 +48,13 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    // 管理员的默认id与密码，不能更改
     final static String ADMIN_ID = "admin";
     final static String ADMIN_PW = "admin";
+
+    // （唯一）卖家的默认id与密码，不能更改
+    final static String SELLER_ID = "seller";
+    final static String SELLER_PW = "seller";
 
     public static int login_status = 0;
 
@@ -346,6 +351,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            Movie4ShareApplication movie4ShareApplication = new Movie4ShareApplication();
             // TODO: attempt authentication against a network service.
             switch (mIdentity) {
                 case "user":
@@ -358,9 +364,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                         break;
                     }
+                    movie4ShareApplication.setLoginStatus("user");
                     break;
 
                 case "seller":
+                    if (mEmail.equals(SELLER_ID) && mPassword.equals(SELLER_PW)){
+                        Intent intent = new Intent(LoginActivity.this, SellerActivity.class);
+                        startActivity(intent);
+                    }
+                    movie4ShareApplication.setLoginStatus("seller");
                     break;
 
                 case "admin":
@@ -368,6 +380,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                         startActivity(intent);
                     }
+                    movie4ShareApplication.setLoginStatus("admin");
                     break;
             }
 

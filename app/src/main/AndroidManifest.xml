@@ -37,12 +37,13 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.MovieTypeAction"></activity>
-        <activity android:name=".activity.ProductDetailActivity"></activity>
+        <activity android:name=".activity.MovieTypeAction" />
+        <activity android:name=".activity.ProductDetailActivity" />
         <activity
             android:name=".activity.ConfirmOrderActivity"
-            android:theme="@style/AppTheme.NoTitleBar"></activity>
-        <activity android:name=".activity.AdminActivity"></activity>
+            android:theme="@style/AppTheme.NoTitleBar" />
+        <activity android:name=".activity.AdminActivity" />
+        <activity android:name=".activity.SellerActivity" />
     </application>
 
 </manifest>

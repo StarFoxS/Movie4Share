@@ -25,7 +25,7 @@ public class Movie4ShareApplication extends Application {
     private DaoSession mDaoSession;
 
     // 记录用户状态与信息，默认为空，可选user/seller/admin
-    public static String loginStatus = "user";
+    public static String loginStatus = "";
 
     public String getLoginStatus() {
         return loginStatus;
