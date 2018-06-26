@@ -114,6 +114,10 @@ public class Movie4ShareApplication extends Application {
                 "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
         getDaoSession().insert(nUser1);
 
+        User nUser2 = new User(2, "3@3", "3", 0, "test@test.com", "test", "38834600*58634",
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        getDaoSession().insert(nUser2);
+
     }
 
     public void deleteDb(){

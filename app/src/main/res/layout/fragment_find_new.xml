@@ -82,7 +82,7 @@
                         android:layout_width="1500dp"
                         android:layout_height="fill_parent"
                         android:gravity="center"
-                        android:numColumns="8"
+                        android:numColumns="12"
                         />
                 </LinearLayout>
             </HorizontalScrollView>
@@ -132,7 +132,7 @@
                         android:layout_width="1500dp"
                         android:layout_height="fill_parent"
                         android:gravity="center"
-                        android:numColumns="8"/>
+                        android:numColumns="12"/>
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -180,7 +180,7 @@
                         android:layout_width="1500dp"
                         android:layout_height="fill_parent"
                         android:gravity="center"
-                        android:numColumns="8"/>
+                        android:numColumns="12"/>
                 </LinearLayout>
             </HorizontalScrollView>
 

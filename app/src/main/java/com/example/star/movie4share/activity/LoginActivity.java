@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mUserSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Movie4ShareApplication.loginStatus = "user";
                 attemptLogin("user");
             }
         });
@@ -119,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mSellerSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Movie4ShareApplication.loginStatus = "seller";
                 attemptLogin("seller");
             }
         });
@@ -127,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mAdminSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Movie4ShareApplication.loginStatus = "admin";
                 attemptLogin("admin");
             }
         });
@@ -356,18 +359,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             switch (mIdentity) {
                 case "user":
                     List<User> userList = userDao.loadAll();
+                    Log.i("cc", "user login ing");
+                    Log.i("cc", "user number:" + userList.size());
                     for (int i = 0; i < userList.size(); i++){
                         if (userList.get(i).getCustomId().equals(mEmail) &&
                                 userList.get(i).getPassword().equals(mPassword)){
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            break;
                         }
-                        break;
                     }
                     movie4ShareApplication.setLoginStatus("user");
                     break;
 
                 case "seller":
+                    Log.i("cc", "seller login ing");
                     if (mEmail.equals(SELLER_ID) && mPassword.equals(SELLER_PW)){
                         Intent intent = new Intent(LoginActivity.this, SellerActivity.class);
                         startActivity(intent);
@@ -376,6 +382,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     break;
 
                 case "admin":
+                    Log.i("cc", "admin login ing");
                     if (mEmail.equals(ADMIN_ID) && mPassword.equals(ADMIN_PW)){
                         Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                         startActivity(intent);
