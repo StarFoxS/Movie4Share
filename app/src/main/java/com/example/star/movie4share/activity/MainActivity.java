@@ -24,6 +24,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.fragment.FindNew;
 import com.example.star.movie4share.fragment.HomePage;
@@ -249,7 +250,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             //TODO: step into fragment[4] profile
         } else if (id == R.id.nav_logoff) {
-
+            Movie4ShareApplication.loginStatus = "";
+            Movie4ShareApplication.password = "";
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

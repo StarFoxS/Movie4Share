@@ -3,6 +3,7 @@ package com.example.star.movie4share.activity;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -88,6 +89,11 @@ public class ProductDetailActivity extends Activity {
     private boolean isPopOpened;
 
     private int number = 1;
+
+    private static final int LOADING = 1;
+    private static final int LOADED = 2;
+    private int curLoadingState = LOADING;
+    private ImageView loadingImgView;
 
     ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
 
@@ -191,11 +197,28 @@ public class ProductDetailActivity extends Activity {
         }
 
         mProductCaption.setText(mProduct.getProductName());
+
+        loadingImgView.setVisibility(View.VISIBLE);
+        mMoreDetails.setVisibility(View.GONE);
         mMoreDetails.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading (WebView view, String url){
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url){
+                super.onPageFinished(view,url);
+                loadingImgView.setVisibility(View.GONE);
+                mMoreDetails.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon){
+                super.onPageStarted(view,url,favicon);
+                mMoreDetails.setVisibility(View.GONE);
+                loadingImgView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -203,6 +226,7 @@ public class ProductDetailActivity extends Activity {
         mWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setBuiltInZoomControls(false);
+
         mMoreDetails.loadUrl(mProduct.getUrlDescription());
 
         mTopPrice.setText("价格: " + mProduct.getPrice());
@@ -214,6 +238,7 @@ public class ProductDetailActivity extends Activity {
 
     private void initViews() {
         mMoreDetails = (WebView) findViewById(R.id.activity_product_details_more_details);
+        loadingImgView = (ImageView) findViewById(R.id.activity_product_details_loading);
 
         mBtnAddToCart = (Button) findViewById(R.id.btn_activity_product_details_add_to_cart);
         peekCartBtn = (Button) findViewById(R.id.btn_activity_product_details_peek_cart);

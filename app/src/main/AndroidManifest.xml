@@ -49,8 +49,14 @@
         <activity
             android:name=".activity.ConfirmOrderActivity"
             android:theme="@style/AppTheme.NoTitleBar" />
-        <activity android:name=".activity.AdminActivity" />
-        <activity android:name=".activity.SellerActivity" />
+        <activity
+            android:name=".activity.AdminActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.SellerActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

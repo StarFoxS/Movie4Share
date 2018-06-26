@@ -34,6 +34,7 @@ public class FindNew extends Fragment {
     private List<Product> typeAction = new ArrayList<>();
     private List<Product> typeLove = new ArrayList<>();
     private List<Product> typeFun = new ArrayList<>();
+    private List<Product> typeALL = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,6 +60,7 @@ public class FindNew extends Fragment {
     @Override
     public void onStart(){
         Log.d("cc", "FindNewFragmentStart *star");
+
         TextView actionList = (TextView) getActivity().findViewById(R.id.movie_type_action_more);
         actionList.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -92,19 +94,48 @@ public class FindNew extends Fragment {
         super.onStart();
     }
 
+    @Override
+    public void onResume() {
+
+        mThread.start();
+        super.onResume();
+    }
+
+
     public Thread mThread = new Thread(){
         @Override
         public void run(){
-            super.run();
 
             ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-            typeAction = dao.loadAll();
-            typeLove = dao.loadAll();   //TODO: change the classify s
-            typeFun =  dao.loadAll();
+            typeALL = dao.loadAll();
+            for (int i = 0; i < typeALL.size(); i++){
+                switch (typeALL.get(i).getCategory()){
+                    case "action":
+                        if (!typeAction.contains(typeALL.get(i))) {
+                            typeAction.add(typeALL.get(i));
+                            Log.d("cc", "add product:" + typeALL.get(i));
+                        }
+                        break;
+                    case "love":
+                        if (!typeLove.contains(typeALL.get(i))) {
+                            typeLove.add(typeALL.get(i));
+                        }
+                        break;
+                    case "fun":
+                        if (!typeFun.contains(typeALL.get(i))) {
+                            typeFun.add(typeALL.get(i));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             Message msg = new Message();
             msg.what=1321;
             nHandler.sendMessage(msg);
+
+            super.run();
         }
     };
 
@@ -164,7 +195,7 @@ public class FindNew extends Fragment {
                             Product product = typeFun.get(i);
                             Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("volActivityId", product);
+                            bundle.putSerializable("productId", product.getId());
                             intent.putExtras(bundle);
                             getActivity().startActivity(intent);
                         }

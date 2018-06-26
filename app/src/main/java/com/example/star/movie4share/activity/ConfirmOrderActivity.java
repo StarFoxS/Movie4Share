@@ -194,11 +194,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     private void insertOrder(){
         Time time = new Time();
+        time.setToNow();
         //long id, long userId, String time, String status, String serialNum, double price, int productNum, String imgUrl
-        //TODO: 这个id应该是autoincrement的，回头研究下,img改一改，serialNum好像有问题
-        Order nOrder = new Order(0, 1, time.year + "." + time.month+1 + "." + time.monthDay,
-                "未确认", time.year + time.month + time.monthDay + time.second + time.minute + time.yearDay + "",
-                totalPrice, productNum, "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+        Order nOrder = new Order(0, 1,
+                String.valueOf(time.year) + "." + String.valueOf(time.month+1) + "." + String.valueOf(time.monthDay),
+                "未确认", "" + String.valueOf(time.year) + "0" + String.valueOf(time.month+1)
+                + String.valueOf(time.monthDay) + String.valueOf(time.second) + String.valueOf(time.minute) + String.valueOf(time.yearDay),
+                totalPrice, productSize, "");
         orderDao.insert(nOrder);
     }
 
@@ -209,7 +211,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
                 //TODO: 从数据库中删除
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmOrderActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmOrderActivity.this);
                 builder.setTitle("密码验证");
                 builder.setIcon(R.drawable.star);
                 final EditText editText = new EditText(ConfirmOrderActivity.this);
@@ -218,10 +220,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String inputPassword = editText.getText().toString();
-                        if (inputPassword.equals("1")) { //default pw = 1; TODO: 应该等于user的密码
+                        if (inputPassword.equals(Movie4ShareApplication.password)) {
                             Toast.makeText(ConfirmOrderActivity.this, "验证成功", Toast.LENGTH_SHORT).show();
-
-                            //TODO: 验证成功后的支付页面
 
                             final ProgressDialog progressDialog = new ProgressDialog(ConfirmOrderActivity.this,
                                     R.style.AppTheme_Dark_Dialog);
@@ -301,7 +301,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                             @Override
                             public void run(){
                                 super.run();
-                                //TODO: 去我的订单页
+
+                                Intent intent = new Intent(ConfirmOrderActivity.this, MainActivity.class);
+                                intent.putExtra("casefragment","orderlist");
+                                startActivity(intent);
+
                             }
                         }.start();
                     }

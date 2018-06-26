@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.entity.User;
 import com.example.star.movie4share.fragment.FindNew;
@@ -76,6 +77,29 @@ public class SellerActivity extends AppCompatActivity
         });
 
         init();
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        String getStringExtra = "";
+        try {
+            getStringExtra = getIntent().getStringExtra("casefragment");
+            switch (getStringExtra){
+                case "refreshshopcart":
+                    transaction = fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_findnew, mFragments[0])
+                            .hide(mFragments[1])
+                            .hide(mFragments[2]).show(mFragments[0]);
+                    transaction.commit();
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+
+        }
     }
 
 
@@ -191,7 +215,9 @@ public class SellerActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             //TODO: step into fragment[4] profile
         } else if (id == R.id.nav_logoff) {
-
+            Movie4ShareApplication.loginStatus = "";
+            Intent intent = new Intent(SellerActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

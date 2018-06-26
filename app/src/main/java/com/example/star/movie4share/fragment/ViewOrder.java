@@ -60,6 +60,7 @@ public class ViewOrder extends Fragment {
     @Override
     public void onStart() {
         orderList = (ListView) getActivity().findViewById(R.id.fragment_view_order_list);
+        mOrderItem = (ArrayList<Order>) orderDao.loadAll();    //TODO: 写进thread
 
         initOrder();
 
@@ -187,7 +188,11 @@ public class ViewOrder extends Fragment {
             holder.mNum.setText(mOrder.getProductNum() + "");
             holder.mStatus.setText(mOrder.getStatus() + "");
             holder.mSerial.setText(mOrder.getSerialNum() + "");
-            Picasso.get().load(mOrder.getImgUrl()).into(holder.mImg);
+            if (mOrder.getImgUrl().equals("")){
+                Picasso.get().load(R.drawable.default_cargo).into(holder.mImg);
+            } else {
+                Picasso.get().load(mOrder.getImgUrl()).into(holder.mImg);
+            }
 
             holder.mBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

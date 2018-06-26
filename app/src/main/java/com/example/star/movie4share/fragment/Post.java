@@ -177,7 +177,18 @@ public class Post extends Fragment {
             public void onClick(View view) {
                 strName = etName.getText().toString();
                 strShortDescription = etShortDescription.getText().toString();
-                strType = spinnerResult;
+                switch (spinnerResult){
+                    case "动作片":
+                        strType = "action";
+                        break;
+                    case "爱情片":
+                        strType = "love";
+                        break;
+                    case "喜剧片":
+                        strType = "fun";
+                        break;
+                }
+//                strType = spinnerResult;
                 strPrice = etPrice.getText().toString();
                 strUrl = etUrl.getText().toString();
                 if (!strPrice.isEmpty()){
@@ -186,10 +197,10 @@ public class Post extends Fragment {
                     Toast.makeText(getActivity(), "必须添加价格", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (imageItem.size() == 1){
-                    Toast.makeText(getActivity(), "必须添加图片！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (imageItem.size() == 1){
+//                    Toast.makeText(getActivity(), "必须添加图片！", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (strShortDescription.isEmpty()){
                     Toast.makeText(getActivity(), "必须添加描述！", Toast.LENGTH_SHORT).show();
                     return;
@@ -226,6 +237,7 @@ public class Post extends Fragment {
             Product nProduct = new Product(50, strName, strType, doublePrice, strShortDescription,
                     strShortDescription, strImg, strUrl, 1000, 1000, 0);
             ProductDao productDao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+            Log.d("cc", "insert into product:" + strName + " " + strType);
             productDao.insert(nProduct);
 
             Message msg = new Message();
@@ -247,11 +259,12 @@ public class Post extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int ii) {
                                     Intent intent = new Intent(getActivity(), SellerActivity.class);
+                                    intent.putExtra("casefragment","refreshproduct");
                                     startActivity(intent);
                                 }
                             }).setCancelable(false).show();
                     break;
-                case 134:
+                default:
                     break;
             }
         }
