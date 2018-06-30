@@ -97,7 +97,6 @@ public class FindNew extends Fragment {
     @Override
     public void onResume() {
 
-        mThread.start();
         super.onResume();
     }
 

@@ -34,4 +34,6 @@
     <string name="more">更多 ＞</string>
     <string name="movie_type_love">爱情片</string>
     <string name="movie_type_fun">喜剧片</string>
+    <string name="scan_qr">扫一扫</string>
+    <string name="search_hint">搜索电影名称</string>
 </resources>

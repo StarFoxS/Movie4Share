@@ -58,18 +58,18 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_btn);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO:显示drawer
-                if (drawer.isDrawerOpen(navigationView)){
-                    drawer.closeDrawer(navigationView);
-                } else {
-                    drawer.openDrawer(navigationView);
-                }
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_btn);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO:显示drawer
+//                if (drawer.isDrawerOpen(navigationView)){
+//                    drawer.closeDrawer(navigationView);
+//                } else {
+//                    drawer.openDrawer(navigationView);
+//                }
+//            }
+//        });
 
 
 
