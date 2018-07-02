@@ -4,27 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/movie_search"
-        android:layout_gravity="center_vertical"
-        android:drawableStart="@drawable/main_bottom_tab_search_normal"
-        android:drawablePadding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/search_edittext"
-        android:textSize="14sp"
-        android:textColor="#b4b5b5"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:focusable="false"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="13dp"
-        android:text="@string/movie_search"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

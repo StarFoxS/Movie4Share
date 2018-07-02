@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -309,7 +310,7 @@ public class ShopCart extends Fragment {
             CheckBox mCB;
             ImageView mImg;
             TextView mName, mCategory, mPrice, mNumber, mStock;
-            Button mAddBtn, mMinusBtn;
+            ImageButton mAddBtn, mMinusBtn;
         }
 
         private LayoutInflater mInflater;
@@ -358,8 +359,8 @@ public class ShopCart extends Fragment {
                 holder.mPrice = (TextView) convertView.findViewById(R.id.shopcart_item_price);
                 holder.mNumber = (TextView) convertView.findViewById(R.id.shopcart_item_number);
                 holder.mImg = (ImageView) convertView.findViewById(R.id.shopcart_item_imageview);
-                holder.mAddBtn = (Button) convertView.findViewById(R.id.shopcart_add);
-                holder.mMinusBtn = (Button) convertView.findViewById(R.id.shopcart_minus);
+                holder.mAddBtn = (ImageButton) convertView.findViewById(R.id.shopcart_add);
+                holder.mMinusBtn = (ImageButton) convertView.findViewById(R.id.shopcart_minus);
                 holder.mStock = (TextView) convertView.findViewById(R.id.shopcart_stock);
 
                 convertView.setTag(holder);
