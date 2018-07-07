@@ -42,7 +42,7 @@ public class ShopCart extends Fragment {
     public ArrayList<Long> checkProduct = new ArrayList<>();
     public ArrayList<ShopCartProduct> orderItem = new ArrayList<>();
 
-    private Button DelCheckedBtn;
+//    private Button DelCheckedBtn;
     private Button DelAllBtn;
     private Button GotoPayBtn;
 
@@ -78,13 +78,13 @@ public class ShopCart extends Fragment {
 
         mListView = (ListView) getActivity().findViewById(R.id.shopcart_listview);
         GotoPayBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_goto_payment);
-        DelCheckedBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_checked_product);
+//        DelCheckedBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_checked_product);
         DelAllBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_all_product);
         mTextView = (TextView) getActivity().findViewById(R.id.fragment_shopcart_total_price);
         mCheckBox = (CheckBox) getActivity().findViewById(R.id.shopcart_item_checkbox_all);
 
         gotoPayListener();
-        deleteCheckedListener();
+//        deleteCheckedListener();
         deleteAllListener();
 
         mShopCartItem = (ArrayList<ShopCartProduct>) cartDao.loadAll();
@@ -173,14 +173,14 @@ public class ShopCart extends Fragment {
     /*
      * 清除已选商品
      */
-    private void deleteCheckedListener(){
-        DelCheckedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: 找到那些被选中的，在dao里删除，然后在界面上把这些删除
-            }
-        });
-    }
+//    private void deleteCheckedListener(){
+//        DelCheckedBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: 找到那些被选中的，在dao里删除，然后在界面上把这些删除
+//            }
+//        });
+//    }
 
     /*
      * 删除所有商品

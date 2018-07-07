@@ -16,11 +16,19 @@
         >
 
 
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:src="@drawable/logo_trans"-->
+            <!--android:layout_gravity="center"-->
+            <!--/>-->
+
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/logo_trans"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/shopcart"
             android:layout_gravity="center"
             />
 
@@ -35,14 +43,17 @@
             android:textColor="#FFFFFF"
             />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="0dp"
-            android:src="@drawable/shopcart"
-            android:layout_gravity="center"
-            />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            android:layout_marginStart="155dp"
+            android:text="清空"
+            android:textSize="14sp"
+            android:background="#00000000"
+            android:textColor="@color/white"
+            android:id="@+id/fragment_shopcart_btn_delete_all_product" />
 
     </LinearLayout>
 
@@ -58,34 +69,34 @@
         android:layout_height="1dp"
         android:background="@color/pink"/>
 
-    <ListView
-        android:id="@+id/shopcart_listview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:cacheColorHint="#00000000"
-        android:descendantFocusability="blocksDescendants"
-        android:divider="@null"
-        android:scrollbars="none"
-        />
+        <ListView
+            android:id="@+id/shopcart_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@null"
+            android:scrollbars="none"
+            />
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="#eeefef"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp">
+        android:background="@color/white"
+        >
+
 
         <CheckBox
             android:id="@+id/shopcart_item_checkbox_all"
-            android:layout_margin="7dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
             android:button="@null"
             android:checked="false"
             android:background="@drawable/check_box_back"
@@ -94,85 +105,36 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
             android:layout_marginStart="7dp"
+            android:layout_gravity="center_vertical"
             android:text="全选"
             android:textColor="@color/darkgray"
             />
 
-
         <TextView
             android:id="@+id/fragment_shopcart_total_price"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="合计:￥0"
-            android:gravity="end|center_vertical"
-            android:padding="7dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="130dp"
             android:textColor="@color/darkgray"/>
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="结算()"
-            android:textColor="@color/Naranja"
-            android:background="@color/lightGray"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结算(0)"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
             android:id="@+id/fragment_shopcart_btn_goto_payment"
+            android:background="@drawable/round_button"
             style="?android:attr/borderlessButtonStyle"
             />
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="删除所选商品"
-            android:textColor="@color/Naranja"
-            android:background="@color/lightGray"
-            android:layout_marginTop="10dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/fragment_shopcart_btn_delete_checked_product"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:text="清空购物车"
-            android:textColor="@color/Naranja"
-            android:background="@color/lightGray"
-            android:id="@+id/fragment_shopcart_btn_delete_all_product"
-            android:layout_gravity="end"
-            android:layout_weight="0.10"/>
-
-   </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
