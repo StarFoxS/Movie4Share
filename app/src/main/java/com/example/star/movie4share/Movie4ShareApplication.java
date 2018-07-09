@@ -27,6 +27,7 @@ public class Movie4ShareApplication extends Application {
     // 记录用户状态与信息，默认为空，可选user/seller/admin
     public static String loginStatus = "";
     public static String password = "";
+    public static long userId = -1;
 
     public String getLoginStatus() {
         return loginStatus;
@@ -34,6 +35,14 @@ public class Movie4ShareApplication extends Application {
 
     public void setLoginStatus(String loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public static Movie4ShareApplication instances;

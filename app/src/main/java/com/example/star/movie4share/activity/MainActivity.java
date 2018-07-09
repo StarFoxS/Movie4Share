@@ -28,13 +28,15 @@ import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.fragment.FindNew;
 import com.example.star.movie4share.fragment.HomePage;
+import com.example.star.movie4share.fragment.Profile;
 import com.example.star.movie4share.fragment.ShopCart;
 import com.example.star.movie4share.fragment.ViewOrder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener,
-        ViewOrder.OnFragmentInteractionListener, ShopCart.OnFragmentInteractionListener{
+        ViewOrder.OnFragmentInteractionListener, ShopCart.OnFragmentInteractionListener,
+        Profile.OnFragmentInteractionListener {
 
     private View tab_home,tab_find_new,tab_view_order,tab_shop_cart,tab_profile;
     private Fragment[] mFragments;
@@ -247,11 +249,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_coupon) {
             //TODO: step into coupon
-        } else if (id == R.id.nav_profile) {
-            //TODO: step into fragment[4] profile
+        } else if (id == R.id.nav_profile) {//TODO: step into fragment[4] profile
+
         } else if (id == R.id.nav_logoff) {
             Movie4ShareApplication.loginStatus = "";
             Movie4ShareApplication.password = "";
+            Movie4ShareApplication.userId = -1;
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }

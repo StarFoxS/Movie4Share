@@ -30,16 +30,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ViewOrder extends Fragment {
+public class HandleOrder extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     static OrderDao orderDao = Movie4ShareApplication.getInstances().getDaoSession().getOrderDao();
 
     private ListView orderList;
-    private ViewOrderAdapter mAdapter;
+    private HandleOrderAdapter mAdapter;
     private ArrayList<Order> mOrderItem = new ArrayList<>();
 
-    public ViewOrder() {
+    public HandleOrder() {
         // Required empty public constructor
     }
 
@@ -53,22 +53,15 @@ public class ViewOrder extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_view_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_handle_order, container, false);
         return view;
     }
 
     @Override
     public void onStart() {
-        orderList = (ListView) getActivity().findViewById(R.id.fragment_view_order_list);
+        orderList = (ListView) getActivity().findViewById(R.id.fragment_handle_order_list);
+        mOrderItem = (ArrayList<Order>) orderDao.loadAll();    //TODO: 写进thread
 
-//        new Thread(){
-//            @Override
-//            public void run(){
-//                mOrderItem = (ArrayList<Order>) orderDao.loadAll();    //TODO: 写进thread
-//            }
-//        }.start();
-
-        mOrderItem.clear();
         initOrder();
 
         super.onStart();
@@ -101,14 +94,13 @@ public class ViewOrder extends Fragment {
                 case 8685:
                     ArrayList<Order> mAllItem;
                     mAllItem = (ArrayList<Order>) orderDao.loadAll();
-                    Log.i("cc", "this userid is:" + Movie4ShareApplication.userId);
                     for (int i = 0; i < mAllItem.size(); i++){
                         if (mAllItem.get(i).getUserId() == Movie4ShareApplication.userId){
                             mOrderItem.add(mAllItem.get(i));
                         }
                     }
                     Log.i("cc", "Size:" + mOrderItem.size());
-                    mAdapter = new ViewOrderAdapter(getContext(), mOrderItem);
+                    mAdapter = new HandleOrderAdapter(getContext(), mOrderItem);
                     orderList.setAdapter(mAdapter);
                     break;
                 default:
@@ -144,7 +136,7 @@ public class ViewOrder extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class ViewOrderAdapter extends BaseAdapter{
+    public class HandleOrderAdapter extends BaseAdapter{
         class Holder {
             ImageView mImg;
             TextView mPrice, mNum, mStatus, mSerial;
@@ -153,11 +145,11 @@ public class ViewOrder extends Fragment {
 
         private LayoutInflater mInflater;
         private ArrayList<Order> mOrderList = new ArrayList<>();
-        private ViewOrder.ViewOrderAdapter.Holder holder;
+        private Holder holder;
         private Context mContext;
         OrderDao orderDao = Movie4ShareApplication.getInstances().getDaoSession().getOrderDao();
 
-        public ViewOrderAdapter(Context context, ArrayList<Order> mOrderList) {
+        public HandleOrderAdapter(Context context, ArrayList<Order> mOrderList) {
             mContext = context;
             mInflater = LayoutInflater.from(context);
             this.mOrderList = mOrderList;

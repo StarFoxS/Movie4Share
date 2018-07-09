@@ -126,7 +126,7 @@
                         android:imeActionId="6"
                         android:imeActionLabel="登陆"
                         android:imeOptions="actionUnspecified"
-                        android:inputType="numberPassword"
+                        android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/white"

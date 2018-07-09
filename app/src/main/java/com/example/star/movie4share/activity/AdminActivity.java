@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +45,7 @@ public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ImageButton addUserBtn;
-    private ImageButton delUserBtn;
+//    private ImageButton delUserBtn;
     private ListView mListView;
 
     private AdminAdapter mAdapter;
@@ -60,10 +61,10 @@ public class AdminActivity extends AppCompatActivity
         setContentView(R.layout.activity_admin);
 
         addUserBtn = (ImageButton) findViewById(R.id.admin_add_user_imageBtn);
-        delUserBtn = (ImageButton) findViewById(R.id.admin_delete_user_imageBtn);
+//        delUserBtn = (ImageButton) findViewById(R.id.admin_delete_user_imageBtn);
         layoutInflater = LayoutInflater.from(this);
         addUserListener();
-        delUserListener();
+//        delUserListener();
 
         mListView = (ListView) findViewById(R.id.admin_listview);
 
@@ -82,18 +83,17 @@ public class AdminActivity extends AppCompatActivity
         final NavigationView navigationView = (NavigationView) findViewById(R.id.admin_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.admin_floating_btn);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO:显示drawer
-                if (drawer.isDrawerOpen(navigationView)){
-                    drawer.closeDrawer(navigationView);
-                } else {
-                    drawer.openDrawer(navigationView);
-                }
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.admin_floating_btn);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (drawer.isDrawerOpen(navigationView)){
+//                    drawer.closeDrawer(navigationView);
+//                } else {
+//                    drawer.openDrawer(navigationView);
+//                }
+//            }
+//        });
     }
 
     private void addUserListener(){
@@ -145,66 +145,66 @@ public class AdminActivity extends AppCompatActivity
         });
     }
 
-    private void delUserListener(){
-        delUserBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//    private void delUserListener(){
+//        delUserBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
 
-                final View dialogView = layoutInflater.inflate(R.layout.admin_dialog_del, null);
-                final EditText editTextUser = (EditText) dialogView.findViewById(R.id.admin_dialog_user_edittext);
-                final EditText editTextAgain = (EditText)dialogView.findViewById(R.id.admin_dialog_again_edittext);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                builder.setTitle("删除用户信息");
-                builder.setIcon(android.R.drawable.ic_dialog_info);
-                builder.setView(dialogView);
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final String inputUserName = editTextUser.getText().toString();
-                        final String inputAgain = editTextAgain.getText().toString();
-                        if (inputUserName.equals(inputAgain)) {
-                            new Thread(){
-                                @Override
-                                public void run(){
-                                    List<User> userTry = userDao.loadAll();
-                                    for (int i = 0; i < userTry.size(); i++){
-                                        if (userTry.get(i).getCustomId().equals(inputUserName)){
-
-                                            Message msg = Message.obtain();
-                                            msg.what = 339;
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("username", inputUserName);
-                                            msg.setData(bundle);
-                                            mHandler.sendMessage(msg);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }.start();
-//                            if (!flag){
-//                                Toast.makeText(AdminActivity.this, "用户查无此人", Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(AdminActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-//                            }
-                        } else {
-                            Toast.makeText(AdminActivity.this, "两次输入的不一致哦！", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(AdminActivity.this, "放弃添加", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setCancelable(true);
-                AlertDialog dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
-            }
-        });
-    }
+//                final View dialogView = layoutInflater.inflate(R.layout.admin_dialog_del, null);
+//                final EditText editTextUser = (EditText) dialogView.findViewById(R.id.admin_dialog_user_edittext);
+//                final EditText editTextAgain = (EditText)dialogView.findViewById(R.id.admin_dialog_again_edittext);
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+//                builder.setTitle("删除用户信息");
+//                builder.setIcon(android.R.drawable.ic_dialog_info);
+//                builder.setView(dialogView);
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        final String inputUserName = editTextUser.getText().toString();
+//                        final String inputAgain = editTextAgain.getText().toString();
+//                        if (inputUserName.equals(inputAgain)) {
+//                            new Thread(){
+//                                @Override
+//                                public void run(){
+//                                    List<User> userTry = userDao.loadAll();
+//                                    for (int i = 0; i < userTry.size(); i++){
+//                                        if (userTry.get(i).getCustomId().equals(inputUserName)){
+//
+//                                            Message msg = Message.obtain();
+//                                            msg.what = 339;
+//                                            Bundle bundle = new Bundle();
+//                                            bundle.putString("username", inputUserName);
+//                                            msg.setData(bundle);
+//                                            mHandler.sendMessage(msg);
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                            }.start();
+////                            if (!flag){
+////                                Toast.makeText(AdminActivity.this, "用户查无此人", Toast.LENGTH_SHORT).show();
+////                            } else {
+////                                Toast.makeText(AdminActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+////                            }
+//                        } else {
+//                            Toast.makeText(AdminActivity.this, "两次输入的不一致哦！", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(AdminActivity.this, "放弃添加", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                builder.setCancelable(true);
+//                AlertDialog dialog = builder.create();
+//                dialog.setCanceledOnTouchOutside(true);
+//                dialog.show();
+//            }
+//        });
+//    }
 
     private Handler mHandler = new Handler(){
         @Override
@@ -232,8 +232,16 @@ public class AdminActivity extends AppCompatActivity
                             break;
                         }
                     }
-                    //TODO: 改数据库
+                    final User cUser = new User(msg.getData().getLong("userid"), msg.getData().getString("username"),
+                            msg.getData().getString("password"), 0, "", "", "", "");
+                    new Thread(){
+                        @Override
+                        public void run(){
+                            userDao.insertOrReplace(cUser);
+                        }
+                    }.start();
                     mAdapter.notifyDataSetChanged();
+                    refresh();
                     break;
                 case 133:
 //                    int defaultID = R.drawable.user_default;
@@ -253,7 +261,13 @@ public class AdminActivity extends AppCompatActivity
                     boolean flag = false;
                     for (int i = 0; i < mUser.size(); i++){
                         if (delUser.equals(mUser.get(i).getCustomId())){
-                            userDao.deleteByKey(mUser.get(i).getId());
+                            final int ii = i;
+                            new Thread(){
+                                @Override
+                                public void run(){
+                                    userDao.deleteByKey(mUser.get(ii).getId());
+                                }
+                            }.start();
                             Toast.makeText(AdminActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                             flag = true;
                             break;
@@ -262,15 +276,9 @@ public class AdminActivity extends AppCompatActivity
                     if (!flag){
                         Toast.makeText(AdminActivity.this, "用户查无此人", Toast.LENGTH_SHORT).show();
                     }
-                    mUser = (ArrayList<User>) userDao.loadAll();
+//                    mUser = (ArrayList<User>) userDao.loadAll();
                     //TODO:删除与user有关的订单信息
                     mAdapter.notifyDataSetChanged();
-//                    new Thread(){
-//                        @Override
-//                        public void run(){
-//                            userDao.delete();
-//                        }
-//                    }.start();
                     refresh();
                     break;
                 default:
@@ -291,6 +299,7 @@ public class AdminActivity extends AppCompatActivity
             ImageView mImg;
             TextView mUser, mPw1, mPw2, mEmail, mName, mPhone;
             LinearLayout mWhole;
+            ImageButton mBtn;
         }
 
         private LayoutInflater layoutInflater;
@@ -335,6 +344,7 @@ public class AdminActivity extends AppCompatActivity
                 holder.mPhone = (TextView) convertView.findViewById(R.id.admin_item_phone_textview);
                 holder.mImg = (ImageView) convertView.findViewById(R.id.admin_item_imgview);
                 holder.mWhole = (LinearLayout) convertView.findViewById(R.id.admin_item);
+                holder.mBtn = (ImageButton) convertView.findViewById(R.id.admin_delete_user_imageBtn);
                 convertView.setTag(holder);
             } else {
                 holder = (Holder) convertView.getTag();
@@ -437,6 +447,65 @@ public class AdminActivity extends AppCompatActivity
                 }
             });
 
+            holder.mBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final View dialogView = layoutInflater.inflate(R.layout.admin_dialog_del, null);
+                    final EditText editTextUser = (EditText) dialogView.findViewById(R.id.admin_dialog_user_edittext);
+                    final EditText editTextAgain = (EditText)dialogView.findViewById(R.id.admin_dialog_again_edittext);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                    builder.setTitle("确认删除用户信息");
+                    builder.setIcon(android.R.drawable.ic_dialog_info);
+                    builder.setView(dialogView);
+                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final String inputUserName = editTextUser.getText().toString();
+                            final String inputAgain = editTextAgain.getText().toString();
+                            if (inputUserName.equals(inputAgain)) {
+                                new Thread(){
+                                    @Override
+                                    public void run(){
+                                        List<User> userTry = userDao.loadAll();
+                                        for (int i = 0; i < userTry.size(); i++){
+                                            if (userTry.get(i).getCustomId().equals(inputUserName)){
+
+                                                Message msg = Message.obtain();
+                                                msg.what = 339;
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("username", inputUserName);
+                                                msg.setData(bundle);
+                                                mHandler.sendMessage(msg);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }.start();
+//                            if (!flag){
+//                                Toast.makeText(AdminActivity.this, "用户查无此人", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(AdminActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+//                            }
+                            } else {
+                                Toast.makeText(AdminActivity.this, "两次输入的不一致哦！", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(AdminActivity.this, "放弃删除", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    AlertDialog dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
+
+                }
+            });
+
             return convertView;
         }
     }
@@ -482,13 +551,7 @@ public class AdminActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_order_list) {
-
-        } else if (id == R.id.nav_coupon) {
-            //TODO: step into coupon
-        } else if (id == R.id.nav_profile) {
-            //TODO: step into fragment[4] profile
-        } else if (id == R.id.nav_logoff) {
+        if (id == R.id.nav_logoff) {
             Movie4ShareApplication.loginStatus = "";
             Intent intent = new Intent(AdminActivity.this, LoginActivity.class);
             startActivity(intent);

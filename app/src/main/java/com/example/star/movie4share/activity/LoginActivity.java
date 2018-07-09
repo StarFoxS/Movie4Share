@@ -375,6 +375,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         if (userList.get(i).getCustomId().equals(mEmail) &&
                                 userList.get(i).getPassword().equals(mPassword)){
                             Movie4ShareApplication.password = mPassword;
+                            Movie4ShareApplication.userId = userList.get(i).getId();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             break;

@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_margin="10dp"
-        app:srcCompat="@android:drawable/ic_dialog_dialer" />
+        app:srcCompat="@android:drawable/ic_dialog_dialer"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

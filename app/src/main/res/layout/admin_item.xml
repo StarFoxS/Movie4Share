@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/white"
+        android:background="#00000000"
         />
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center_vertical"
             android:id="@+id/admin_item_imgview"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="15dp"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:text="用户名："
+                    android:text="id："
                     android:textColor="@color/darkgray"/>
 
                 <TextView
@@ -64,7 +64,7 @@
                     android:textSize="14sp"
                     android:layout_marginStart="10dp"
                     android:text="密码："
-                    android:textColor="@color/Naranja"/>
+                    android:textColor="@color/pink"/>
 
                 <TextView
                     android:id="@+id/admin_item_pw_textview"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:layout_gravity="end"
-                    android:textColor="@color/Naranja"/>
+                    android:textColor="@color/pink"/>
 
             </RelativeLayout>
 
@@ -154,6 +154,17 @@
 
             </RelativeLayout>
         </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/admin_delete_user_imageBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/admin_del"
+            android:background="#00000000"
+            />I
+
     </LinearLayout>
 
 </LinearLayout>

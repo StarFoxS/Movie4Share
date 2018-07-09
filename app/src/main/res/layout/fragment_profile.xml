@@ -1,0 +1,211 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.star.movie4share.fragment.Profile"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/side_nav_bar_opposite"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/profile"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/fragment_profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="24sp"
+            android:text="我的资料"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/fragment_profile_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"/>
+
+    <View
+        android:id="@+id/fragment_profile_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/pink"/>
+
+    <RelativeLayout
+        android:id="@+id/avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/avatar_imgview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/me"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            />
+        <View
+            android:layout_width="113dp"
+            android:layout_height="113dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/product_circle"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/edittext_frame">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:padding="1dp"
+            android:layout_gravity="center"
+            android:text="真实姓名"
+            android:textSize="16sp"
+            android:textColor="@color/midGray"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#EEEFFF" />
+
+        <EditText
+            android:id="@+id/profile_name_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="19"
+            android:hint="输入真实姓名"
+            android:layout_gravity="center"
+            android:inputType="textPersonName"
+            android:padding="1dp"
+            android:textSize="16sp" >
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_frame">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:padding="1dp"
+            android:layout_gravity="center"
+            android:text="联系电邮"
+            android:textSize="16sp"
+            android:textColor="@color/midGray"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#EEEFFF" />
+
+        <EditText
+            android:id="@+id/profile_email_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="19"
+            android:hint="输入电子游戏"
+            android:layout_gravity="center"
+            android:inputType="textEmailAddress"
+            android:padding="1dp"
+            android:textSize="16sp" >
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_frame">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:padding="1dp"
+            android:layout_gravity="center"
+            android:text="联系电话"
+            android:textSize="16sp"
+            android:textColor="@color/midGray"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#EEEFFF" />
+
+        <EditText
+            android:id="@+id/profile_phone_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="19"
+            android:hint="输入联系电话"
+            android:layout_gravity="center"
+            android:inputType="phone"
+            android:padding="1dp"
+            android:textSize="16sp" >
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/profile_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="保存更改"
+        android:textColor="@color/white"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:background="@drawable/round_button"
+        />
+
+</LinearLayout>

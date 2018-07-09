@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background"
-    tools:context="com.example.star.movie4share.fragment.ViewOrder"
+    android:background="@color/lightGray"
+    tools:context="com.example.star.movie4share.fragment.HandleOrder"
     >
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:background="@drawable/side_nav_bar_opposite"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:id="@+id/fragment_view_order_title"
+        android:id="@+id/fragment_handle_order_title"
         >
 
         <ImageView
@@ -26,12 +26,12 @@
             />
 
         <TextView
-            android:id="@+id/fragment_vieworder_title"
+            android:id="@+id/fragment_handleorder_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textSize="24sp"
-            android:text="我的订单"
+            android:text="订单处理"
             android:layout_gravity="center"
             android:textColor="#FFFFFF"
             />
@@ -39,22 +39,22 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/fragment_view_order_line"
-        android:layout_below="@+id/fragment_view_order_title"
+        android:id="@+id/fragment_handle_order_line"
+        android:layout_below="@+id/fragment_handle_order_title"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white"/>
 
     <View
-        android:id="@+id/fragment_view_order_line2"
-        android:layout_below="@+id/fragment_view_order_line"
+        android:id="@+id/fragment_handle_order_line2"
+        android:layout_below="@+id/fragment_handle_order_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/pink"/>
 
     <ListView
-        android:id="@+id/fragment_view_order_list"
-        android:layout_below="@+id/fragment_view_order_line2"
+        android:id="@+id/fragment_handle_order_list"
+        android:layout_below="@+id/fragment_handle_order_line2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dividerHeight="0dp"

@@ -15,7 +15,6 @@
         android:id="@+id/head_layout">
     </RelativeLayout>
 
-    <!-- 下面的线性布局是5个tab放置的区域 -->
     <LinearLayout
         android:id="@+id/tabs_layout"
         android:layout_width="0dp"
