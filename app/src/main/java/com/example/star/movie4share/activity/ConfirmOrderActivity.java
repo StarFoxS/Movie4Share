@@ -22,6 +22,7 @@ import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.adapter.ConfirmOrderAdapter;
 import com.example.star.movie4share.dao.OrderDao;
+import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.Order;
 import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
@@ -196,9 +197,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         Time time = new Time();
         time.setToNow();
         //long id, long userId, String time, String status, String serialNum, double price, int productNum, String imgUrl
-        Order nOrder = new Order(0, 1,
+        Order nOrder = new Order(0, Movie4ShareApplication.userId,
                 String.valueOf(time.year) + "." + String.valueOf(time.month+1) + "." + String.valueOf(time.monthDay),
-                "未确认", "" + String.valueOf(time.year) + "0" + String.valueOf(time.month+1)
+                "未发货", "" + String.valueOf(time.year) + "0" + String.valueOf(time.month+1)
                 + String.valueOf(time.monthDay) + String.valueOf(time.second) + String.valueOf(time.minute) + String.valueOf(time.yearDay),
                 totalPrice, productSize, "");
         orderDao.insert(nOrder);
@@ -208,8 +209,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //TODO: 从数据库中删除
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmOrderActivity.this);
                 builder.setTitle("密码验证");
@@ -233,12 +232,46 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    payThread.start();
                                     progressDialog.dismiss();
+
+                                    //TODO: 假装支付的API接口，支付方式：招商银行信用卡/让同事请客/找老板报销
+                                    final AlertDialog.Builder builderPay = new AlertDialog.Builder(ConfirmOrderActivity.this);
+                                    builderPay.setTitle("支付方式选择");
+                                    builderPay.setIcon(R.drawable.logo_trans);
+
+                                    String[] ss = {"招商银行信用卡", "让同事请客", "找老板报销"};
+                                    builderPay.setSingleChoiceItems(ss, 0, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                        }
+                                    });
+                                    builderPay.setPositiveButton("付款", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    payThread.start();
+                                                }
+                                            },1500);
+                                        }
+                                    });
+                                    builderPay.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    AlertDialog dialog = builderPay.create();
+                                    dialog.setCanceledOnTouchOutside(true);
+                                    dialog.show();
                                 }
                             },3000);
 
+
 //                            payThread.start();
+                        } else {
+                            Toast.makeText(ConfirmOrderActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -257,7 +290,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                         builder2.setNegativeButton("下次再付", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //TODO: 去我的订单
+                                Intent intent = new Intent(ConfirmOrderActivity.this, MainActivity.class);
+                                intent.putExtra("casefragment","orderlist");
+                                startActivity(intent);
                             }
                         });
                         builder2.setCancelable(false);
@@ -270,6 +305,14 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
+
+                //从ShopCarProduct数据库中删除
+                new Thread(){
+                    public void run(){
+                        ShopCartProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
+                        dao.deleteAll();
+                    }
+                }.start();
 
             }
         });
@@ -291,7 +334,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         public void handleMessage(Message msg){
             super.handleMessage(msg);
             if (msg.what == 016){
-                //TODO: 假装支付的API接口，支付方式：招商银行信用卡/让同事请客/找老板报销
+
+                //添加到Order库
                 String dialogShow = "支付成功";
                 new AlertDialog.Builder(ConfirmOrderActivity.this).setTitle("")
                         .setMessage(dialogShow).setPositiveButton("去看看", new DialogInterface.OnClickListener() {

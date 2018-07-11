@@ -262,7 +262,7 @@ public class HomePage extends Fragment {
             }
 //            holder.mCategory.setText("类别：" + mProduct.getCategory());
             holder.mDescription.setText("" + mProduct.getShortDescription());
-            Picasso.get().load(mProduct.getUrl()).into(holder.mImg);
+            Picasso.get().load(mProduct.getUrl()).resize(200,200).centerInside().into(holder.mImg);
 
             holder.mWhole.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -64,7 +64,7 @@ public class ViewOrder extends Fragment {
 //        new Thread(){
 //            @Override
 //            public void run(){
-//                mOrderItem = (ArrayList<Order>) orderDao.loadAll();    //TODO: 写进thread
+//                mOrderItem = (ArrayList<Order>) orderDao.loadAll();
 //            }
 //        }.start();
 
@@ -101,6 +101,7 @@ public class ViewOrder extends Fragment {
                 case 8685:
                     ArrayList<Order> mAllItem;
                     mAllItem = (ArrayList<Order>) orderDao.loadAll();
+                    mOrderItem.clear();
                     Log.i("cc", "this userid is:" + Movie4ShareApplication.userId);
                     for (int i = 0; i < mAllItem.size(); i++){
                         if (mAllItem.get(i).getUserId() == Movie4ShareApplication.userId){

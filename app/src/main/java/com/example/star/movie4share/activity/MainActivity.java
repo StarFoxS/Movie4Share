@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case "orderlist":
                     transaction = fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_view_order, mFragments[2])
                             .hide(mFragments[0])
                             .hide(mFragments[1])
-                            .hide(mFragments[2])
                             .hide(mFragments[3])
                             .hide(mFragments[4]);
                     transaction.show(mFragments[2]).commit();
@@ -247,9 +247,18 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             intent.putExtra("casefragment","orderlist");
             startActivity(intent);
+            MainActivity.this.finish();
         } else if (id == R.id.nav_coupon) {
             //TODO: step into coupon
-        } else if (id == R.id.nav_profile) {//TODO: step into fragment[4] profile
+        } else if (id == R.id.nav_profile) {
+            transaction = fragmentManager.beginTransaction()
+                    .hide(mFragments[0])
+                    .hide(mFragments[1])
+                    .hide(mFragments[2])
+                    .hide(mFragments[3])
+                    .hide(mFragments[4]);
+
+            transaction.show(mFragments[4]).commit();
 
         } else if (id == R.id.nav_logoff) {
             Movie4ShareApplication.loginStatus = "";
@@ -257,6 +266,7 @@ public class MainActivity extends AppCompatActivity
             Movie4ShareApplication.userId = -1;
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+            MainActivity.this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

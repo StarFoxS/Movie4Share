@@ -41,6 +41,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView productPrice = (TextView) view.findViewById(R.id.product_price);
 
         Picasso.get().load(product.getUrl())
+                .resize(200,200).centerInside()
                 .placeholder(R.drawable.product_loading)
                 .error(R.drawable.me).into(productImage);
         Log.d("cc", "loading:" + product.getUrl());

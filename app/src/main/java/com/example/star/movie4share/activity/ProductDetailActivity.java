@@ -65,7 +65,7 @@ public class ProductDetailActivity extends Activity {
     // “查看购物车”按钮
     private Button peekCartBtn;
     // “一键购买”按钮
-    private Button oneClickBtn;
+//    private Button oneClickBtn;
 
     // 购物车弹窗里“数量增减”按钮
     private Button mBtnMinus;
@@ -137,7 +137,7 @@ public class ProductDetailActivity extends Activity {
         cartAddDaoListener();
         cartCloseListener();
         cartNumChangeListener();
-        oneClickBtnListener();
+//        oneClickBtnListener();
 
         peekCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,42 +145,13 @@ public class ProductDetailActivity extends Activity {
                 Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
                 intent.putExtra("casefragment","shopcart");
                 startActivity(intent);
+                ProductDetailActivity.this.finish();
             }
         });
     }
 
-//    private Product getProductLogin() {
-//
-//        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-//        mProduct = dao.load(productId);
-//        return mProduct;
-//
-//    }
-//
-//    private Product getProductLogoff() {
-//
-//        ProductDao dao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-//        mProduct = dao.load(productId);
-//        return mProduct;
-//    }
 
     private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            int what = msg.what;
-//            switch (what) {
-//                case 0x100:
-//                    int number = (int) msg.obj;
-//                    updateDatabase(number);
-//                    break;
-//                case 0x101:
-//                    insertDao();
-//                    break;
-//                case 5566:
-//                    initData();
-//                    break;
-//            }
-//        }
     };
 
     public void initData(){
@@ -242,7 +213,7 @@ public class ProductDetailActivity extends Activity {
 
         mBtnAddToCart = (Button) findViewById(R.id.btn_activity_product_details_add_to_cart);
         peekCartBtn = (Button) findViewById(R.id.btn_activity_product_details_peek_cart);
-        oneClickBtn = (Button) findViewById(R.id.btn_activity_product_details_one_click);
+//        oneClickBtn = (Button) findViewById(R.id.btn_activity_product_details_one_click);
 
         mImgDetails = (ImageView) findViewById(R.id.img_activity_product);
         mTopPrice = (TextView) findViewById(R.id.activity_product_details_price);
@@ -449,24 +420,24 @@ public class ProductDetailActivity extends Activity {
         });
     }
 
-    private void oneClickBtnListener() {
-        oneClickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: 一键购买，购物车库可以不变，直接进入购买activity然后更改product库的内容
-                //可能要添加到购物车库？
-
-                Intent intent = new Intent(ProductDetailActivity.this, ConfirmOrderActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("productSize", 1);
-                bundle.putSerializable("totalPrice", mProduct.getPrice());
-                bundle.putSerializable("orderItem1", mProduct);
-                bundle.putSerializable("checkProduct1", mProduct.getId());
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-    }
+//    private void oneClickBtnListener() {
+//        oneClickBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //一键购买，购物车库可以不变，直接进入购买activity然后更改product库的内容
+//                //可能要添加到购物车库？
+//
+//                Intent intent = new Intent(ProductDetailActivity.this, ConfirmOrderActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("productSize", 1);
+//                bundle.putSerializable("totalPrice", mProduct.getPrice());
+//                bundle.putSerializable("orderItem1", mProduct);
+//                bundle.putSerializable("checkProduct1", mProduct.getId());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
+//    }
 
     /*
      *  插入数据库

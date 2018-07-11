@@ -34,7 +34,7 @@ public class Order {
     private String time;
     @ToOne (joinProperty = "userId")
     private Receiver receiver;
-    // status = "未确认"/"待付款"/"店家确认中"/"已发货"/"已送达"
+    // status = "未确认"/"待付款"/"未发货"/"已发货"/"已签收"
     private String status;
     private String serialNum;
     private double price;

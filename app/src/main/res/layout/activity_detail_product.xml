@@ -9,7 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="450dp">
+        android:layout_height="520dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,12 +77,13 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="价格：0"
-                        android:textColor="@color/Naranja"/>
+                        android:textColor="@color/midpink"/>
 
                 </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/detail_product_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -94,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="限购："
-                    android:textColor="@color/Naranja"/>
+                    android:textColor="#b5b5b6"/>
 
                 <TextView
                     android:id="@+id/activity_product_details_stocknum"
@@ -103,7 +104,7 @@
                     android:layout_below="@id/activity_product_details_limit"
                     android:layout_marginTop="10dp"
                     android:text="库存："
-                    android:textColor="@color/Naranja"/>
+                    android:textColor="#b5b5b6"/>
 
             </RelativeLayout>
 
@@ -112,11 +113,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/main_picture"
+                android:layout_below="@id/detail_product_layout"
                 android:id="@+id/detail_product_name"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="115dp"
                 />
 
             <View
@@ -125,14 +126,13 @@
                 android:layout_height="1dp"
                 android:layout_below="@id/detail_product_name"
                 android:background="#eeefef"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <WebView
                 android:id="@+id/activity_product_details_more_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/product_detail_line"
                 android:focusable="false"
                 android:padding="7dp"
@@ -140,9 +140,10 @@
 
             <ImageView
                 android:id="@+id/activity_product_details_loading"
-                android:src="@drawable/web_loading_small"
-                android:layout_width="match_parent"
+                android:src="@drawable/web_loading"
+                android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:scaleType="fitXY"
                 android:layout_below="@+id/product_detail_line"
                 android:layout_gravity="top|center_horizontal"
                 />
@@ -152,40 +153,42 @@
 
     <Button
         android:id="@+id/btn_activity_product_details_add_to_cart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
-        android:background="#eeefef"
         android:gravity="center"
         android:text="加入购物车"
-        android:textColor="@color/Naranja"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:background="@drawable/round_button"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_margin="5dp"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:padding="5dp"/>
 
 
     <Button
         android:id="@+id/btn_activity_product_details_peek_cart"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#eeefef"
         android:gravity="center"
         android:text="查看购物车"
-        android:layout_margin="5dp"
-        android:textColor="@color/Naranja"
+        android:textColor="@color/midGray"
+        android:layout_gravity="center_horizontal"
+        android:background="#00000000"
         style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
-        android:id="@+id/btn_activity_product_details_one_click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#eeefef"
-        android:gravity="center"
-        android:text="一键购买"
-        android:layout_margin="5dp"
-        android:textColor="@color/Naranja"
-        style="?android:attr/borderlessButtonStyle"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn_activity_product_details_one_click"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#eeefef"-->
+        <!--android:gravity="center"-->
+        <!--android:text="一键购买"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:textColor="@color/Naranja"-->
+        <!--style="?android:attr/borderlessButtonStyle"/>-->
 
 
 </LinearLayout>
