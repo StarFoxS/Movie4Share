@@ -210,15 +210,17 @@ public class SellerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_order_list) {
+            transaction = fragmentManager.beginTransaction()
+                    .hide(mFragments[0])
+                    .hide(mFragments[1])
+                    .hide(mFragments[2]);
 
-        } else if (id == R.id.nav_coupon) {
-            //TODO: step into coupon
-        } else if (id == R.id.nav_profile) {
-            //TODO: step into fragment[4] profile
+            transaction.show(mFragments[2]).commit();
         } else if (id == R.id.nav_logoff) {
             Movie4ShareApplication.loginStatus = "";
             Intent intent = new Intent(SellerActivity.this, LoginActivity.class);
             startActivity(intent);
+            SellerActivity.this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

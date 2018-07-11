@@ -1,12 +1,14 @@
 package com.example.star.movie4share.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -56,17 +58,23 @@ public class Post extends Fragment {
     private EditText etStock;
     private EditText etShortDescription;
     private EditText etUrl;
-    private GridView gridView;
     private Spinner spinner;
     private String spinnerResult;
     private Button submitBtn;
-    private Bitmap bitmap;
-    private SimpleAdapter simpleAdapter;
     private ArrayAdapter<String> category;
-    private ArrayList<HashMap<String, Object>> imageItem = new ArrayList<>();
     private String strName, strShortDescription, strType, strPrice, strUrl;
     private Double doublePrice;
+
+
+    // upload pics needs
+    private GridView mGridView;
     private String pathImage;
+    private ArrayList<HashMap<String, Object>> imageItem = new ArrayList<>();
+    private Bitmap bitmap;
+    private SimpleAdapter simpleAdapter;
+    private String pathTakePhoto;
+    private Uri imageUri;
+    private long NumPhoto = 0;
 
     private OnFragmentInteractionListener mListener;
 
@@ -96,7 +104,7 @@ public class Post extends Fragment {
         etShortDescription = (EditText) getActivity().findViewById(R.id.post_short_des_edittext);
         etUrl = (EditText) getActivity().findViewById(R.id.post_url_edittext);
 
-        gridView = (GridView) getActivity().findViewById(R.id.post_pic_gridview);
+        mGridView = (GridView) getActivity().findViewById(R.id.post_pic_gridview);
         spinner = (Spinner) getActivity().findViewById(R.id.post_category_spinner);
         String[] mCategory = getResources().getStringArray(R.array.spinnerString);
         category = new ArrayAdapter<String>(getContext(), R.layout.spinner, mCategory);
@@ -111,7 +119,7 @@ public class Post extends Fragment {
         map.put("itemImage", bitmap);
         map.put("pathImage", "add_pic");
         imageItem.add(map);
-        simpleAdapter = new SimpleAdapter(getActivity(), imageItem, R.layout.grid_add_pic,
+        simpleAdapter = new SimpleAdapter(getContext(), imageItem, R.layout.grid_add_pic,
                 new String[] {"itemImage"}, new int[]{R.id.imageView1});
         simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
@@ -125,14 +133,15 @@ public class Post extends Fragment {
             }
 
         });
-        gridView.setAdapter(simpleAdapter);
+        mGridView.setAdapter(simpleAdapter);
+
         gridListener();
 
         super.onStart();
     }
 
     private void gridListener(){
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (imageItem.size() == 8) {
@@ -143,12 +152,12 @@ public class Post extends Fragment {
                 }
             }
         });
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if ( i > 0){
                     DeleteDialog(i);
-                    ((SimpleAdapter)gridView.getAdapter()).notifyDataSetChanged();
+                    ((SimpleAdapter)mGridView.getAdapter()).notifyDataSetChanged();
                 }
 
                 return false;
@@ -220,7 +229,7 @@ public class Post extends Fragment {
                         new Thread(runnable).start();
                         progressDialog.dismiss();
                     }
-                },3000);
+                },2000);
             }
         });
     }
@@ -229,16 +238,28 @@ public class Post extends Fragment {
         @Override
         public void run() {
 
-            String strImg = (String) imageItem.get(0).get("pathImage");
+            Log.d("cc", "imageItem Size:" + imageItem.size());
+//            for (int i = 1; i < imageItem.size(); i++){
+//                String strImg = (String) imageItem.get(i).get("pathImage");
+//            }
+//            String strImg = (String) imageItem.get(1).get("pathImage");
+            String strImg = pathImage;
+            Log.i("cc", "strImg:" + strImg);
+            ProductDao productDao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
+            Log.d("cc", "insert into product:" + strName + " " + strType);
 
             //long id, String productName, String category, double price, String description,
             //String shortDescription, String url, String urlDescription, int stockNum, int limitNum,
             //int boughtNum
-            Product nProduct = new Product(50, strName, strType, doublePrice, strShortDescription,
-                    strShortDescription, strImg, strUrl, 1000, 1000, 0);
-            ProductDao productDao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
-            Log.d("cc", "insert into product:" + strName + " " + strType);
-            productDao.insert(nProduct);
+            try {
+                Product nProduct = new Product(50, strName, strType, doublePrice, strShortDescription,
+                        strShortDescription, strImg, strUrl, 1000, 1000, 0);
+                productDao.insert(nProduct);
+            } catch (Exception e){
+                Product nProduct = new Product(51, strName, strType, doublePrice, strShortDescription,
+                        strShortDescription, strImg, strUrl, 1000, 1000, 0);
+                productDao.insert(nProduct);
+            }
 
             Message msg = new Message();
             msg.what = 133;
@@ -261,6 +282,7 @@ public class Post extends Fragment {
                                     Intent intent = new Intent(getActivity(), SellerActivity.class);
                                     intent.putExtra("casefragment","refreshproduct");
                                     startActivity(intent);
+                                    getActivity().finish();
                                 }
                             }).setCancelable(false).show();
                     break;
@@ -276,7 +298,9 @@ public class Post extends Fragment {
         //获取传递的处理图片在onResume中显示
         //适配器动态显示图片
         if(!TextUtils.isEmpty(pathImage)){
+            Log.d("cc", "pathImage:" + pathImage);
             Toast.makeText(getActivity(),pathImage,Toast.LENGTH_LONG).show();
+            submitListener();
             BitmapFactory.Options cc = new BitmapFactory.Options();
             cc.inSampleSize=8;
 
@@ -285,10 +309,57 @@ public class Post extends Fragment {
             map.put("itemImage", addbmp);
             map.put("pathImage", pathImage);
             imageItem.add(map);
-            SimpleAdapter simpleAdapter = (SimpleAdapter) gridView.getAdapter();
+            SimpleAdapter simpleAdapter = (SimpleAdapter) mGridView.getAdapter();
             simpleAdapter.notifyDataSetChanged();
             //刷新后释放防止手机休眠后自动添加
             pathImage = null;
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        //打开图片
+        if(resultCode== Activity.RESULT_OK && requestCode==IMAGE_OPEN) {
+            Uri uri = data.getData();
+            if (!TextUtils.isEmpty(uri.getAuthority())) {
+                //查询选择图片
+                Cursor cursor = getActivity().getContentResolver().query(
+                        uri,
+                        new String[] { MediaStore.Images.Media.DATA },
+                        null,
+                        null,
+                        null);
+                //返回 没找到选择图片
+                if (null == cursor) {
+                    Log.i("FIND PIC","can't find pic");
+                    return;
+                }
+                //光标移动至开头 获取图片路径
+                cursor.moveToFirst();
+                pathImage = cursor.getString(cursor
+                        .getColumnIndex(MediaStore.Images.Media.DATA));
+                //向处理活动传递数据
+                //Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
+
+            } else {
+                pathImage = uri.getPath();
+
+            }
+        }  //end if 打开图片
+        //获取图片
+
+        //拍照
+        if(resultCode==Activity.RESULT_OK && requestCode==TAKE_PHOTO) {
+            Intent intent = new Intent("com.android.camera.action.CROP"); //剪裁
+            intent.setDataAndType(imageUri, "image/*");
+            intent.putExtra("scale", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            //广播刷新相册
+            Intent intentBc = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intentBc.setData(imageUri);
+            getActivity().sendBroadcast(intentBc);
+            //向处理活动传递数据
+            pathImage = pathTakePhoto;
         }
     }
 
@@ -297,7 +368,7 @@ public class Post extends Fragment {
         builder.setTitle("Add Picture");
         builder.setIcon(R.drawable.ic_launcher_foreground);
         builder.setCancelable(false);
-        builder.setItems(new String[] {"本地文件","拍摄","Cancel"},
+        builder.setItems(new String[] {"本地文件","拍照","放弃添加"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -315,9 +386,6 @@ public class Post extends Fragment {
                                     if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                                             Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                                        // Show an explanation to the user *asynchronously* -- don't block
-                                        // this thread waiting for the user's response! After the user
-                                        // sees the explanation, try again to request the permission.
                                         Log.i("DEBUG_TAG", "we should explain why we need this permission!");
                                     } else {
 
@@ -332,9 +400,6 @@ public class Post extends Fragment {
                                             e.printStackTrace();
                                         }
 
-                                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                                        // app-defined int constant. The callback method gets the
-                                        // result of the request.
                                     }
                                 }
 
@@ -368,20 +433,14 @@ public class Post extends Fragment {
                                         e.printStackTrace();
                                     }
                                 } else {
-                                    //do not have permission
                                     Log.i("DEBUG_TAG", "user do not have this permission!");
 
-                                    // Should we show an explanation?
                                     if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                                             Manifest.permission.CAMERA)) {
 
-                                        // Show an explanation to the user *asynchronously* -- don't block
-                                        // this thread waiting for the user's response! After the user
-                                        // sees the explanation, try again to request the permission.
                                         Log.i("DEBUG_TAG", "we should explain why we need this permission!");
                                     } else {
 
-                                        // No explanation needed, we can request the permission.
                                         Log.i("DEBUG_TAG", "==request the permission==");
 
                                         try {
@@ -392,9 +451,6 @@ public class Post extends Fragment {
                                             e.printStackTrace();
                                         }
 
-                                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                                        // app-defined int constant. The callback method gets the
-                                        // result of the request.
                                     }
                                 }
                                 break;
@@ -433,6 +489,61 @@ public class Post extends Fragment {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1122: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, IMAGE_OPEN);
+                    Log.i("DEBUG_TAG", "user granted the permission!");
+
+                } else {
+                    Log.i("DEBUG_TAG", "user denied the permission!");
+                }
+                return;
+            }
+
+            case 3344: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    File outputImage = new File(Environment.getExternalStorageDirectory(), "suishoupai_image"+String.valueOf(NumPhoto)+".jpg");
+                    NumPhoto++;
+                    if (NumPhoto >= 10) NumPhoto = 0;
+                    pathTakePhoto = outputImage.toString();
+                    try {
+                        if(outputImage.exists()) {
+                            outputImage.delete();
+                        }
+                        outputImage.createNewFile();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    imageUri = Uri.fromFile(outputImage);
+                    Intent intentPhoto = new Intent("android.media.action.IMAGE_CAPTURE"); //拍照
+                    intentPhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    try {
+                        startActivityForResult(intentPhoto, TAKE_PHOTO);
+                    }catch(Throwable e){
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    Log.i("DEBUG_TAG", "user denied the permission!");
+                }
+                return;
+            }
+
+        }
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -457,16 +568,7 @@ public class Post extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

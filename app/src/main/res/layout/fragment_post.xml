@@ -13,15 +13,35 @@
         android:orientation="vertical"
         >
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="发表新品"
-            android:textSize="20sp"
-            android:textColor="@color/darkgray"
-            android:background="@color/lightGray"
-            />
+            android:layout_height="60dp"
+            android:background="@drawable/side_nav_bar_opposite"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/fragment_post_title"
+            >
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/post"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/fragment_post_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="24sp"
+                android:text="新影发布"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -296,6 +316,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
                 android:text="添加商品" />
         </RelativeLayout>
 

@@ -23,9 +23,11 @@ import com.example.star.movie4share.R;
 import com.example.star.movie4share.adapter.ConfirmOrderAdapter;
 import com.example.star.movie4share.dao.OrderDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
+import com.example.star.movie4share.dao.UserDao;
 import com.example.star.movie4share.entity.Order;
 import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
+import com.example.star.movie4share.entity.User;
 import com.example.star.movie4share.fragment.ShopCart;
 
 import org.greenrobot.greendao.annotation.ToMany;
@@ -191,7 +193,17 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     }
 
     private void showDefaultReceiver(){
-        //TODO: 默认显示与user.customid相关的那个Receiver
+        //默认显示与user.customid相关的那个Receiver
+        new Thread(){
+            @Override
+            public void run(){
+                UserDao userDao = Movie4ShareApplication.getInstances().getDaoSession().getUserDao();
+                User thisUser = userDao.load(Movie4ShareApplication.userId);
+                tvReceiverName.setText(thisUser.getName());
+                tvReceiverPhone.setText(thisUser.getPhoneNum());
+            }
+        }.start();
+
     }
 
     private void insertOrder(){
