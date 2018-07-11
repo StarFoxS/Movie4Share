@@ -1,6 +1,8 @@
 package com.example.star.movie4share.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,18 +24,22 @@ import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.dao.OrderDao;
 import com.example.star.movie4share.dao.OrderProductDao;
+import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.Order;
 import com.example.star.movie4share.entity.OrderProduct;
+import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HandleOrder extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     static OrderDao orderDao = Movie4ShareApplication.getInstances().getDaoSession().getOrderDao();
+    ProductDao productDao = Movie4ShareApplication.getInstances().getDaoSession().getProductDao();
 
     private ListView orderList;
     private HandleOrderAdapter mAdapter;
@@ -92,16 +98,13 @@ public class HandleOrder extends Fragment {
             int what = msg.what;
             switch (what){
                 case 8685:
-                    ArrayList<Order> mAllItem;
-                    mAllItem = (ArrayList<Order>) orderDao.loadAll();
-                    for (int i = 0; i < mAllItem.size(); i++){
-                        if (mAllItem.get(i).getUserId() == Movie4ShareApplication.userId){
-                            mOrderItem.add(mAllItem.get(i));
-                        }
-                    }
+                    ArrayList<Order> mOrderItem = (ArrayList<Order>) orderDao.loadAll();
                     Log.i("cc", "Size:" + mOrderItem.size());
                     mAdapter = new HandleOrderAdapter(getContext(), mOrderItem);
                     orderList.setAdapter(mAdapter);
+                    break;
+                case 666:
+                    mAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
@@ -200,12 +203,100 @@ public class HandleOrder extends Fragment {
                 Picasso.get().load(mOrder.getImgUrl()).into(holder.mImg);
             }
 
-            holder.mBtn.setOnClickListener(new View.OnClickListener() {
+            if (mOrder.getStatus().equals("未发货")){
+                holder.mBtn.setText("确认发货");
+                holder.mBtn.setVisibility(View.VISIBLE);
+                holder.mBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new Thread(){
+                            @Override
+                            public void run(){
+                                mOrder.setStatus("已发货");
+                                orderDao.insertOrReplace(mOrder);
+                            }
+                        }.start();
+                    }
+                });
+            } else {
+                holder.mBtn.setVisibility(View.GONE);
+            }
+
+
+            if (mOrder.getStatus().equals("未发货")){
+                holder.mBtn.setText("确认发货");
+                holder.mBtn.setVisibility(View.VISIBLE);
+                holder.mBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new Thread(){
+                            @Override
+                            public void run(){
+                                mOrder.setStatus("已发货");
+                                orderDao.insertOrReplace(mOrder);
+
+                                Message message = Message.obtain();
+                                message.what = 666;
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("id", mOrder.getId());
+                                message.setData(bundle);
+                                mHandler.sendMessage(message);
+                            }
+                        }.start();
+                    }
+                });
+            } else {
+                holder.mBtn.setVisibility(View.GONE);
+            }
+
+            holder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("订单详情");
+                    builder.setIcon(R.drawable.default_cargo);
 
+                    String s0 = "";
+                    String s1 = "";
+                    String s2 = "";
+                    List<Product> allProduct = productDao.loadAll();
+                    for (int i = 0; i < allProduct.size(); i++){
+                        if (mOrder.getId0() == allProduct.get(i).getId()){
+                            s0 = allProduct.get(i).getProductName();
+                        }
+                        if (mOrder.getId1() == allProduct.get(i).getId()){
+                            s1 = allProduct.get(i).getProductName();
+                        }
+                        if (mOrder.getId2() == allProduct.get(i).getId()){
+                            s2 = allProduct.get(i).getProductName();
+                        }
+                    }
+
+                    String str = s0 + " x" + mOrder.getNum0();
+                    if (mOrder.getId1() != -1){
+                        str += "  &  " + s1 + " x" + mOrder.getNum1();
+                    }
+                    if (mOrder.getId2() != -1){
+                        str += "  &  " + s2 + " x" + mOrder.getNum2();
+                    }
+
+                    final TextView textView = new TextView(getContext());
+                    textView.setText(str);
+                    textView.setTextSize(18);
+                    builder.setView(textView);
+                    builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.setCancelable(true);
+                    AlertDialog dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                 }
             });
+
 
             return convertView;
         }

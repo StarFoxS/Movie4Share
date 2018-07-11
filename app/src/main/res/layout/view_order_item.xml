@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="订单状态: "
                     android:textSize="14sp"
-                    android:textColor="@color/Naranja"/>
+                    android:textColor="@color/midpink"/>
 
                 <TextView
                     android:id="@+id/view_order_item_status_textview"
@@ -126,7 +126,7 @@
                     android:text="读取中……"
                     android:textSize="14sp"
                     android:layout_toEndOf="@id/view_order_item_status"
-                    android:textColor="@color/Naranja"
+                    android:textColor="@color/midpink"
                     android:typeface="serif"/>
 
             </RelativeLayout>

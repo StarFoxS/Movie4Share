@@ -281,7 +281,6 @@ public class ProductDetailActivity extends Activity {
 
         /*
          *  加入购物车窗口的弹出
-         *  TODO: setAnimationStyle中写一个style名为PopUpWindowStyle使其缓慢上浮弹出
          */
         mBtnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override

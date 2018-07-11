@@ -37,6 +37,12 @@ public class OrderDao extends AbstractDao<Order, Long> {
         public final static Property Price = new Property(5, double.class, "price", false, "PRICE");
         public final static Property ProductNum = new Property(6, int.class, "productNum", false, "PRODUCT_NUM");
         public final static Property ImgUrl = new Property(7, String.class, "imgUrl", false, "IMG_URL");
+        public final static Property Id0 = new Property(8, long.class, "id0", false, "ID0");
+        public final static Property Id1 = new Property(9, long.class, "id1", false, "ID1");
+        public final static Property Id2 = new Property(10, long.class, "id2", false, "ID2");
+        public final static Property Num0 = new Property(11, int.class, "num0", false, "NUM0");
+        public final static Property Num1 = new Property(12, int.class, "num1", false, "NUM1");
+        public final static Property Num2 = new Property(13, int.class, "num2", false, "NUM2");
     }
 
     private DaoSession daoSession;
@@ -62,7 +68,13 @@ public class OrderDao extends AbstractDao<Order, Long> {
                 "\"SERIAL_NUM\" TEXT," + // 4: serialNum
                 "\"PRICE\" REAL NOT NULL ," + // 5: price
                 "\"PRODUCT_NUM\" INTEGER NOT NULL ," + // 6: productNum
-                "\"IMG_URL\" TEXT);"); // 7: imgUrl
+                "\"IMG_URL\" TEXT," + // 7: imgUrl
+                "\"ID0\" INTEGER NOT NULL ," + // 8: id0
+                "\"ID1\" INTEGER NOT NULL ," + // 9: id1
+                "\"ID2\" INTEGER NOT NULL ," + // 10: id2
+                "\"NUM0\" INTEGER NOT NULL ," + // 11: num0
+                "\"NUM1\" INTEGER NOT NULL ," + // 12: num1
+                "\"NUM2\" INTEGER NOT NULL );"); // 13: num2
     }
 
     /** Drops the underlying database table. */
@@ -98,6 +110,12 @@ public class OrderDao extends AbstractDao<Order, Long> {
         if (imgUrl != null) {
             stmt.bindString(8, imgUrl);
         }
+        stmt.bindLong(9, entity.getId0());
+        stmt.bindLong(10, entity.getId1());
+        stmt.bindLong(11, entity.getId2());
+        stmt.bindLong(12, entity.getNum0());
+        stmt.bindLong(13, entity.getNum1());
+        stmt.bindLong(14, entity.getNum2());
     }
 
     @Override
@@ -127,6 +145,12 @@ public class OrderDao extends AbstractDao<Order, Long> {
         if (imgUrl != null) {
             stmt.bindString(8, imgUrl);
         }
+        stmt.bindLong(9, entity.getId0());
+        stmt.bindLong(10, entity.getId1());
+        stmt.bindLong(11, entity.getId2());
+        stmt.bindLong(12, entity.getNum0());
+        stmt.bindLong(13, entity.getNum1());
+        stmt.bindLong(14, entity.getNum2());
     }
 
     @Override
@@ -150,7 +174,13 @@ public class OrderDao extends AbstractDao<Order, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // serialNum
             cursor.getDouble(offset + 5), // price
             cursor.getInt(offset + 6), // productNum
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // imgUrl
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // imgUrl
+            cursor.getLong(offset + 8), // id0
+            cursor.getLong(offset + 9), // id1
+            cursor.getLong(offset + 10), // id2
+            cursor.getInt(offset + 11), // num0
+            cursor.getInt(offset + 12), // num1
+            cursor.getInt(offset + 13) // num2
         );
         return entity;
     }
@@ -165,6 +195,12 @@ public class OrderDao extends AbstractDao<Order, Long> {
         entity.setPrice(cursor.getDouble(offset + 5));
         entity.setProductNum(cursor.getInt(offset + 6));
         entity.setImgUrl(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setId0(cursor.getLong(offset + 8));
+        entity.setId1(cursor.getLong(offset + 9));
+        entity.setId2(cursor.getLong(offset + 10));
+        entity.setNum0(cursor.getInt(offset + 11));
+        entity.setNum1(cursor.getInt(offset + 12));
+        entity.setNum2(cursor.getInt(offset + 13));
      }
     
     @Override

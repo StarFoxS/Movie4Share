@@ -255,7 +255,7 @@
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="50dp"
             android:orientation="vertical">
 
 
@@ -263,7 +263,7 @@
                 android:id="@+id/activity_confirm_product_num"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="center|bottom"
+                android:layout_gravity="bottom"
                 android:text="共0种商品"
                 android:textSize="16sp"
                 android:textColor="#595757"/>
@@ -274,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="合计：￥0"
-                android:layout_gravity="center"
+                android:layout_gravity="top"
                 android:textSize="16sp"
                 android:textColor="@color/midpink"/>
 
@@ -284,7 +284,7 @@
             android:id="@+id/activity_confirm_order_button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="100dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/round_button"
             style="?android:attr/borderlessButtonStyle"

@@ -52,9 +52,37 @@
         android:layout_height="1dp"
         android:background="@color/pink"/>
 
+
+    <View
+        android:id="@+id/activity_handle_order_line3"
+        android:layout_below="@id/fragment_handle_order_line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/lightGray"/>
+
+    <TextView
+        android:id="@+id/activity_handle_order_textview"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/activity_handle_order_line3"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="（单击图片查询订单商品）"
+        android:textColor="@color/midGray"
+        >
+    </TextView>
+
+    <View
+        android:id="@+id/activity_handle_order_line4"
+        android:layout_below="@+id/activity_handle_order_textview"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/lightGray"/>
+
     <ListView
         android:id="@+id/fragment_handle_order_list"
-        android:layout_below="@+id/fragment_handle_order_line2"
+        android:layout_below="@+id/activity_handle_order_line4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dividerHeight="0dp"

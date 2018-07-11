@@ -11,6 +11,8 @@ import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.example.star.movie4share.dao.DaoSession;
@@ -34,12 +36,16 @@ public class Order {
     private String time;
     @ToOne (joinProperty = "userId")
     private Receiver receiver;
-    // status = "未确认"/"待付款"/"未发货"/"已发货"/"已签收"
+    // status = "待付款"/"未发货"/"已发货"/"已签收"
     private String status;
     private String serialNum;
     private double price;
     private int productNum;
     private String imgUrl;
+
+    private long id0, id1, id2;
+    private int num0, num1, num2;
+
     @ToMany (referencedJoinProperty = "productId")
     private List<OrderProduct> orderProduct;
 
@@ -54,9 +60,9 @@ public class Order {
     @Generated(hash = 118553546)
     private transient Long receiver__resolvedKey;
 
-    @Generated(hash = 428107022)
-    public Order(long id, long userId, String time, String status, String serialNum,
-            double price, int productNum, String imgUrl) {
+    @Generated(hash = 552014011)
+    public Order(long id, long userId, String time, String status, String serialNum, double price,
+            int productNum, String imgUrl, long id0, long id1, long id2, int num0, int num1, int num2) {
         this.id = id;
         this.userId = userId;
         this.time = time;
@@ -65,6 +71,12 @@ public class Order {
         this.price = price;
         this.productNum = productNum;
         this.imgUrl = imgUrl;
+        this.id0 = id0;
+        this.id1 = id1;
+        this.id2 = id2;
+        this.num0 = num0;
+        this.num1 = num1;
+        this.num2 = num2;
     }
 
     @Generated(hash = 1105174599)
@@ -238,5 +250,53 @@ public class Order {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getOrderDao() : null;
+    }
+
+    public long getId0() {
+        return this.id0;
+    }
+
+    public void setId0(long id0) {
+        this.id0 = id0;
+    }
+
+    public long getId1() {
+        return this.id1;
+    }
+
+    public void setId1(long id1) {
+        this.id1 = id1;
+    }
+
+    public long getId2() {
+        return this.id2;
+    }
+
+    public void setId2(long id2) {
+        this.id2 = id2;
+    }
+
+    public int getNum0() {
+        return this.num0;
+    }
+
+    public void setNum0(int num0) {
+        this.num0 = num0;
+    }
+
+    public int getNum1() {
+        return this.num1;
+    }
+
+    public void setNum1(int num1) {
+        this.num1 = num1;
+    }
+
+    public int getNum2() {
+        return this.num2;
+    }
+
+    public void setNum2(int num2) {
+        this.num2 = num2;
     }
 }

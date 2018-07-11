@@ -177,7 +177,7 @@ public class ShopCart extends Fragment {
 //        DelCheckedBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                //TODO: 找到那些被选中的，在dao里删除，然后在界面上把这些删除
+//                //找到那些被选中的，在dao里删除，然后在界面上把这些删除
 //            }
 //        });
 //    }

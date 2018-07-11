@@ -62,6 +62,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private double totalPrice;
 
     OrderDao orderDao = Movie4ShareApplication.getInstances().getDaoSession().getOrderDao();
+    ShopCartProductDao shopCartProductDao = Movie4ShareApplication.getInstances().getDaoSession().getShopCartProductDao();
     private ConfirmOrderAdapter confirmOrderAdapter;
 
     private ArrayList<ShopCartProduct> mOrderProduct = new ArrayList<>();
@@ -196,12 +197,34 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private void insertOrder(){
         Time time = new Time();
         time.setToNow();
+
+        long id0, id1, id2;
+        int num0, num1, num2;
+        id0 = -1;
+        id1 = -1;
+        id2 = -1;
+        num0 = -1;
+        num1 = -1;
+        num2 = -1;
+        if (mOrderProduct.size() > 0){
+            id0 = mOrderProduct.get(0).getId();
+            num0 = mOrderProduct.get(0).getNumber();
+        }
+        if (mOrderProduct.size() > 1){
+            id1 = mOrderProduct.get(1).getId();
+            num1 = mOrderProduct.get(1).getNumber();
+        }
+        if (mOrderProduct.size() > 2){
+            id2 = mOrderProduct.get(2).getId();
+            num2 = mOrderProduct.get(2).getNumber();
+        }
+
         //long id, long userId, String time, String status, String serialNum, double price, int productNum, String imgUrl
         Order nOrder = new Order(0, Movie4ShareApplication.userId,
                 String.valueOf(time.year) + "." + String.valueOf(time.month+1) + "." + String.valueOf(time.monthDay),
                 "未发货", "" + String.valueOf(time.year) + "0" + String.valueOf(time.month+1)
                 + String.valueOf(time.monthDay) + String.valueOf(time.second) + String.valueOf(time.minute) + String.valueOf(time.yearDay),
-                totalPrice, productSize, "");
+                totalPrice, productSize, "", id0, id1, id2, num0, num1, num2);
         orderDao.insert(nOrder);
     }
 

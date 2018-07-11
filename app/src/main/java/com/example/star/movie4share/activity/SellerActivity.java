@@ -28,6 +28,7 @@ import com.example.star.movie4share.Movie4ShareApplication;
 import com.example.star.movie4share.R;
 import com.example.star.movie4share.entity.User;
 import com.example.star.movie4share.fragment.FindNew;
+import com.example.star.movie4share.fragment.HandleOrder;
 import com.example.star.movie4share.fragment.Post;
 import com.example.star.movie4share.fragment.ViewOrder;
 
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 
 public class SellerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        FindNew.OnFragmentInteractionListener, Post.OnFragmentInteractionListener, ViewOrder.OnFragmentInteractionListener {
+        FindNew.OnFragmentInteractionListener, Post.OnFragmentInteractionListener, HandleOrder.OnFragmentInteractionListener {
 
     private View tab_classify, tab_post, tab_order;
     private Fragment[] mFragments;

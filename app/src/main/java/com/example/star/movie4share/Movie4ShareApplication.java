@@ -118,11 +118,11 @@ public class Movie4ShareApplication extends Application {
         getDaoSession().insert(nShopCartProduct0);
 
         Order nOrder0 = new Order(50, 1, "2018.06.11", "已发货", "20180611010105", 1024, 2,
-                "http://www.dgpinglong.com/uploadfile/image/20170328/20170328140349_1967832161.jpg");
+                "http://www.dgpinglong.com/uploadfile/image/20170328/20170328140349_1967832161.jpg", 0, -1, -1, 2, -1, -1);
         getDaoSession().insert(nOrder0);
 
-        Order nOrder1 = new Order(51, 1, "2018.06.12", "已签收", "20180612020206", 99999, 35,
-                "http://pic36.photophoto.cn/20150812/0037037002912269_b.jpg");
+        Order nOrder1 = new Order(51, 1, "2018.06.12", "未发货", "20180612020206", 99999, 35,
+                "http://pic36.photophoto.cn/20150812/0037037002912269_b.jpg", 3, 4, -1, 9, 4, -1);
         getDaoSession().insert(nOrder1);
 
         User nUser0 = new User(0, "starfei@cmbchina.com", "1", 0, "starfei@cmbchina.com", "star", "",

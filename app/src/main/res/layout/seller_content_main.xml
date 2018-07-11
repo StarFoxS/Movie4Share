@@ -75,7 +75,7 @@
 
         <fragment
             android:id="@+id/fragment_order"
-            android:name="com.example.star.movie4share.fragment.ViewOrder"
+            android:name="com.example.star.movie4share.fragment.HandleOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10" />
