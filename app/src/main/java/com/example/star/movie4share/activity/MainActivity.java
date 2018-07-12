@@ -1,5 +1,7 @@
 package com.example.star.movie4share.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -167,9 +169,9 @@ public class MainActivity extends AppCompatActivity
             ((TextView) tab_profile.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
 
             ((ImageView) tab_home.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_shop_cart.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
+            ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.classify_1);
+            ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.order_1);
+            ((ImageView) tab_shop_cart.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.shopcart_1);
             ((ImageView) tab_profile.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.user_1);
 
             transaction = fragmentManager.beginTransaction()
@@ -186,15 +188,15 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case 1:
                     ((TextView) tab_find_new.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
-                    ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
+                    ((ImageView) tab_find_new.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.classify_0);
                     break;
                 case 2:
                     ((TextView) tab_view_order.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
-                    ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
+                    ((ImageView) tab_view_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.order_0);
                     break;
                 case 3:
                     ((TextView) tab_shop_cart.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
-                    ((ImageView) tab_shop_cart.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
+                    ((ImageView) tab_shop_cart.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.shopcart_0);
                     break;
                 case 4:
                     ((TextView) tab_profile.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
@@ -250,6 +252,36 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.finish();
         } else if (id == R.id.nav_coupon) {
             //TODO: step into coupon
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("订单详情");
+            builder.setIcon(R.drawable.coupon_icon);
+            String str;
+            if (Movie4ShareApplication.vip != 1.0) {
+                str = "VIP折扣:" + Movie4ShareApplication.vip * 10 + "折";
+            } else {
+                str = "无VIP折扣";
+            }
+            if (Movie4ShareApplication.couponTotal != -1) {
+                str += "  &  满" + Movie4ShareApplication.couponTotal + "减" + Movie4ShareApplication.couponMinus
+                        + "券一张";
+            }
+            final TextView textView = new TextView(this);
+            textView.setText(str);
+            textView.setTextSize(18);
+            builder.setView(textView);
+            builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            builder.setCancelable(true);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+
+
         } else if (id == R.id.nav_profile) {
             transaction = fragmentManager.beginTransaction()
                     .hide(mFragments[0])

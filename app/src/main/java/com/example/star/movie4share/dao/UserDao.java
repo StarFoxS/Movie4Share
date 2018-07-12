@@ -32,6 +32,9 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Name = new Property(5, String.class, "name", false, "NAME");
         public final static Property PhoneNum = new Property(6, String.class, "phoneNum", false, "PHONE_NUM");
         public final static Property ImgUrl = new Property(7, String.class, "imgUrl", false, "IMG_URL");
+        public final static Property Vip = new Property(8, double.class, "vip", false, "VIP");
+        public final static Property CouponTotal = new Property(9, double.class, "couponTotal", false, "COUPON_TOTAL");
+        public final static Property CouponMinus = new Property(10, double.class, "couponMinus", false, "COUPON_MINUS");
     }
 
 
@@ -54,7 +57,10 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"EMAIL\" TEXT," + // 4: email
                 "\"NAME\" TEXT," + // 5: name
                 "\"PHONE_NUM\" TEXT," + // 6: phoneNum
-                "\"IMG_URL\" TEXT);"); // 7: imgUrl
+                "\"IMG_URL\" TEXT," + // 7: imgUrl
+                "\"VIP\" REAL NOT NULL ," + // 8: vip
+                "\"COUPON_TOTAL\" REAL NOT NULL ," + // 9: couponTotal
+                "\"COUPON_MINUS\" REAL NOT NULL );"); // 10: couponMinus
     }
 
     /** Drops the underlying database table. */
@@ -98,6 +104,9 @@ public class UserDao extends AbstractDao<User, Long> {
         if (imgUrl != null) {
             stmt.bindString(8, imgUrl);
         }
+        stmt.bindDouble(9, entity.getVip());
+        stmt.bindDouble(10, entity.getCouponTotal());
+        stmt.bindDouble(11, entity.getCouponMinus());
     }
 
     @Override
@@ -135,6 +144,9 @@ public class UserDao extends AbstractDao<User, Long> {
         if (imgUrl != null) {
             stmt.bindString(8, imgUrl);
         }
+        stmt.bindDouble(9, entity.getVip());
+        stmt.bindDouble(10, entity.getCouponTotal());
+        stmt.bindDouble(11, entity.getCouponMinus());
     }
 
     @Override
@@ -152,7 +164,10 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // email
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // name
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // phoneNum
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // imgUrl
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // imgUrl
+            cursor.getDouble(offset + 8), // vip
+            cursor.getDouble(offset + 9), // couponTotal
+            cursor.getDouble(offset + 10) // couponMinus
         );
         return entity;
     }
@@ -167,6 +182,9 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setPhoneNum(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setImgUrl(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setVip(cursor.getDouble(offset + 8));
+        entity.setCouponTotal(cursor.getDouble(offset + 9));
+        entity.setCouponMinus(cursor.getDouble(offset + 10));
      }
     
     @Override

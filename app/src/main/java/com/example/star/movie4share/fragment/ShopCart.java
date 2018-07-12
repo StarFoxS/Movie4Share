@@ -29,6 +29,7 @@ import com.example.star.movie4share.dao.ShopCartProductDao;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ShopCart extends Fragment {
@@ -47,9 +48,11 @@ public class ShopCart extends Fragment {
     private Button GotoPayBtn;
 
     private TextView mTextView;
+    private TextView mTextViewCoupon;
     private CheckBox mCheckBox;
 
     private double mTotalPrice = 0.0;
+    private double mCouponPrice = 0.0;
     private int mCheckNum = 0;
 
     private ArrayList<ShopCartProduct> mShopCartItem = new ArrayList<>();
@@ -81,6 +84,7 @@ public class ShopCart extends Fragment {
 //        DelCheckedBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_checked_product);
         DelAllBtn = (Button) getActivity().findViewById(R.id.fragment_shopcart_btn_delete_all_product);
         mTextView = (TextView) getActivity().findViewById(R.id.fragment_shopcart_total_price);
+        mTextViewCoupon = (TextView) getActivity().findViewById(R.id.fragment_shopcart_total_coupon);
         mCheckBox = (CheckBox) getActivity().findViewById(R.id.shopcart_item_checkbox_all);
 
         gotoPayListener();
@@ -133,7 +137,12 @@ public class ShopCart extends Fragment {
                     break;
                 case 333:
                     GotoPayBtn.setText("结算(" + mCheckNum + ")");
-                    mTextView.setText("合计：￥" + mTotalPrice);
+                    String st = new DecimalFormat("0.00").format(mTotalPrice);
+                    mTextView.setText("合计:￥" + st);
+                    String str = new DecimalFormat("0.00").format(mCouponPrice);
+                    if (mCouponPrice != 0.0){
+                        mTextViewCoupon.setText("折扣:￥" + str);
+                    }
                     break;
                 default:
                     break;
@@ -247,10 +256,19 @@ public class ShopCart extends Fragment {
             }
         }
 //        mCheckNum = checkProduct.size();
-        mTotalPrice = totalprice;
+        mTotalPrice = totalprice * Movie4ShareApplication.vip;
         mCheckNum = totalnum;
 //        GotoPayBtn.setText("结算(" + mCheckNum + ")");
 //        mTextView.setText("合计：￥" + mTotalPrice);
+
+        mCouponPrice = totalprice * (1 - Movie4ShareApplication.vip);
+
+        if (mTotalPrice >= Movie4ShareApplication.couponTotal){
+            mTotalPrice -= Movie4ShareApplication.couponMinus;
+            mCouponPrice += Movie4ShareApplication.couponMinus;
+        } else {
+
+        }
 
         /*
          * 这里用msg传回主线程更新UI，否则会报错

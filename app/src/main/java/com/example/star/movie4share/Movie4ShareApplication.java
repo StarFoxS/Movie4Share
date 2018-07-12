@@ -28,6 +28,13 @@ public class Movie4ShareApplication extends Application {
     public static String loginStatus = "";
     public static String password = "";
     public static long userId = -1;
+    public static double vip = -1;
+    public static double couponTotal = -1;
+    public static double couponMinus = -1;
+
+    public static String orderName = "";
+    public static String orderAddr = "";
+    public static String orderPhone = "";
 
     public String getLoginStatus() {
         return loginStatus;
@@ -43,6 +50,30 @@ public class Movie4ShareApplication extends Application {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public static double getVip() {
+        return vip;
+    }
+
+    public static void setVip(double vip) {
+        Movie4ShareApplication.vip = vip;
+    }
+
+    public static double getCouponTotal() {
+        return couponTotal;
+    }
+
+    public static void setCouponTotal(double couponTotal) {
+        Movie4ShareApplication.couponTotal = couponTotal;
+    }
+
+    public static double getCouponMinus() {
+        return couponMinus;
+    }
+
+    public static void setCouponMinus(double couponMinus) {
+        Movie4ShareApplication.couponMinus = couponMinus;
     }
 
     public static Movie4ShareApplication instances;
@@ -117,24 +148,24 @@ public class Movie4ShareApplication extends Application {
                 "https://img3.doubanio.com/view/photo/l/public/p2494701965.webp", 5);
         getDaoSession().insert(nShopCartProduct0);
 
-        Order nOrder0 = new Order(50, 1, "2018.06.11", "已发货", "20180611010105", 1024, 2,
+        Order nOrder0 = new Order(50, 1, "2018.06.11", "已发货", "20180611010105", 20, 2,
                 "http://www.dgpinglong.com/uploadfile/image/20170328/20170328140349_1967832161.jpg", 0, -1, -1, 2, -1, -1);
         getDaoSession().insert(nOrder0);
 
-        Order nOrder1 = new Order(51, 1, "2018.06.12", "未发货", "20180612020206", 99999, 35,
+        Order nOrder1 = new Order(51, 1, "2018.06.12", "未发货", "20180612020206", 175.5, 13,
                 "http://pic36.photophoto.cn/20150812/0037037002912269_b.jpg", 3, 4, -1, 9, 4, -1);
         getDaoSession().insert(nOrder1);
 
         User nUser0 = new User(0, "starfei@cmbchina.com", "1", 0, "starfei@cmbchina.com", "star", "",
-                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp");
+                "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp", 0.6, -1, -1);
         getDaoSession().insert(nUser0);
 
         User nUser1 = new User(1, "test@test.com", "2", 0, "test@test.com", "test", "",
-                "https://www.nvsay.com/uploads/allimg/170816/38-1FQ610414Qc.jpg");
+                "https://www.nvsay.com/uploads/allimg/170816/38-1FQ610414Qc.jpg", 1, 30, 10);
         getDaoSession().insert(nUser1);
 
         User nUser2 = new User(2, "3@3", "3", 0, "test@test.com", "test", "38834600*58634",
-                "https://b-ssl.duitang.com/uploads/item/201611/19/20161119111625_WaxdZ.thumb.700_0.jpeg");
+                "https://b-ssl.duitang.com/uploads/item/201611/19/20161119111625_WaxdZ.thumb.700_0.jpeg", 0.9, 30, 10);
         getDaoSession().insert(nUser2);
 
     }

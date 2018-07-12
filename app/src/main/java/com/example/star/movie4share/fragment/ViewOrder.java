@@ -272,7 +272,15 @@ public class ViewOrder extends Fragment {
                         }
                     }
 
-                    String str = s0 + " x" + mOrder.getNum0();
+                    String str;
+                    if (mOrder.getId() == 50 || mOrder.getId() == 51){
+                        str = "收货人:小招;  收货地址:来安路686号;  联系电话:38834600;  " + s0 + " x" + mOrder.getNum0();
+                    } else {
+                        str = "收货人:" + Movie4ShareApplication.orderName +
+                                ";  收货地址:" + Movie4ShareApplication.orderAddr +
+                                ";  联系电话:" + Movie4ShareApplication.orderPhone +
+                                ";  " + s0 + " x" + mOrder.getNum0();
+                    }
                     if (mOrder.getId1() != -1){
                         str += "  &  " + s1 + " x" + mOrder.getNum1();
                     }

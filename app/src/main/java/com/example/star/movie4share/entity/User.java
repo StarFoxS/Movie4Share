@@ -21,10 +21,14 @@ public class User {
     private String name;
     private String phoneNum;
     private String imgUrl;
+    private double vip;
+    private double couponTotal;
+    private double couponMinus;
 
-    @Generated(hash = 675441127)
+    @Generated(hash = 1125812059)
     public User(long id, String customId, String password, int showpw, String email,
-            String name, String phoneNum, String imgUrl) {
+            String name, String phoneNum, String imgUrl, double vip,
+            double couponTotal, double couponMinus) {
         this.id = id;
         this.customId = customId;
         this.password = password;
@@ -33,6 +37,9 @@ public class User {
         this.name = name;
         this.phoneNum = phoneNum;
         this.imgUrl = imgUrl;
+        this.vip = vip;
+        this.couponTotal = couponTotal;
+        this.couponMinus = couponMinus;
     }
     @Generated(hash = 586692638)
     public User() {
@@ -84,6 +91,24 @@ public class User {
     }
     public void setShowpw(int showpw) {
         this.showpw = showpw;
+    }
+    public double getVip() {
+        return this.vip;
+    }
+    public void setVip(double vip) {
+        this.vip = vip;
+    }
+    public double getCouponTotal() {
+        return this.couponTotal;
+    }
+    public void setCouponTotal(double couponTotal) {
+        this.couponTotal = couponTotal;
+    }
+    public double getCouponMinus() {
+        return this.couponMinus;
+    }
+    public void setCouponMinus(double couponMinus) {
+        this.couponMinus = couponMinus;
     }
 
 }

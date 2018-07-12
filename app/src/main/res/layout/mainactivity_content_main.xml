@@ -38,7 +38,7 @@
 
         <include
             android:id="@+id/tab_find_new"
-            layout="@layout/mainactivity_tab_home"
+            layout="@layout/mainactivity_tab_findnew"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -46,7 +46,7 @@
 
         <include
             android:id="@+id/tab_view_order"
-            layout="@layout/mainactivity_tab_home"
+            layout="@layout/mainactivity_tab_order"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -54,7 +54,7 @@
 
         <include
             android:id="@+id/tab_shop_cart"
-            layout="@layout/mainactivity_tab_home"
+            layout="@layout/mainactivity_tab_shopcart"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -62,7 +62,7 @@
 
         <include
             android:id="@+id/tab_profile"
-            layout="@layout/mainactivity_tab_home"
+            layout="@layout/mainactivity_tab_profile"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

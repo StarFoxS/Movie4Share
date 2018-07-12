@@ -104,6 +104,7 @@ public class AdminActivity extends AppCompatActivity
                 final View dialogView = layoutInflater.inflate(R.layout.admin_dialog, null);
                 final EditText editTextUser = (EditText) dialogView.findViewById(R.id.admin_dialog_user_edittext);
                 final EditText editTextPw = (EditText)dialogView.findViewById(R.id.admin_dialog_pw_edittext);
+                final EditText editTextVip = (EditText) dialogView.findViewById(R.id.admin_dialog_vip_edittext);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
                 builder.setTitle("新建用户信息");
@@ -114,6 +115,7 @@ public class AdminActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         final String inputUserName = editTextUser.getText().toString();
                         final String inputPassword = editTextPw.getText().toString();
+                        final String inputVip = editTextVip.getText().toString();
                         if (inputUserName.contains("@")) {
                             Toast.makeText(AdminActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             new Thread(){
@@ -124,6 +126,7 @@ public class AdminActivity extends AppCompatActivity
                                     Bundle bundle = new Bundle();
                                     bundle.putString("username", inputUserName);
                                     bundle.putString("password", inputPassword);
+                                    bundle.putString("vip", inputVip);
                                     msg.setData(bundle);
                                     mHandler.sendMessage(msg);
                                 }
@@ -233,7 +236,7 @@ public class AdminActivity extends AppCompatActivity
                         }
                     }
                     final User cUser = new User(msg.getData().getLong("userid"), msg.getData().getString("username"),
-                            msg.getData().getString("password"), 0, "", "", "", "");
+                            msg.getData().getString("password"), 0, "", "", "", "", 1, -1, -1);
                     new Thread(){
                         @Override
                         public void run(){
@@ -246,7 +249,8 @@ public class AdminActivity extends AppCompatActivity
                 case 133:
 //                    int defaultID = R.drawable.user_default;
                     final User nUser = new User(5, msg.getData().getString("username"),
-                            msg.getData().getString("password"), 0, "", "", "", "");  //id should be autoincrement
+                            msg.getData().getString("password"), 0, "", "", "", "",
+                            (double) Double.parseDouble(msg.getData().getString("vip")), -1, -1);  //id should be autoincrement
                     new Thread(){
                         @Override
                         public void run(){

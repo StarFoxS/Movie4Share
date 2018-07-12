@@ -164,6 +164,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     tvReceiverName.setText(newReceiverName);
                     tvReceiverAddress.setText(newReceiverAddr);
                     tvReceiverPhone.setText(newReceiverPhone);
+
+                    Movie4ShareApplication.orderName = newReceiverName;
+                    Movie4ShareApplication.orderAddr = newReceiverAddr;
+                    Movie4ShareApplication.orderPhone = newReceiverPhone;
                 } else if (nName.length() < 2) {
                     Toast.makeText(ConfirmOrderActivity.this, "请输入真实姓名", Toast.LENGTH_SHORT).show();
                 } else {
@@ -201,6 +205,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 User thisUser = userDao.load(Movie4ShareApplication.userId);
                 tvReceiverName.setText(thisUser.getName());
                 tvReceiverPhone.setText(thisUser.getPhoneNum());
+                Movie4ShareApplication.orderName = thisUser.getName();
+                Movie4ShareApplication.orderPhone = thisUser.getPhoneNum();
             }
         }.start();
 
@@ -253,6 +259,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         String inputPassword = editText.getText().toString();
                         if (inputPassword.equals(Movie4ShareApplication.password)) {
                             Toast.makeText(ConfirmOrderActivity.this, "验证成功", Toast.LENGTH_SHORT).show();

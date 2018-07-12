@@ -10,14 +10,15 @@
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:layout_gravity="center"
-        android:src="@drawable/home_1"/>
+        android:src="@drawable/user_1"/>
 
 
     <TextView
         android:id="@+id/tab_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="首页"
+        android:text="我的"
+        android:layout_gravity="center_horizontal"
         android:textSize="12sp"
         android:gravity="center"
         android:textColor="#696969"/>

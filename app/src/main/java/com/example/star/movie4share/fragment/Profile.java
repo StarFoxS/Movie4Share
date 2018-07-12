@@ -111,7 +111,7 @@ public class Profile extends Fragment {
                 case 789:
                     User nUser = new User(user.getId(), user.getCustomId(), user.getPassword(), user.getShowpw(),
                             mEtEmail.getText().toString(), mEtName.getText().toString(), mEtPhone.getText().toString(),
-                            user.getImgUrl());
+                            user.getImgUrl(), user.getVip(), user.getCouponTotal(), user.getCouponMinus());
                     userDao.insertOrReplace(nUser);
                     break;
                 default:
