@@ -107,6 +107,11 @@ public class ShopCart extends Fragment {
         }
     };
 
+    /**
+     * 111：init，并监听商品选择checkbox
+     * 222：数量增减改变通知adapter
+     * 333：结算
+     */
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

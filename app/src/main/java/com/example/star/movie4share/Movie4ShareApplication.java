@@ -1,6 +1,7 @@
 package com.example.star.movie4share;
 
 import android.app.Application;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.star.movie4share.dao.DaoMaster;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 
 public class Movie4ShareApplication extends Application {
+    private static Context context = null;
 
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
@@ -28,10 +30,12 @@ public class Movie4ShareApplication extends Application {
     public static String loginStatus = "";
     public static String password = "";
     public static long userId = -1;
+    // 记录本用户的vip和优惠券信息
     public static double vip = -1;
     public static double couponTotal = -1;
     public static double couponMinus = -1;
 
+    //记录用户下订单时的收货人、地址、电话
     public static String orderName = "";
     public static String orderAddr = "";
     public static String orderPhone = "";
@@ -89,7 +93,15 @@ public class Movie4ShareApplication extends Application {
 
         //Initialize the products in database
         dbAddInit();
+
+        context = getApplicationContext();
     }
+
+    public static Context getContext(){
+        return context;
+    }
+
+
 
     public static Movie4ShareApplication getInstances(){
         return instances;
@@ -156,15 +168,15 @@ public class Movie4ShareApplication extends Application {
                 "http://pic36.photophoto.cn/20150812/0037037002912269_b.jpg", 3, 4, -1, 9, 4, -1);
         getDaoSession().insert(nOrder1);
 
-        User nUser0 = new User(0, "starfei@cmbchina.com", "1", 0, "starfei@cmbchina.com", "star", "",
+        User nUser0 = new User(0, "starfei@cmbchina.com", "1", 0, "上海市来安路686号", "文媛", "58634",
                 "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1468487353.74.webp", 0.6, -1, -1);
         getDaoSession().insert(nUser0);
 
-        User nUser1 = new User(1, "test@test.com", "2", 0, "test@test.com", "test", "",
+        User nUser1 = new User(1, "test@test.com", "2", 0, "测试路404号", "test", "",
                 "https://www.nvsay.com/uploads/allimg/170816/38-1FQ610414Qc.jpg", 1, 30, 10);
         getDaoSession().insert(nUser1);
 
-        User nUser2 = new User(2, "3@3", "3", 0, "test@test.com", "test", "38834600*58634",
+        User nUser2 = new User(2, "3@3", "3", 0, "火星", "test", "38834600*58634",
                 "https://b-ssl.duitang.com/uploads/item/201611/19/20161119111625_WaxdZ.thumb.700_0.jpeg", 0.9, 30, 10);
         getDaoSession().insert(nUser2);
 

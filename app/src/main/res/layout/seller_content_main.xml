@@ -39,12 +39,13 @@
             android:id="@+id/seller_tab_post"
             layout="@layout/tab_post"
             android:layout_width="0dip"
+            android:paddingTop="2dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <include
             android:id="@+id/seller_tab_order"
-            layout="@layout/mainactivity_tab_home"
+            layout="@layout/mainactivity_tab_order"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

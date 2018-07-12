@@ -40,6 +40,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户的我的订单页
+ * fragment[2]
+ */
 public class ViewOrder extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -103,6 +107,10 @@ public class ViewOrder extends Fragment {
         }
     };
 
+    /**
+     * 8685：init
+     * 666：信息改变时
+     */
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -223,6 +231,10 @@ public class ViewOrder extends Fragment {
                 Picasso.get().load(mOrder.getImgUrl()).into(holder.mImg);
             }
 
+            /**
+             * 用户可在订单状态为 已发货 后，选择确认收货
+             * 订单状态将变为 已签收
+             */
             if (mOrder.getStatus().equals("已发货")){
                 holder.mBtn.setText("确认收货");
                 holder.mBtn.setVisibility(View.VISIBLE);
@@ -249,6 +261,10 @@ public class ViewOrder extends Fragment {
                 holder.mBtn.setVisibility(View.GONE);
             }
 
+            /**
+             * TODO: UI
+             * 单击订单显示购买详情
+             */
             holder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

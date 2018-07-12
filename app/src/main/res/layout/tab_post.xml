@@ -14,7 +14,7 @@
         android:id="@+id/tab_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="post"
+        android:text="POST"
         android:textSize="12dp"
         android:gravity="center"
         android:textColor="#696969"/>

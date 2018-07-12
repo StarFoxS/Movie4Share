@@ -34,6 +34,9 @@ import com.example.star.movie4share.fragment.Profile;
 import com.example.star.movie4share.fragment.ShopCart;
 import com.example.star.movie4share.fragment.ViewOrder;
 
+/*
+ * 用户User的主界面，下分5个fragments
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomePage.OnFragmentInteractionListener, FindNew.OnFragmentInteractionListener,
@@ -80,6 +83,9 @@ public class MainActivity extends AppCompatActivity
         init();
     }
 
+    /*
+     * Initialize the activity
+     */
     public void init(){
         tab_home = findViewById(R.id.tab_home);
         tab_find_new = findViewById(R.id.tab_find_new);
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity
         try {
             getStringExtra = getIntent().getStringExtra("casefragment");
             switch (getStringExtra){
+                // when "查看购物车" button is clicked
                 case "shopcart":
                     transaction = fragmentManager.beginTransaction()
                             .hide(mFragments[0])
@@ -130,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                             .hide(mFragments[4]);
                     transaction.show(mFragments[3]).commit();
                     break;
+                // when "清空购物车" button is clicked
                 case "refreshshopcart":
                     transaction = fragmentManager.beginTransaction()
                             .replace(R.id.fragment_shopcart, mFragments[3])
@@ -139,6 +147,7 @@ public class MainActivity extends AppCompatActivity
                             .hide(mFragments[4]).show(mFragments[3]);
                     transaction.commit();
                     break;
+                // when "去看看"(付款后) / 我的订单 is clicked
                 case "orderlist":
                     transaction = fragmentManager.beginTransaction()
                             .replace(R.id.fragment_view_order, mFragments[2])
@@ -155,6 +164,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /*
+     * 底部标签栏listener
+     * 共有五个：首页(搜索)/发现(分类)/订单/购物车/我的资料
+     * 点击时选中的tab颜色变深
+     */
     public class tabOnClickListener implements View.OnClickListener{
         private int index = 0;
 
@@ -207,6 +221,7 @@ public class MainActivity extends AppCompatActivity
             transaction.show(mFragments[index]).commit();
         }
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -239,6 +254,9 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * 左侧划拉drawer的选择器
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

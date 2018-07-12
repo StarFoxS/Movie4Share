@@ -35,6 +35,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 卖家处理订单的fragment
+ */
 public class HandleOrder extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -92,6 +95,11 @@ public class HandleOrder extends Fragment {
         }
     };
 
+    /**
+     * @param msg 传送消息
+     * 8685号：加载所有订单
+     * 666号：订单改变时刷新adapter
+     */
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -203,26 +211,31 @@ public class HandleOrder extends Fragment {
                 Picasso.get().load(mOrder.getImgUrl()).into(holder.mImg);
             }
 
-            if (mOrder.getStatus().equals("未发货")){
-                holder.mBtn.setText("确认发货");
-                holder.mBtn.setVisibility(View.VISIBLE);
-                holder.mBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        new Thread(){
-                            @Override
-                            public void run(){
-                                mOrder.setStatus("已发货");
-                                orderDao.insertOrReplace(mOrder);
-                            }
-                        }.start();
-                    }
-                });
-            } else {
-                holder.mBtn.setVisibility(View.GONE);
-            }
+//            /**
+//             * 订单状态为 未发货 时，卖家可以发货
+//             */
+//            if (mOrder.getStatus().equals("未发货")){
+//                holder.mBtn.setText("确认发货");
+//                holder.mBtn.setVisibility(View.VISIBLE);
+//                holder.mBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        new Thread(){
+//                            @Override
+//                            public void run(){
+//                                mOrder.setStatus("已发货");
+//                                orderDao.insertOrReplace(mOrder);
+//                            }
+//                        }.start();
+//                    }
+//                });
+//            } else {
+//                holder.mBtn.setVisibility(View.GONE);
+//            }
 
-
+            /**
+             * 订单状态为 未发货 时，卖家可以发货
+             */
             if (mOrder.getStatus().equals("未发货")){
                 holder.mBtn.setText("确认发货");
                 holder.mBtn.setVisibility(View.VISIBLE);
@@ -249,6 +262,9 @@ public class HandleOrder extends Fragment {
                 holder.mBtn.setVisibility(View.GONE);
             }
 
+            /**
+             * 点击图片时显示订单具体信息
+             */
             holder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

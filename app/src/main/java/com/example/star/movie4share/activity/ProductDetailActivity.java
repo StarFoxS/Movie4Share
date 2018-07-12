@@ -33,6 +33,7 @@ import com.example.star.movie4share.entity.Product;
 import com.example.star.movie4share.entity.ShopCartProduct;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -40,6 +41,9 @@ import java.util.List;
  * Created by Star on 2018/6/16.
  */
 
+/*
+ * 显示商品细节的类
+ */
 public class ProductDetailActivity extends Activity {
 
     public static ProductDetailActivity mProductDetailActivity = null;
@@ -121,11 +125,11 @@ public class ProductDetailActivity extends Activity {
 //            }
 //        }).start();
 
-        //TODO: 登录与未登录的区别
         if (Movie4ShareApplication.loginStatus.equals("user")){
             mProduct = dao.load(productId);
             Log.d("cc", "loadIn: " + productId + " " +mProduct.getProductName());
         } else {
+            // TODO: 商家看到的商品应该不能添加购物车
             mProduct = dao.load(productId);
             Log.d("cc", "loadIn: " + productId + " " +mProduct.getProductName());
         }
@@ -139,6 +143,7 @@ public class ProductDetailActivity extends Activity {
         cartNumChangeListener();
 //        oneClickBtnListener();
 
+        // 查看购物车监听
         peekCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,12 +159,30 @@ public class ProductDetailActivity extends Activity {
     private Handler handler = new Handler() {
     };
 
+    // Initialize 图片数据、网页显示数据
     public void initData(){
         String category = mProduct.getCategory();
-        Picasso.get().load(mProduct.getUrl()).placeholder(R.drawable.product_loading)
-                .error(R.drawable.me).into(mImgDetails);
-        Picasso.get().load(mProduct.getUrl()).placeholder(R.drawable.product_loading)
-                .error(R.drawable.me).into(mImgIcon);
+        if (mProduct.getUrl().contains("/storage")){
+            File file = new File(mProduct.getUrl());
+            Picasso.get().load(file)
+                    .resize(200, 200).centerInside()
+                    .placeholder(R.drawable.product_loading)
+                    .error(R.drawable.me).into(mImgDetails);
+            Picasso.get().load(file)
+                    .resize(200, 200).centerInside()
+                    .placeholder(R.drawable.product_loading)
+                    .error(R.drawable.me).into(mImgIcon);
+        } else {
+            Picasso.get().load(mProduct.getUrl())
+                    .resize(200,200).centerInside()
+                    .placeholder(R.drawable.product_loading)
+                    .error(R.drawable.me).into(mImgDetails);
+            Picasso.get().load(mProduct.getUrl())
+                    .resize(200,200).centerInside()
+                    .placeholder(R.drawable.product_loading)
+                    .error(R.drawable.me).into(mImgIcon);
+        }
+
         pastPriceText.setText("价格: " + pastPrice);
         if (originalLimit != 0){
             limitTextView.setText("限量: " + originalLimit);
@@ -207,6 +230,7 @@ public class ProductDetailActivity extends Activity {
         mPopStockNum.setText("库存：" + mProduct.getStockNum());
     }
 
+    // Initialize 其他显示构建
     private void initViews() {
         mMoreDetails = (WebView) findViewById(R.id.activity_product_details_more_details);
         loadingImgView = (ImageView) findViewById(R.id.activity_product_details_loading);

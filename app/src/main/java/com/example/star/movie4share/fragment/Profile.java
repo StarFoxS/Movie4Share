@@ -90,6 +90,10 @@ public class Profile extends Fragment {
         });
     }
 
+    /**
+     * 987：输入框信息改变
+     * 789：保存设置后存入user库
+     */
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){

@@ -29,6 +29,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * 用户主界面下方fragment[1]
+ * 用于分类查看商品并可以直接点击进入商品详情
+ * @Future 更多按钮的界面增加
+ */
 public class FindNew extends Fragment {
 
     private List<Product> typeAction = new ArrayList<>();
@@ -42,7 +47,6 @@ public class FindNew extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Try if onCreated() is also okay!
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -59,8 +63,6 @@ public class FindNew extends Fragment {
 
     @Override
     public void onStart(){
-        Log.d("cc", "FindNewFragmentStart *star");
-
         TextView actionList = (TextView) getActivity().findViewById(R.id.movie_type_action_more);
         actionList.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -101,6 +103,10 @@ public class FindNew extends Fragment {
     }
 
 
+    /*
+     * 读取product库中所有商品
+     * 分类添加进每个商品类别的下属中
+     */
     public Thread mThread = new Thread(){
         @Override
         public void run(){
@@ -138,6 +144,10 @@ public class FindNew extends Fragment {
         }
     };
 
+    /*
+     * @param msg 收到消息
+     * 1321号：分别把每类添加，用productadapter显示
+     */
     public Handler nHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

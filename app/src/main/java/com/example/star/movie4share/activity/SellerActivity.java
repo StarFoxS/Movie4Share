@@ -38,6 +38,10 @@ import java.util.ArrayList;
  * Created by Star on 2018/6/25.
  */
 
+/*
+ * 卖家显示的类，下含3个fragment
+ * 分类/post上传商品/订单处理(卖家版显示订单)
+ */
 public class SellerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FindNew.OnFragmentInteractionListener, Post.OnFragmentInteractionListener, HandleOrder.OnFragmentInteractionListener {
@@ -104,6 +108,7 @@ public class SellerActivity extends AppCompatActivity
     }
 
 
+    // Initialize
     public void init(){
 
         tab_classify = findViewById(R.id.seller_tab_classify);
@@ -131,6 +136,7 @@ public class SellerActivity extends AppCompatActivity
     }
 
 
+    // 按下方标签栏时的改变
     public class tabOnClickListener implements View.OnClickListener{
         private int index = 0;
 
@@ -143,8 +149,8 @@ public class SellerActivity extends AppCompatActivity
             ((TextView) tab_order.findViewById(R.id.tab_text)).setTextColor(Color.GRAY);
 
             ((ImageView) tab_classify.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_post.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
-            ((ImageView) tab_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_1);
+            ((ImageView) tab_post.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.add_1);
+            ((ImageView) tab_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.order_1);
 
             transaction = fragmentManager.beginTransaction()
                     .hide(mFragments[0])
@@ -162,7 +168,7 @@ public class SellerActivity extends AppCompatActivity
                     break;
                 case 2:
                     ((TextView) tab_order.findViewById(R.id.tab_text)).setTextColor(getResources().getColor(R.color.black));
-                    ((ImageView) tab_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.home_0);
+                    ((ImageView) tab_order.findViewById(R.id.tab_icon1)).setImageResource(R.drawable.order_0);
                     break;
             }
 
@@ -203,6 +209,9 @@ public class SellerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * 左侧侧滑drawer，只有查看订单和注销
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

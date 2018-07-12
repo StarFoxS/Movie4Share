@@ -35,6 +35,10 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * 确认订单页，购物车选择付款后显示
+ * 包含付款的接口
+ */
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     private TextView tvReceiverName;
@@ -118,6 +122,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * 按下编辑按钮后，使3个显示的textview不可见，使编辑按钮不可见
+     * 使3个编辑的editview可见，使保存/取消按钮可见
+     */
     private void editListener() {
         editRelative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +142,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * 编辑信息后提交按钮的监听
+     * 需要验证输入姓名大于2个字符，联系电话为5位分机号或11位手机号
+     * 提交并改变global里的参数以提供给vieworder
+     */
     private void submitListener(){
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +190,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * 取消按钮的监听
+     * 取消后返回到初始的状态
+     */
     private void cancelListener(){
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +213,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * 默认显示已有的用户信息，默认输入用户姓名、电话、地址
+     */
     private void showDefaultReceiver(){
         //默认显示与user.customid相关的那个Receiver
         new Thread(){
@@ -207,11 +227,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 tvReceiverPhone.setText(thisUser.getPhoneNum());
                 Movie4ShareApplication.orderName = thisUser.getName();
                 Movie4ShareApplication.orderPhone = thisUser.getPhoneNum();
+                Movie4ShareApplication.orderAddr = thisUser.getEmail();
             }
         }.start();
 
     }
 
+    /*
+     * 插入新订单
+     * 订单号前8位为日期，后6位为随机数
+     */
     private void insertOrder(){
         Time time = new Time();
         time.setToNow();
@@ -246,6 +271,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         orderDao.insert(nOrder);
     }
 
+    /*
+     * 提交订单按钮的监听
+     */
     private void orderBtnListener() {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -371,6 +399,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         }
     };
 
+    /*
+     * @param msg 传入消息
+     * 016号：pay，支付成功后处理
+     */
     private Handler payHandler = new Handler() {
         @Override
         public void handleMessage(Message msg){

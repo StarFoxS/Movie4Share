@@ -41,6 +41,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * 管理员admin主界面
+ */
 public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -96,6 +99,10 @@ public class AdminActivity extends AppCompatActivity
 //        });
     }
 
+    /*
+     * 添加用户按钮的Listener
+     * 需要输入新用户的登陆id、登陆密码和vip等级
+     */
     private void addUserListener(){
         addUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +216,14 @@ public class AdminActivity extends AppCompatActivity
 //        });
 //    }
 
+    /*
+     * 消息处理
+     * @param msg 传入的消息
+     * 1111号：显示密码或隐藏密码
+     * 2222号: 编辑用户，改变用户id或密码
+     * 133号: 添加用户
+     * 339号: 删除用户
+     */
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -291,12 +306,18 @@ public class AdminActivity extends AppCompatActivity
         }
     };
 
+    /*
+     * 刷新自身，用于改变用户信息后的正确显示
+     */
     public void refresh(){
         finish();
         Intent intent = new Intent(AdminActivity.this, AdminActivity.class);
         startActivity(intent);
     }
 
+    /*
+     * 用于显示admin_item中的栏目
+     */
     public class AdminAdapter extends BaseAdapter {
 
         class Holder {
@@ -354,6 +375,8 @@ public class AdminActivity extends AppCompatActivity
                 holder = (Holder) convertView.getTag();
             }
 
+            // 用户的getShowpw存着密码是否显示（0不显示，1显示）
+            // initialize密码的显示
             final User mUser = (User) getItem(position);
             holder.mUser.setText(mUser.getCustomId());
             holder.mPw2.setText(mUser.getPassword());
@@ -373,6 +396,7 @@ public class AdminActivity extends AppCompatActivity
                 Picasso.get().load(mUser.getImgUrl()).into(holder.mImg);
             }
 
+            // 单击用户admin_item整体，显示密码
             holder.mWhole.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -401,6 +425,7 @@ public class AdminActivity extends AppCompatActivity
                 }
             });
 
+            // 长按admin_item整体，弹窗输入以改变用户信息
             holder.mWhole.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -451,6 +476,7 @@ public class AdminActivity extends AppCompatActivity
                 }
             });
 
+            // 删除用户的按钮，单击后输入两遍一致的用户名信息以删除
             holder.mBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -549,6 +575,7 @@ public class AdminActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // 左侧侧滑drawer，只有注销一个选项
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

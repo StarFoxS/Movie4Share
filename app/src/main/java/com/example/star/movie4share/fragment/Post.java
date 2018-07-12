@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -29,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
@@ -43,7 +43,6 @@ import com.example.star.movie4share.dao.ProductDao;
 import com.example.star.movie4share.entity.Product;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -88,16 +87,19 @@ public class Post extends Fragment {
 
     }
 
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        view = inflater.inflate(R.layout.fragment_post, container, false);
         return view;
     }
 
     @Override
-    public void onStart(){
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         etName = (EditText) getActivity().findViewById(R.id.post_name_edittext);
         etPrice = (EditText) getActivity().findViewById(R.id.post_price_edittext);
         etStock = (EditText) getActivity().findViewById(R.id.post_stock_edittext);
@@ -137,6 +139,13 @@ public class Post extends Fragment {
 
         gridListener();
 
+    }
+
+
+    @Override
+    public void onStart(){
+
+
         super.onStart();
     }
 
@@ -156,7 +165,7 @@ public class Post extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if ( i > 0){
-                    DeleteDialog(i);
+                    deleteDialog(i);
                     ((SimpleAdapter)mGridView.getAdapter()).notifyDataSetChanged();
                 }
 
@@ -312,7 +321,7 @@ public class Post extends Fragment {
             SimpleAdapter simpleAdapter = (SimpleAdapter) mGridView.getAdapter();
             simpleAdapter.notifyDataSetChanged();
             //刷新后释放防止手机休眠后自动添加
-            pathImage = null;
+//            pathImage = null;
         }
     }
 
@@ -364,15 +373,14 @@ public class Post extends Fragment {
     }
 
     protected void AddImageDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Picture");
-        builder.setIcon(R.drawable.ic_launcher_foreground);
-        builder.setCancelable(false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("添加照片");
+        builder.setIcon(R.drawable.ic_menu_gallery);
+        builder.setCancelable(true);
         builder.setItems(new String[] {"本地文件","拍照","放弃添加"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         switch(which) {
                             case 0: //本地相册
                                 dialog.dismiss();
@@ -464,10 +472,12 @@ public class Post extends Fragment {
                 });
         //显示对话框
         builder.create().show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//        builder.setTitle("hahaha");
+//        builder.create().show();
     }
 
-
-    protected void DeleteDialog(final int position){
+    protected void deleteDialog(final int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("确定删除这张图片?");
         builder.setTitle("提示");

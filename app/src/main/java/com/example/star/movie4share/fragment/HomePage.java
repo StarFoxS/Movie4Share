@@ -34,6 +34,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  用户的首页，含搜索和广告功能
+ *  fragment[0]
+ */
 public class HomePage extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -126,6 +130,11 @@ public class HomePage extends Fragment {
         }.start();
     }
 
+    /**
+     * @param msg 收到消息
+     * 8685：读取所有商品并init
+     * 1234："text"对应传入的搜索关键词，读取数据库搜到商品并传入adapter
+     */
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -264,6 +273,7 @@ public class HomePage extends Fragment {
             holder.mDescription.setText("" + mProduct.getShortDescription());
             Picasso.get().load(mProduct.getUrl()).resize(200,200).centerInside().into(holder.mImg);
 
+            //点击商品进入详情页
             holder.mWhole.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

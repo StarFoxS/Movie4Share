@@ -362,6 +362,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mIdentity = identity;
         }
 
+        /*
+         * 验证用户信息
+         */
         @Override
         protected Boolean doInBackground(Void... params) {
             Movie4ShareApplication movie4ShareApplication = new Movie4ShareApplication();
