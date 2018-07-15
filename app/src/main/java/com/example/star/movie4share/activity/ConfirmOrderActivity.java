@@ -279,6 +279,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Movie4ShareApplication.couponTotal = -1;
+                Movie4ShareApplication.couponMinus = -1;
+
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmOrderActivity.this);
                 builder.setTitle("密码验证");
                 builder.setIcon(R.drawable.star);

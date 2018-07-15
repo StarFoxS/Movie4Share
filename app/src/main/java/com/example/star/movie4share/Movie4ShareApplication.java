@@ -156,15 +156,37 @@ public class Movie4ShareApplication extends Application {
                 100, 100, 0);
         getDaoSession().insert(nProduct4);
 
+        Product nProduct5 = new Product(5, "我不是药神", "fun", 99, "wobushiyaoshen", "2018年徐峥主演喜剧电影，票房冠军！",
+                "https://img3.doubanio.com/view/photo/l/public/p2519070834.webp", "https://movie.douban.com/subject/26752088/",
+                10000, 100, 0);
+        getDaoSession().insert(nProduct5);
+
+        Product nProduct6 = new Product(6, "霸王别姬", "love", 200.1, "bawangbieji", "1993年张国荣、张丰毅主演爱情悲剧电影",
+                "https://img3.doubanio.com/view/photo/l/public/p1910813120.webp", "https://movie.douban.com/subject/1291546/",
+                100, 100, 0);
+        getDaoSession().insert(nProduct6);
+
+        Product nProduct7 = new Product(7, "黑客帝国", "action", 1.0, "heikediguo", "1999年基努李维斯主演动作电影",
+                "https://img1.doubanio.com/view/photo/l/public/p451926968.webp", "https://movie.douban.com/subject/1291843/",
+                100, 100, 0);
+        getDaoSession().insert(nProduct7);
+
+        Product nProduct8 = new Product(8, "3idiots", "fun", 1.0, "3idiots", "2009年阿米尔汗主演喜剧电影",
+                "https://img3.doubanio.com/view/photo/l/public/p579729551.webp", "https://movie.douban.com/subject/3793023/",
+                100, 100, 0);
+        getDaoSession().insert(nProduct8);
+
+
+
         ShopCartProduct nShopCartProduct0 = new ShopCartProduct(0, "战狼2", "action", 12.0, 1,
                 "https://img3.doubanio.com/view/photo/l/public/p2494701965.webp", 5);
         getDaoSession().insert(nShopCartProduct0);
 
-        Order nOrder0 = new Order(50, 1, "2018.06.11", "已发货", "20180611010105", 20, 2,
+        Order nOrder0 = new Order(50, 0, "2018.06.11", "已发货", "20180611010105", 20, 2,
                 "http://www.dgpinglong.com/uploadfile/image/20170328/20170328140349_1967832161.jpg", 0, -1, -1, 2, -1, -1);
         getDaoSession().insert(nOrder0);
 
-        Order nOrder1 = new Order(51, 1, "2018.06.12", "未发货", "20180612020206", 175.5, 13,
+        Order nOrder1 = new Order(51, 0, "2018.06.12", "未发货", "20180612020206", 175.5, 13,
                 "http://pic36.photophoto.cn/20150812/0037037002912269_b.jpg", 3, 4, -1, 9, 4, -1);
         getDaoSession().insert(nOrder1);
 

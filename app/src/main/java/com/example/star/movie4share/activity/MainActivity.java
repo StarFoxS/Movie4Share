@@ -65,22 +65,60 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_btn);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //TODO:显示drawer
-//                if (drawer.isDrawerOpen(navigationView)){
-//                    drawer.closeDrawer(navigationView);
-//                } else {
-//                    drawer.openDrawer(navigationView);
-//                }
-//            }
-//        });
+        fabListener();
 
 
 
         init();
+    }
+
+    public void fabListener(){
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floating_btn);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Movie4ShareApplication.couponTotal == -1){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("领取优惠券");
+                    builder.setIcon(R.drawable.coupon_icon);
+                    String str = "成功领取一张【满30减10】优惠券！";
+                    final TextView textView = new TextView(MainActivity.this);
+                    textView.setText(str);
+                    textView.setTextSize(24);
+                    builder.setView(textView);
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("去购物", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    final AlertDialog dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
+
+                    Movie4ShareApplication.couponTotal = 30;
+                    Movie4ShareApplication.couponMinus = 10;
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("领取优惠券");
+                    builder.setIcon(R.drawable.coupon_icon);
+                    String str = "领取失败……您已有一张【满30减10】优惠券！";
+                    final TextView textView = new TextView(MainActivity.this);
+                    textView.setText(str);
+                    textView.setTextSize(24);
+                    builder.setView(textView);
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    final AlertDialog dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
+                }
+            }
+        });
     }
 
     /*
@@ -314,6 +352,9 @@ public class MainActivity extends AppCompatActivity
             Movie4ShareApplication.loginStatus = "";
             Movie4ShareApplication.password = "";
             Movie4ShareApplication.userId = -1;
+            Movie4ShareApplication.vip = 1.0;
+            Movie4ShareApplication.couponTotal = -1;
+            Movie4ShareApplication.couponMinus = -1;
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             MainActivity.this.finish();

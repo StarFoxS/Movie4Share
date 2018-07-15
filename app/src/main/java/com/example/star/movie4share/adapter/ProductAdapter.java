@@ -38,7 +38,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
 
-        ImageView productImage = (ImageView) view.findViewById(R.id.product_image);
+        final ImageView productImage = (ImageView) view.findViewById(R.id.product_image);
         TextView productName = (TextView) view.findViewById(R.id.product_name);
         TextView productPrice = (TextView) view.findViewById(R.id.product_price);
 
@@ -49,10 +49,15 @@ public class ProductAdapter extends ArrayAdapter<Product> {
                     .placeholder(R.drawable.product_loading)
                     .error(R.drawable.me).into(productImage);
         } else {
-            Picasso.get().load(product.getUrl())
-                    .resize(200, 200).centerInside()
-                    .placeholder(R.drawable.product_loading)
-                    .error(R.drawable.me).into(productImage);
+//            new Thread(){
+//                public void run(){
+                    Picasso.get().load(product.getUrl())
+                            .resize(200, 200).centerInside()
+                            .placeholder(R.drawable.product_loading)
+                            .error(R.drawable.me).into(productImage);
+//                }
+//            }.start();
+
         }
         Log.d("cc", "loading:" + product.getUrl());
         productName.setText(product.getProductName());
